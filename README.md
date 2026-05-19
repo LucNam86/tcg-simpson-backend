@@ -25,6 +25,27 @@ Copie le fichier d'exemple et remplis les variables :
 cp .env.example .env
 ```
 
+## Sécurité — JWT Secret
+
+Génère un secret aléatoire pour signer les tokens JWT :
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+Colle le résultat dans ton `.env` :
+
+```properties
+JWT_SECRET=ton-secret-généré-ici
+JWT_ISSUER=tcg-simpson-api
+JWT_EXPIRES_IN=15m
+```
+
+> ⚠️ Ne commite jamais ton `.env` — vérifie que `.env` est bien dans ton `.gitignore`. Si tu l'as accidentellement commité, retire-le immédiatement :
+> ```bash
+> git rm --cached .env
+> ```
+
 ## Lancer le projet
 
 ```bash
