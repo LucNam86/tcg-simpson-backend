@@ -10,6 +10,7 @@ export function makeMongoUserRepository(): UserRepository {
     try {
       const doc = await UserModel.findById(id);
       if (!doc) return ok(null);
+      
       return makeUser({
         id: doc._id,
         pseudo: doc.pseudo,

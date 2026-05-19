@@ -16,7 +16,7 @@ export const userRoutes = ({ tokenService, userRepository }: UserRoutesDeps) => 
     res.json({ user: req.user });
   });
 
-  router.delete('/users/:id', auth, (_, res) => {
+  router.delete('/:id', auth, (_, res) => {
     res.status(204).end();
   });
 

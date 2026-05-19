@@ -13,7 +13,7 @@ async function main() {
 
   const app = express();
   app.use(express.json());
-  app.use('/api', userRoutes({ tokenService, userRepository }));
+  app.use('/users', userRoutes({ tokenService, userRepository }));
 
   app.listen(env.PORT, () => console.log(`API up on :${env.PORT}`));
 }
