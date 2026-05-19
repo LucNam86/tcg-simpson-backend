@@ -24,8 +24,8 @@ function verify(secret: string, issuer: string) {
         if (err || !decoded || typeof decoded === 'string') {
           return reject(new Error('Invalid token'));
         }
-        const { userId } = decoded as AuthPayload;
-        resolve({ userId });
+        const { id } = decoded as AuthPayload;
+        resolve({ id });
       });
     });
   };

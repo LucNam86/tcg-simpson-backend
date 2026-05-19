@@ -1,5 +1,5 @@
 export interface AuthPayload {
-    userId: string;
+    id: string;
   }
   
   export interface TokenService {
