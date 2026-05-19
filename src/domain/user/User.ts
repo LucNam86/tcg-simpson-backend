@@ -5,11 +5,21 @@ export type User = {
   pseudo: string;
   email: Email;
   avatar: string;
-  password: string;
+  passwordHash: string;
   money: number;
   myCollection: string[];
   deck: string[];
   darkMode: boolean;
 };
 
-export type CreateUserInput = Partial<User> & Required<Pick<User, 'pseudo' | 'email' | 'password'>>;
+export type CreateUserInput = {
+  id?: string;
+  pseudo: string;
+  email: Email;
+  passwordHash: string;
+  avatar?: string;
+  money?: number;
+  myCollection?: string[];
+  deck?: string[];
+  darkMode?: boolean;
+};
