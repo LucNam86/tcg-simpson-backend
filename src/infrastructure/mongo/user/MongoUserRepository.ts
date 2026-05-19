@@ -27,9 +27,13 @@ export function makeMongoUserRepository(): UserRepository {
 
   async function findByEmail(email: string): Promise<Result<User | null, string>> {
     try {
-      const doc = await UserModel.findOne({ email });
-      if (!doc) return ok(null);
-      return docToUser(doc);
+      const userDocument = await UserModel.findOne({ email });
+
+      if (!userDocument) 
+        return ok(null);
+
+      return docToUser(userDocument);
+
     } catch (e) {
       return err('Erreur lors de la recherche par email');
     }
