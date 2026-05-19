@@ -91,7 +91,7 @@ src/
 │       ├── UserInputs.ts                 # Type CreateUserInput — données d'entrée
 │       ├── Email.ts                      # Branded type Email validé par Zod
 │       ├── userFactory.ts                # makeUser() — création avec règles métier
-│       └── UserRepository.ts            # Interface UserRepository — port du domaine
+│       └── IUserRepository.ts            # Interface IUserRepository — port du domaine
 │
 ├── application/
 │   └── ports/
@@ -106,7 +106,7 @@ src/
 │       └── mongo/
 │           └── user/
 │               ├── userSchema.ts        # Schema Mongoose + UserModel
-│               └── MongoUserRepository.ts # makeMongoUserRepository() — implémentation MongoDB
+│               └── MongoIUserRepository.ts # makeMongoIUserRepository() — implémentation MongoDB
 │
 ├── presentation/
 │   └── http/
@@ -137,7 +137,7 @@ Cœur métier pur — aucune dépendance externe (pas d'Express, pas de Mongoose
 - `User` — entité utilisateur avec ses champs
 - `Email` — branded type qui garantit qu'un email a été validé par Zod avant usage
 - `makeUser()` — applique les règles métier (ex: maximum 3 decks)
-- `UserRepository` — interface que l'infrastructure doit implémenter
+- `IUserRepository` — interface que l'infrastructure doit implémenter
 
 ### application
 Orchestration des cas d'usage. Définit les contrats que l'infrastructure doit respecter.
@@ -150,7 +150,7 @@ Implémentations concrètes des interfaces du domaine et de l'application.
 - `env.ts` — valide les variables d'environnement au démarrage via Zod, `process.exit(1)` si invalide
 - `JwtTokenService` — implémente `TokenService` avec `jsonwebtoken`
 - `userSchema.ts` — schema Mongoose aligné sur l'entité `User`
-- `MongoUserRepository` — implémente `UserRepository` avec Mongoose
+- `MongoIUserRepository` — implémente `IUserRepository` avec Mongoose
 
 ### presentation
 Couche HTTP — Express, routes, middlewares. Ne contient aucune logique métier.

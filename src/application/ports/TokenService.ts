@@ -1,6 +1,5 @@
 export interface AuthPayload {
     userId: string;
-    roles: string[];
   }
   
   export interface TokenService {

@@ -11,3 +11,5 @@ export type User = {
   deck: string[];
   darkMode: boolean;
 };
+
+export type CreateUserInput = Partial<User> & Required<Pick<User, 'pseudo' | 'email' | 'password'>>;

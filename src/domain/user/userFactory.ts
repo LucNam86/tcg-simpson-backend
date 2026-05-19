@@ -1,5 +1,4 @@
-import { User } from './User';
-import { CreateUserInput } from './UserInputs';
+import { User, CreateUserInput } from './User';
 import { Result, ok, err } from '@shared/Result';
 import { makeEmail } from './Email';
 

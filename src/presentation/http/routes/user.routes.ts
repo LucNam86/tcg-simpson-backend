@@ -1,14 +1,11 @@
 import { Router } from 'express';
 import { TokenService } from '@application/ports/TokenService';
-import { UserRepository } from '@domain/user/UserRepository';
 import { jwtAuthMiddleware } from '../middlewares/jwtAuth.middleware';
 
 type UserRoutesDeps = {
-  tokenService: TokenService;
-  userRepository: UserRepository;
-};
+  tokenService: TokenService;};
 
-export const userRoutes = ({ tokenService, userRepository }: UserRoutesDeps) => {
+export const userRoutes = ({ tokenService }: UserRoutesDeps) => {
   const router = Router();
   const auth = jwtAuthMiddleware(tokenService);
 
