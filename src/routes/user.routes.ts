@@ -18,7 +18,7 @@ const RegisterSchema = z.object({
 });
 
 const ConnectSchema = z.object({
-  pseudo: z.string().min(3),
+  email: z.email(),
   password: z.string().min(8),
 });
 

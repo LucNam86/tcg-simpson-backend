@@ -5,7 +5,6 @@ import {
   saveUser,
   findUserById,
   updateUserById,
-  findUserByPseudo,
 } from "../database/methods/user.methods";
 import { UserDocument } from "../database/models/user.model";
 import bcrypt from "bcrypt";
@@ -19,7 +18,7 @@ type CreateUserInput = {
 };
 
 type ConnectUserInput = {
-  pseudo: string;
+  email: string;
   password: string;
 }
 type ConnectUserError = 'CREDENTIALS_UNKNOWN' | 'WRONG_CREDENTIALS'
@@ -60,7 +59,7 @@ export const connectUser = async (
   input : ConnectUserInput
 ): Promise<Result<{ id: string }, ConnectUserError>> => {
 
-  const existing = await findUserByPseudo(input.pseudo);
+  const existing = await findUserByEmail(input.email);
   if (!existing.ok || !existing.value) return err('CREDENTIALS_UNKNOWN');
   const compareHashedPassword = bcrypt.compareSync(input.password, existing.value.passwordHash);
   if (!compareHashedPassword) return err('WRONG_CREDENTIALS')

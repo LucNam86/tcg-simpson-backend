@@ -23,14 +23,7 @@ export const saveUser = async (user: any): Promise<Result<string, string>> => {
   }
 };
 
-export const findUserByPseudo = async (pseudo: string): Promise<Result<any, string>> => {
-  try {
-    const user = await UserModel.findOne({ pseudo });
-    return ok(user);
-  } catch (e) {
-    return err('Erreur lors de la recherche par pseudo');
-  }
-};
+
 export const findUserById = async (
   id: string,
 ): Promise<Result<any, string>> => {
