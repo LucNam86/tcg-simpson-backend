@@ -20,8 +20,8 @@ type CreateUserInput = {
 type ConnectUserInput = {
   email: string;
   password: string;
-}
-type ConnectUserError = 'CREDENTIALS_UNKNOWN' | 'WRONG_CREDENTIALS'
+};
+type ConnectUserError = "CREDENTIALS_UNKNOWN" | "WRONG_CREDENTIALS";
 type CreateUserError = "EMAIL_TAKEN" | "USER_CREATION_FAILED";
 type GetUserError = "USER_NOT_FOUND" | "DATABASE_ERROR";
 
@@ -56,34 +56,41 @@ export const createUser = async (
 };
 
 export const connectUser = async (
-  input : ConnectUserInput
+  input: ConnectUserInput,
 ): Promise<Result<{ id: string }, ConnectUserError>> => {
-
   const existing = await findUserByEmail(input.email);
-  if (!existing.ok || !existing.value) return err('CREDENTIALS_UNKNOWN');
-  const compareHashedPassword = bcrypt.compareSync(input.password, existing.value.passwordHash);
-  if (!compareHashedPassword) return err('WRONG_CREDENTIALS')
+  if (!existing.ok || !existing.value) return err("CREDENTIALS_UNKNOWN");
+  const compareHashedPassword = bcrypt.compareSync(
+    input.password,
+    existing.value.passwordHash,
+  );
+  if (!compareHashedPassword) return err("WRONG_CREDENTIALS");
 
-    return ok({ id: existing.value })
+  return ok({ id: existing.value });
+};
 
-}
 export const getUserById = async (
   id: string,
-): Promise<Result<Omit<UserDocument, "passwordHash">, GetUserError>> => {
+): Promise<
+  Result<Omit<UserDocument, "passwordHash" | "_id" | "__v">, GetUserError>
+> => {
   const result = await findUserById(id);
 
   if (!result.ok) return err("DATABASE_ERROR");
   if (!result.value) return err("USER_NOT_FOUND");
 
   const user = result.value.toObject();
-  const { passwordHash, ...userWithoutPassword } = user;
-  return ok(userWithoutPassword);
+  const { passwordHash, _id, __v, ...userClean } = user;
+
+  return ok(userClean);
 };
 
 export const updateUser = async (
   id: string,
   input: UpdateUserInput,
-): Promise<Result<Omit<UserDocument, "passwordHash">, GetUserError>> => {
+): Promise<
+  Result<Omit<UserDocument, "passwordHash" | "_id" | "__v">, GetUserError>
+> => {
   const updateData: Partial<UserDocument> = {};
 
   if (input.pseudo) {
@@ -96,15 +103,12 @@ export const updateUser = async (
 
   const result = await updateUserById(id, updateData);
 
-  if (!result.ok) {
-    return err("DATABASE_ERROR");
-  }
-  if (!result.value) {
-    return err("USER_NOT_FOUND");
-  }
+  if (!result.ok) return err("DATABASE_ERROR");
+  if (!result.value) return err("USER_NOT_FOUND");
 
   const user = result.value.toObject();
-  const { passwordHash, ...userWithoutPassword } = user;
 
-  return ok(userWithoutPassword);
+  const { passwordHash, _id, __v, ...userClean } = user;
+
+  return ok(userClean);
 };
