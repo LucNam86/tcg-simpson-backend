@@ -19,3 +19,12 @@ export const saveUser = async (user: any): Promise<Result<void, string>> => {
     return err('Erreur lors de la sauvegarde');
   }
 };
+
+export const findUserByPseudo = async (pseudo: string): Promise<Result<any, string>> => {
+  try {
+    const user = await UserModel.findOne({ pseudo });
+    return ok(user);
+  } catch (e) {
+    return err('Erreur lors de la recherche par pseudo');
+  }
+};

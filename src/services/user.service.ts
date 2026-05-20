@@ -1,6 +1,6 @@
 // services/user.service.ts
 import { Result, ok, err } from '../shared/Result';
-import { findUserByEmail, saveUser } from '../database/methods/user.methods';
+import { findUserByEmail, saveUser, findUserByPseudo } from '../database/methods/user.methods';
 import bcrypt from 'bcrypt';
 import { randomUUID } from 'crypto';
 
@@ -12,7 +12,13 @@ type CreateUserInput = {
   password: string;
 };
 
+type ConnectUserInput = {
+  pseudo: string;
+  password: string;
+}
+
 type CreateUserError = 'EMAIL_TAKEN' | 'USER_CREATION_FAILED';
+type ConnectUserError = 'CREDENTIALS_UNKNOWN' | 'WRONG_CREDENTIALS';
 
 export const createUser = async (
   input: CreateUserInput
@@ -40,3 +46,16 @@ export const createUser = async (
 
   return ok({ id: user.id });
 };
+
+export const connectUser = async (
+  input : ConnectUserInput
+): Promise<Result<{ id: string }, ConnectUserError>> => {
+
+  const existing = await findUserByPseudo(input.pseudo);
+  if (!existing.ok || !existing.value) return err('CREDENTIALS_UNKNOWN');
+  const compareHashedPassword = bcrypt.compareSync(input.password, existing.value.passwordHash);
+  if (!compareHashedPassword) return err('WRONG_CREDENTIALS')
+
+    return ok({ id: existing.value.pseudo })
+
+}
