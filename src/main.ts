@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import { env } from './infrastructure/config/env';
 import { makeJwtTokenService } from './infrastructure/auth/JwtTokenService';
 import { makeMongoUserRepository } from './infrastructure/mongo/user/MongoUserRepository';
-import { makeBcryptPasswordHasher } from './infrastructure/bcrypt/bcryptPasswordHasher';
+import { makeBcryptPasswordHasher } from './infrastructure/hashing/bcrypt/bcryptPasswordHasher';
 
 import { userRoutes } from './presentation/http/routes/user.routes'
 
