@@ -64,7 +64,7 @@ export const connectUser = async (
   const compareHashedPassword = bcrypt.compareSync(input.password, existing.value.passwordHash);
   if (!compareHashedPassword) return err('WRONG_CREDENTIALS')
 
-    return ok({ id: existing.value.pseudo })
+    return ok({ id: existing.value })
 
 }
 export const getUserById = async (
