@@ -15,13 +15,14 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "ignoreDeprecations": "6.0",
-    "paths": {
-      "@domain/*": ["./src/domain/*"],
-      "@application/*": ["./src/application/*"],
-      "@infrastructure/*": ["./src/infrastructure/*"],
-      "@interfaces/*": ["./src/interfaces/*"],
-      "@shared/*": ["./src/shared-kernel/*"]
-    }
+   "paths": {
+  "@routes/*": ["./src/routes/*"],
+  "@services/*": ["./src/services/*"],
+  "@database/*": ["./src/database/*"],
+  "@middleware/*": ["./src/middleware/*"],
+  "@shared/*": ["./src/shared/*"],
+  "@config/*": ["./src/config/*"]
+}
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
