@@ -2,7 +2,6 @@
 import { Result, ok, err } from '../shared/Result';
 import { findUserByEmail, saveUser, findUserByPseudo } from '../database/methods/user.methods';
 import bcrypt from 'bcrypt';
-import { randomUUID } from 'crypto';
 
 const SALT_ROUNDS = 12;
 
@@ -30,7 +29,6 @@ export const createUser = async (
   const passwordHash = await bcrypt.hash(input.password, SALT_ROUNDS);
 
   const user = {
-    id: randomUUID(),
     pseudo: input.pseudo,
     email: input.email.toLowerCase(),
     passwordHash,
@@ -44,7 +42,7 @@ export const createUser = async (
   const saved = await saveUser(user);
   if (!saved.ok) return err('USER_CREATION_FAILED');
 
-  return ok({ id: user.id });
+  return ok({ id: saved.value });
 };
 
 export const connectUser = async (

@@ -11,11 +11,12 @@ export const findUserByEmail = async (email: string): Promise<Result<any, string
   }
 };
 
-export const saveUser = async (user: any): Promise<Result<void, string>> => {
+export const saveUser = async (user: any): Promise<Result<string, string>> => {
   try {
-    await UserModel.findByIdAndUpdate(user.id, user, { upsert: true, returnDocument: 'after' });
-    return ok(undefined);
+    const doc = await UserModel.create(user);
+    return ok(doc._id.toString());
   } catch (e) {
+    console.error('saveUser error:', JSON.stringify(e, null, 2));
     return err('Erreur lors de la sauvegarde');
   }
 };
