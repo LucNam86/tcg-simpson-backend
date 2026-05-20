@@ -26,12 +26,6 @@ router.post('/register', async (req, res) => {
   return res.status(201).json({ token });
 });
 
-/**
-router.get('/me', jwtMiddleware, async (req, res) => {
-  const userId = (req as any).user.id;
-  // récupérer le user en base avec userId...
-});**/
-
 
 
 export default router;
