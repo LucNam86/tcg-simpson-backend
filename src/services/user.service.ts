@@ -1,7 +1,14 @@
 // services/user.service.ts
-import { Result, ok, err } from '../shared/Result';
-import { findUserByEmail, saveUser, findUserByPseudo } from '../database/methods/user.methods';
-import bcrypt from 'bcrypt';
+import { Result, ok, err } from "../shared/Result";
+import {
+  findUserByEmail,
+  saveUser,
+  findUserById,
+  updateUserById,
+  findUserByPseudo,
+} from "../database/methods/user.methods";
+import { UserDocument } from "../database/models/user.model";
+import bcrypt from "bcrypt";
 
 const SALT_ROUNDS = 12;
 
@@ -15,16 +22,20 @@ type ConnectUserInput = {
   pseudo: string;
   password: string;
 }
+type ConnectUserError = 'CREDENTIALS_UNKNOWN' | 'WRONG_CREDENTIALS'
+type CreateUserError = "EMAIL_TAKEN" | "USER_CREATION_FAILED";
+type GetUserError = "USER_NOT_FOUND" | "DATABASE_ERROR";
 
-type CreateUserError = 'EMAIL_TAKEN' | 'USER_CREATION_FAILED';
-type ConnectUserError = 'CREDENTIALS_UNKNOWN' | 'WRONG_CREDENTIALS';
+type UpdateUserInput = {
+  pseudo?: string;
+  password?: string;
+};
 
 export const createUser = async (
-  input: CreateUserInput
+  input: CreateUserInput,
 ): Promise<Result<{ id: string }, CreateUserError>> => {
-
   const existing = await findUserByEmail(input.email);
-  if (existing.ok && existing.value) return err('EMAIL_TAKEN');
+  if (existing.ok && existing.value) return err("EMAIL_TAKEN");
 
   const passwordHash = await bcrypt.hash(input.password, SALT_ROUNDS);
 
@@ -32,7 +43,7 @@ export const createUser = async (
     pseudo: input.pseudo,
     email: input.email.toLowerCase(),
     passwordHash,
-    avatar: '',
+    avatar: "",
     money: 100,
     myCollection: [],
     deck: [],
@@ -40,7 +51,7 @@ export const createUser = async (
   };
 
   const saved = await saveUser(user);
-  if (!saved.ok) return err('USER_CREATION_FAILED');
+  if (!saved.ok) return err("USER_CREATION_FAILED");
 
   return ok({ id: saved.value });
 };
@@ -57,3 +68,44 @@ export const connectUser = async (
     return ok({ id: existing.value.pseudo })
 
 }
+export const getUserById = async (
+  id: string,
+): Promise<Result<Omit<UserDocument, "passwordHash">, GetUserError>> => {
+  const result = await findUserById(id);
+
+  if (!result.ok) return err("DATABASE_ERROR");
+  if (!result.value) return err("USER_NOT_FOUND");
+
+  const user = result.value.toObject();
+  const { passwordHash, ...userWithoutPassword } = user;
+  return ok(userWithoutPassword);
+};
+
+export const updateUser = async (
+  id: string,
+  input: UpdateUserInput,
+): Promise<Result<Omit<UserDocument, "passwordHash">, GetUserError>> => {
+  const updateData: Partial<UserDocument> = {};
+
+  if (input.pseudo) {
+    updateData.pseudo = input.pseudo;
+  }
+
+  if (input.password) {
+    updateData.passwordHash = await bcrypt.hash(input.password, SALT_ROUNDS);
+  }
+
+  const result = await updateUserById(id, updateData);
+
+  if (!result.ok) {
+    return err("DATABASE_ERROR");
+  }
+  if (!result.value) {
+    return err("USER_NOT_FOUND");
+  }
+
+  const user = result.value.toObject();
+  const { passwordHash, ...userWithoutPassword } = user;
+
+  return ok(userWithoutPassword);
+};

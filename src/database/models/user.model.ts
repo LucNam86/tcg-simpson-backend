@@ -1,9 +1,20 @@
-import { Schema,model } from 'mongoose';
+import { Schema, model, Document } from "mongoose";
+
+export interface UserDocument extends Document {
+  pseudo: string;
+  email: string;
+  avatar: string;
+  passwordHash: string;
+  money: number;
+  myCollection: string[];
+  deck: string[];
+  darkMode: boolean;
+}
 
 const userSchema = new Schema({
   pseudo: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  avatar: { type: String, default: '' },
+  avatar: { type: String, default: "" },
   passwordHash: { type: String, required: true },
   money: { type: Number, default: 0 },
   myCollection: { type: [String], default: [] },
@@ -11,4 +22,4 @@ const userSchema = new Schema({
   darkMode: { type: Boolean, default: false },
 });
 
-export const UserModel = model('User', userSchema);
+export const UserModel = model<UserDocument>("User", userSchema);
