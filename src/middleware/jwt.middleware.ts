@@ -13,8 +13,8 @@ export const jwtMiddleware = (req: Request, res: Response, next: NextFunction) =
   if (!token) return res.status(401).json({ error: 'UNAUTHORIZED' });
 
   try {
-    const decoded = jwt.verify(token, SECRET);
-    (req as any).user = decoded;
+    const decoded = jwt.verify(token, SECRET) as { id: string };
+    req.user = decoded;
     next();
   } catch {
     return res.status(401).json({ error: 'INVALID_TOKEN' });
