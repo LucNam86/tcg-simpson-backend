@@ -2,13 +2,17 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 
+interface AuthRequest extends Request {
+  user?: { id: string };
+}
+
 const SECRET = process.env.JWT_SECRET!;
 
 export const signToken = (payload: { id: string }): string => {
   return jwt.sign(payload, SECRET, { expiresIn: '7d' });
 };
 
-export const jwtMiddleware = (req: Request, res: Response, next: NextFunction) => {
+export const jwtMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) return res.status(401).json({ error: 'UNAUTHORIZED' });
 
