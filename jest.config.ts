@@ -10,6 +10,7 @@ const config: Config = {
     '^@database/(.*)$': '<rootDir>/src/database/$1',
     '^@middleware/(.*)$': '<rootDir>/src/middleware/$1',
     '^@config/(.*)$': '<rootDir>/src/config/$1',
+    '^@routes/(.*)$': '<rootDir>/src/routes/$1',
   },
 };
 

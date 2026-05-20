@@ -4,12 +4,12 @@ import express from 'express';
 import userRoutes from '@routes/user.routes';
 
 // Mock du service
-jest.mock('../services/user.service', () => ({
+jest.mock('@services/user.service', () => ({
   createUser: jest.fn(),
 }));
 
 // Mock du middleware JWT
-jest.mock('../middleware/jwt.middleware', () => ({
+jest.mock('@middleware/jwt.middleware', () => ({
   signToken: jest.fn().mockReturnValue('fake-jwt-token'),
   jwtMiddleware: jest.fn((_req: any, _res: any, next: any) => next()),
 }));
