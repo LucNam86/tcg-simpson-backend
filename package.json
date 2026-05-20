@@ -6,6 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
     "@types/dotenv-safe": "^9.1.0",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",

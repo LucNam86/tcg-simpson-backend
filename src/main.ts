@@ -2,11 +2,18 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { env } from '@config/env';
 import userRoutes from '@routes/user.routes';
+import cors from 'cors';
+
 
 async function main() {
   await mongoose.connect(env.DATABASE_URL);
 
   const app = express();
+  app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
   app.use(express.json());
   app.use('/users', userRoutes);
 
