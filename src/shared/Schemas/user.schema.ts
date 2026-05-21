@@ -30,6 +30,7 @@ export const PublicUserSchema = z.object({
   avatar: z.string(),
   money: z.number(),
   myCollection: z.array(z.string()),
+  boosters : z.array(z.string()),
   deck: z.array(z.string()),
   darkMode: z.boolean(),
 });

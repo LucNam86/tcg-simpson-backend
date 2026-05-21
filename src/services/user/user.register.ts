@@ -26,6 +26,7 @@ export const registerUser = async (
     avatar: "",
     money: 100,
     myCollection: [],
+    boosters : [],
     deck: [],
     darkMode: false,
   };
@@ -40,6 +41,7 @@ export const registerUser = async (
     avatar: user.avatar,
     money: user.money,
     myCollection: user.myCollection,
+    boosters : user.boosters,
     deck: user.deck,
     darkMode: user.darkMode });
 };

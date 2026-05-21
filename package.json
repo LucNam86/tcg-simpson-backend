@@ -18,7 +18,8 @@
     "build": "tsc",
     "start": "node -r tsconfig-paths/register dist/main.js",
     "test": "jest --detectOpenHandles",
-    "db:seed": "ts-node src/scripts/seed.ts"
+    "db:seed": "ts-node src/scripts/seed.ts",
+    "db:seedBooster" : "ts-node src/scripts/seedBooster.ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",

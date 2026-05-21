@@ -7,6 +7,7 @@ export interface UserDocument extends Document {
   passwordHash: string;
   money: number;
   myCollection: string[];
+  boosters: string[];
   deck: string[];
   darkMode: boolean;
 }
@@ -18,6 +19,7 @@ const userSchema = new Schema({
   passwordHash: { type: String, required: true },
   money: { type: Number, default: 0 },
   myCollection: { type: [String], default: [] },
+  boosters: { type: [String], default: [] },
   deck: { type: [String], default: [] },
   darkMode: { type: Boolean, default: false },
 });
