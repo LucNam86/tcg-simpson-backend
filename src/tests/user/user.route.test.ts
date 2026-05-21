@@ -4,8 +4,8 @@ import express from 'express';
 import userRoutes from '@routes/user';
 
 // Mock du service
-jest.mock('@services/user.service', () => ({
-  createUser: jest.fn(),
+jest.mock('@services/user', () => ({
+  registerUser: jest.fn(),
 }));
 
 // Mock du middleware JWT

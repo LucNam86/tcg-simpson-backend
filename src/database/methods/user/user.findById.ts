@@ -6,7 +6,7 @@ export const findById = async (
   id: string,
 ): Promise<Result<any, string>> => {
   try {
-    const user = await UserModel.findById(id);
+    const user = await UserModel.findById(id).populate("collection");
     return ok(user);
   } catch (e) {
     return err("Erreur lors de la recherche par ID");

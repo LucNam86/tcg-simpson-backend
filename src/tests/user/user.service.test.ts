@@ -1,80 +1,89 @@
 // services/user.service.test.ts
 import { registerUser } from '@services/user';
- 
-// Mock des dépendances
-jest.mock('@database/methods/user.methods', () => ({
-  findUserByEmail: jest.fn(),
-  saveUser: jest.fn(),
+
+jest.mock('@database/methods/user', () => ({
+  findByEmail: jest.fn(),
+  save: jest.fn(),
 }));
- 
+
 jest.mock('bcrypt', () => ({
   hash: jest.fn().mockResolvedValue('hashedPassword'),
 }));
- 
+
+jest.mock('@config/env', () => ({
+  env: { BCRYPT_SALT_ROUNDS: 12 },
+}));
+
 import { findByEmail, save } from '@database/methods/user';
- 
-const mockFindUserByEmail = findByEmail as jest.Mock;
-const mockSaveUser = save as jest.Mock;
- 
+
+const mockFindByEmail = findByEmail as jest.Mock;
+const mockSave = save as jest.Mock;
+
 const validInput = {
   pseudo: 'Lulu',
   email: 'lulu@example.com',
   password: 'motdepasse123',
 };
- 
-describe('createUser', () => {
+
+describe('registerUser', () => {
   beforeEach(() => jest.clearAllMocks());
- 
-  it('crée un user et retourne son id', async () => {
-    mockFindUserByEmail.mockResolvedValue({ ok: true, value: null });
-    mockSaveUser.mockResolvedValue({ ok: true, value: undefined });
- 
+
+  it('crée un user et retourne le PublicUser', async () => {
+    mockFindByEmail.mockResolvedValue({ ok: true, value: null });
+    mockSave.mockResolvedValue({ ok: true, value: 'abc-123' });
+
     const result = await registerUser(validInput);
- 
+
     expect(result.ok).toBe(true);
     if (result.ok) {
-      expect(result.value.id).toBeDefined();
-      expect(typeof result.value.id).toBe('string');
+      expect(result.value.id).toBe('abc-123');
+      expect(result.value.pseudo).toBe('Lulu');
+      expect(result.value.email).toBe('lulu@example.com');
+      expect(result.value.money).toBe(100);
+      expect(result.value.avatar).toBe('');
+      expect(result.value.myCollection).toEqual([]);
+      expect(result.value.deck).toEqual([]);
+      expect(result.value.darkMode).toBe(false);
     }
   });
- 
+
   it('retourne EMAIL_TAKEN si email déjà pris', async () => {
-    mockFindUserByEmail.mockResolvedValue({ ok: true, value: { id: '123' } });
- 
+    mockFindByEmail.mockResolvedValue({ ok: true, value: { id: '123' } });
+
     const result = await registerUser(validInput);
- 
+
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.error).toBe('EMAIL_TAKEN');
-    expect(mockSaveUser).not.toHaveBeenCalled();
+    expect(mockSave).not.toHaveBeenCalled();
   });
- 
+
   it('retourne USER_CREATION_FAILED si la sauvegarde échoue', async () => {
-    mockFindUserByEmail.mockResolvedValue({ ok: true, value: null });
-    mockSaveUser.mockResolvedValue({ ok: false, error: 'Erreur lors de la sauvegarde' });
- 
+    mockFindByEmail.mockResolvedValue({ ok: true, value: null });
+    mockSave.mockResolvedValue({ ok: false, error: 'Erreur lors de la sauvegarde' });
+
     const result = await registerUser(validInput);
- 
+
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.error).toBe('USER_CREATION_FAILED');
   });
- 
-  it('met l\'email en lowercase avant de sauvegarder', async () => {
-    mockFindUserByEmail.mockResolvedValue({ ok: true, value: null });
-    mockSaveUser.mockResolvedValue({ ok: true, value: undefined });
- 
-    await registerUser({ ...validInput, email: 'LULU@EXAMPLE.COM' });
- 
-    const savedUser = mockSaveUser.mock.calls[0][0];
-    expect(savedUser.email).toBe('lulu@example.com');
+
+  it("met l'email en lowercase avant de sauvegarder", async () => {
+    mockFindByEmail.mockResolvedValue({ ok: true, value: null });
+    mockSave.mockResolvedValue({ ok: true, value: 'abc-123' });
+
+    const result = await registerUser({ ...validInput, email: 'LULU@EXAMPLE.COM' });
+
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.value.email).toBe('lulu@example.com');
   });
- 
+
   it('initialise les valeurs par défaut du user', async () => {
-    mockFindUserByEmail.mockResolvedValue({ ok: true, value: null });
-    mockSaveUser.mockResolvedValue({ ok: true, value: undefined });
- 
+    mockFindByEmail.mockResolvedValue({ ok: true, value: null });
+    mockSave.mockResolvedValue({ ok: true, value: 'abc-123' });
+
     await registerUser(validInput);
- 
-    const savedUser = mockSaveUser.mock.calls[0][0];
+
+    const savedUser = mockSave.mock.calls[0][0];
     expect(savedUser.money).toBe(100);
     expect(savedUser.myCollection).toEqual([]);
     expect(savedUser.deck).toEqual([]);
@@ -82,4 +91,3 @@ describe('createUser', () => {
     expect(savedUser.avatar).toBe('');
   });
 });
- 
