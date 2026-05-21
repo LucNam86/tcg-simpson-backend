@@ -1,3 +1,5 @@
+"use client";
+
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
@@ -58,9 +60,7 @@ async function seedDatabase() {
     console.log("🗺️ Liaison des cartes avec les identifiants de la base...");
     const preparedCards = cardsData.map((card) => {
       const familyId = familyMap[card.family] || familyMap["Sans Famille"];
-
-      const affinityId =
-        affinityMap[card.affinity] || affinityMap["Sans Affinité"];
+      const affinityId = affinityMap[card.affinity] || affinityMap["Sans Affinité"];
       const serieId = serieMap[card.serie.name_serie] || createdSeries[0]._id;
 
       return {
@@ -68,6 +68,7 @@ async function seedDatabase() {
         slug: card.slug,
         type: card.type,
         rarity: card.rarity,
+        description: card.description || "", // 🎯 Ajout de la description ici
         ATK: card.ATK,
         PV: card.PV,
         family: familyId,
@@ -85,7 +86,7 @@ async function seedDatabase() {
     console.log("✨ ------------------------------------------------ ✨");
     console.log("🚀 BASE DE DONNÉES SEEDÉE AVEC SUCCÈS ET SANS LIENS BRISÉS !");
     console.log(
-      `📊 Résumé : ${createdSeries.length} Série(s), ${createdFamilies.length} Famille(s), ${createdAffinities.length} Affinité(s), ${preparedCards.length} Cartes.`,
+      `📊 Résumé : ${createdSeries.length} Série(s), ${createdFamilies.length} Famille(s), ${createdAffinities.length} Affinité(s), ${preparedCards.length} Cartes.`
     );
     console.log("✨ ------------------------------------------------ ✨");
 
