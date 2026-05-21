@@ -5,6 +5,7 @@ export const PublicCardSchema = z.object({
   name: z.string(),
   ATK: z.number(),
   PV: z.number(),
+  description: z.string(),
   slug: z.string(),
   rarity: z.string(),
   type: z.enum(["Personnage", "Objet", "Terrain"]),

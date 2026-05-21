@@ -19,6 +19,7 @@ const cardSchema = new Schema({
   name: { type: String, required: true },
   ATK: { type: Number, required: true },
   PV: { type: Number, required: true },
+  description: { type: String, required: true},
   family: { type: Schema.Types.ObjectId, ref: "Family", required: true },
   affinity: { type: Schema.Types.ObjectId, ref: "Affinity", required: true },
   slug: { type: String, required: true, unique: true },

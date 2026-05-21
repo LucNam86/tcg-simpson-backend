@@ -5,8 +5,7 @@ export const findByEmail = async (
   email: string,
 ): Promise<Result<any, string>> => {
   try {
-    const user = await UserModel.findOne({ email }).populate("myCollection").populate("deck");
-    console.log("findByEmail result:", JSON.stringify(user, null, 2));
+    const user = await UserModel.findOne({ email });
     return ok(user);
   } catch (e) {
     return err("Erreur lors de la recherche par email");
