@@ -17,8 +17,8 @@ const userSchema = new Schema({
   avatar: { type: String, default: "" },
   passwordHash: { type: String, required: true },
   money: { type: Number, default: 0 },
-  myCollection: { type: Schema.Types.ObjectId, ref: "Card", default: [] },
-  deck: { type: Schema.Types.ObjectId, ref: "Card", default: [] },
+  myCollection: [{ type: Schema.Types.ObjectId, ref: "Card", default: [] }],
+  deck: [{ type: Schema.Types.ObjectId, ref: "Card", default: [] }],
   darkMode: { type: Boolean, default: false },
 });
 

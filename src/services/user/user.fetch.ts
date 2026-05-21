@@ -32,6 +32,7 @@ export const fetchUserWithCollectionsAndDeckById = async (
   if (!result.value) return err("USER_NOT_FOUND");
 
   const parsed = PublicUserSchema.safeParse(result.value.toObject({ virtuals: true }));
+    console.error("PublicUserSchema errors:", JSON.stringify(parsed.error, null, 2));
   if (!parsed.success) return err("INVALID_USER");
 
   return ok(parsed.data);

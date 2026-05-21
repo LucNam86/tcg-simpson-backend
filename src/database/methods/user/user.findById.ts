@@ -18,9 +18,22 @@ export const findByIdWithCollectionsAndDeck = async (
 ): Promise<Result<any, string>> => {
   try {
     const user = await UserModel.findById(id)
-      .populate("myCollection")
-      .populate("deck");
-      console.log("findByIdWithCollectionsAndDeck:", JSON.stringify(user?.toObject(), null, 2));
+  .populate({
+    path: "myCollection",
+    populate: [
+      { path: "family" },
+      { path: "affinity" },
+      { path: "serie.id_serie" },
+    ]
+  })
+  .populate({
+    path: "deck",
+    populate: [
+      { path: "family" },
+      { path: "affinity" },
+      { path: "serie.id_serie" },
+    ]
+  });
     return ok(user);
   } catch (e) {
     console.error("findByIdWithCollectionsAndDeck error:", e);
