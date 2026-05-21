@@ -8,7 +8,7 @@ import { UpdateUserSchema } from "@shared/Schemas/user.schema";
 
 const router = Router();
 
-router.put("/profile", jwtMiddleware, async (req : AuthRequest, res) => {
+router.put("/me/profile", jwtMiddleware, async (req : AuthRequest, res) => {
   const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
 
