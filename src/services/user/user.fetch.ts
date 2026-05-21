@@ -4,6 +4,7 @@ import {
 } from "@database/methods/user";
 
 import {PublicUserSchema, PublicUser } from "@shared/Schemas/user.schema";
+import {PublicCardArraySchema, PublicCardArray } from "@shared/Schemas/card.schema";
 
 type GetUserError = "USER_NOT_FOUND" | "DATABASE_ERROR" | "INVALID_USER";
 
@@ -22,17 +23,17 @@ export const fetchUserById = async (
 };
 
 
-export const fetchUserWithCollectionsAndDeckById = async (
+export const fetchUserCollection = async (
   id: string,
-): Promise<Result<PublicUser, GetUserError>> => {
+): Promise<Result<PublicCardArray, GetUserError>> => {
   const result = await findByIdWithCollectionsAndDeck(id);
-  console.log("fetchUserWithCollectionsAndDeckById result:", JSON.stringify(result, null, 2));
 
   if (!result.ok) return err("DATABASE_ERROR");
   if (!result.value) return err("USER_NOT_FOUND");
 
-  const parsed = PublicUserSchema.safeParse(result.value.toObject({ virtuals: true }));
-    console.error("PublicUserSchema errors:", JSON.stringify(parsed.error, null, 2));
+  const obj = result.value.toObject({ virtuals: true });
+  
+  const parsed = PublicCardArraySchema.safeParse(obj.myCollection);
   if (!parsed.success) return err("INVALID_USER");
 
   return ok(parsed.data);

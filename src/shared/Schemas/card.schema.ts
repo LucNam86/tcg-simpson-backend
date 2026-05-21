@@ -43,3 +43,7 @@ export const PublicCardSchema = z.object({
 });
 
 export type PublicCard = z.infer<typeof PublicCardSchema>;
+
+export const PublicCardArraySchema = z.array(PublicCardSchema);
+
+export type PublicCardArray = z.infer<typeof PublicCardArraySchema>;
