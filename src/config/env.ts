@@ -6,6 +6,8 @@ const envSchema = z.object({
   DATABASE_URL: z.string(),
   JWT_SECRET: z.string(),
   JWT_EXPIRES_IN: z.string().default('7d'),
+  FRONTEND_URL: z.string(),
+  BCRYPT_SALT_ROUNDS: z.string().transform(Number).default(12),
 });
 
 const parsed = envSchema.safeParse(process.env);

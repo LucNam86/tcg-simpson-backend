@@ -1,7 +1,7 @@
 // routes/user.test.ts
 import request from 'supertest';
 import express from 'express';
-import userRoutes from '@routes/user.routes';
+import userRoutes from '@routes/user';
 
 // Mock du service
 jest.mock('@services/user.service', () => ({
@@ -14,9 +14,9 @@ jest.mock('@middleware/jwt.middleware', () => ({
   jwtMiddleware: jest.fn((_req: any, _res: any, next: any) => next()),
 }));
 
-import { createUser } from '@services/user.service';
+import { registerUser } from '@services/user';
 
-const mockCreateUser = createUser as jest.Mock;
+const mockCreateUser = registerUser as jest.Mock;
 
 const app = express();
 app.use(express.json());

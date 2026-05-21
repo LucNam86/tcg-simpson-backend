@@ -1,5 +1,5 @@
 // services/user.service.test.ts
-import { createUser } from '@services/user.service';
+import { registerUser } from '@services/user';
  
 // Mock des dépendances
 jest.mock('@database/methods/user.methods', () => ({
@@ -11,10 +11,10 @@ jest.mock('bcrypt', () => ({
   hash: jest.fn().mockResolvedValue('hashedPassword'),
 }));
  
-import { findUserByEmail, saveUser } from '@database/methods/user.methods';
+import { findByEmail, save } from '@database/methods/user';
  
-const mockFindUserByEmail = findUserByEmail as jest.Mock;
-const mockSaveUser = saveUser as jest.Mock;
+const mockFindUserByEmail = findByEmail as jest.Mock;
+const mockSaveUser = save as jest.Mock;
  
 const validInput = {
   pseudo: 'Lulu',
@@ -29,7 +29,7 @@ describe('createUser', () => {
     mockFindUserByEmail.mockResolvedValue({ ok: true, value: null });
     mockSaveUser.mockResolvedValue({ ok: true, value: undefined });
  
-    const result = await createUser(validInput);
+    const result = await registerUser(validInput);
  
     expect(result.ok).toBe(true);
     if (result.ok) {
@@ -41,7 +41,7 @@ describe('createUser', () => {
   it('retourne EMAIL_TAKEN si email déjà pris', async () => {
     mockFindUserByEmail.mockResolvedValue({ ok: true, value: { id: '123' } });
  
-    const result = await createUser(validInput);
+    const result = await registerUser(validInput);
  
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.error).toBe('EMAIL_TAKEN');
@@ -52,7 +52,7 @@ describe('createUser', () => {
     mockFindUserByEmail.mockResolvedValue({ ok: true, value: null });
     mockSaveUser.mockResolvedValue({ ok: false, error: 'Erreur lors de la sauvegarde' });
  
-    const result = await createUser(validInput);
+    const result = await registerUser(validInput);
  
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.error).toBe('USER_CREATION_FAILED');
@@ -62,7 +62,7 @@ describe('createUser', () => {
     mockFindUserByEmail.mockResolvedValue({ ok: true, value: null });
     mockSaveUser.mockResolvedValue({ ok: true, value: undefined });
  
-    await createUser({ ...validInput, email: 'LULU@EXAMPLE.COM' });
+    await registerUser({ ...validInput, email: 'LULU@EXAMPLE.COM' });
  
     const savedUser = mockSaveUser.mock.calls[0][0];
     expect(savedUser.email).toBe('lulu@example.com');
@@ -72,7 +72,7 @@ describe('createUser', () => {
     mockFindUserByEmail.mockResolvedValue({ ok: true, value: null });
     mockSaveUser.mockResolvedValue({ ok: true, value: undefined });
  
-    await createUser(validInput);
+    await registerUser(validInput);
  
     const savedUser = mockSaveUser.mock.calls[0][0];
     expect(savedUser.money).toBe(100);

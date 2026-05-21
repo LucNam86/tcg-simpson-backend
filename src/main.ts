@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import { env } from '@config/env';
-import userRoutes from '@routes/user.routes';
+import userRoutes from '@routes/user';
 import cors from 'cors';
 
 
