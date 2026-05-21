@@ -6,9 +6,9 @@ export interface UserDocument extends Document {
   avatar: string;
   passwordHash: string;
   money: number;
-  myCollection: string[];
+  myCollection: { type: Schema.Types.ObjectId, ref: "Card", default: [] };
   boosters: string[];
-  deck: string[];
+  deck: { type: Schema.Types.ObjectId, ref: "Card", default: [] };
   darkMode: boolean;
 }
 
@@ -18,9 +18,9 @@ const userSchema = new Schema({
   avatar: { type: String, default: "" },
   passwordHash: { type: String, required: true },
   money: { type: Number, default: 0 },
-  myCollection: { type: [String], default: [] },
+  myCollection: [{ type: Schema.Types.ObjectId, ref: "Card", default: [] }],
   boosters: { type: [String], default: [] },
-  deck: { type: [String], default: [] },
+  deck: [{ type: Schema.Types.ObjectId, ref: "Card", default: [] }],
   darkMode: { type: Boolean, default: false },
 });
 

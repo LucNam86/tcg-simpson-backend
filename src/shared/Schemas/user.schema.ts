@@ -1,5 +1,6 @@
 // shared/schemas/user.schemas.ts
 import { z } from 'zod';
+import {PublicCardSchema} from "@shared/Schemas/card.schema";
 
 export const RegisterSchema = z.object({
   pseudo: z.string().min(3).max(20),
@@ -29,9 +30,9 @@ export const PublicUserSchema = z.object({
   email: z.string(),
   avatar: z.string(),
   money: z.number(),
-  myCollection: z.array(z.string()),
+  myCollection: z.array(PublicCardSchema),
   boosters : z.array(z.string()),
-  deck: z.array(z.string()),
+  deck: z.array(PublicCardSchema),
   darkMode: z.boolean(),
 });
 

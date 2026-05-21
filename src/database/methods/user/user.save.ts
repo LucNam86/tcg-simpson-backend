@@ -1,8 +1,6 @@
 import { Result, ok, err } from "@shared/Result";
 import { UserModel, UserDocument } from "@database/models/user.model";
 
-
-
 export const save = async (user: any): Promise<Result<string, string>> => {
   try {
     const doc = await UserModel.create(user);

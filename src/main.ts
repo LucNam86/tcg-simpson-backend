@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { env } from '@config/env';
 import userRoutes from '@routes/user';
+import cardRoutes from '@routes/card';
 import cors from 'cors';
 
 
@@ -16,7 +17,7 @@ async function main() {
 }));
   app.use(express.json());
   app.use('/users', userRoutes);
-
+  app.use('/cards', cardRoutes);
   app.listen(env.PORT, () =>
     console.log(`API up on :${env.PORT}`)
   );
