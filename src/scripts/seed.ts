@@ -30,45 +30,61 @@ async function seedDatabase() {
     await mongoose.connect(mongoUri);
     console.log("✅ Connecté avec succès.");
 
-    console.log("🧹 Nettoyage de la base de données...");
-    await SerieModel.deleteMany({});
-    await FamilyModel.deleteMany({});
-    await AffinityModel.deleteMany({});
-    await CardModel.deleteMany({});
-    console.log("🗑️ Base de données vidée.");
+    console.log(
+      "📦 Synchronisation des Séries, Familles et Affinités (Upsert)...",
+    );
 
-    console.log("📦 Insertion des Séries, Familles et Affinités...");
-    const createdSeries = await SerieModel.insertMany(seriesData);
-    const createdFamilies = await FamilyModel.insertMany(familiesData);
-    const createdAffinities = await AffinityModel.insertMany(affinitiesData);
-
+    // 1. Upsert des Séries
     const serieMap: Record<string, mongoose.Types.ObjectId> = {};
-    createdSeries.forEach((s) => {
-      serieMap[s.name] = s._id as mongoose.Types.ObjectId;
-    });
+    for (const serie of seriesData) {
+      const updated = await SerieModel.findOneAndUpdate(
+        { name: serie.name },
+        { $set: serie },
+        { upsert: true, new: true },
+      );
+      serieMap[serie.name] = updated._id as mongoose.Types.ObjectId;
+    }
 
     const familyMap: Record<string, mongoose.Types.ObjectId> = {};
-    createdFamilies.forEach((f) => {
-      familyMap[f.name] = f._id as mongoose.Types.ObjectId;
-    });
+    for (const family of familiesData) {
+      const updated = await FamilyModel.findOneAndUpdate(
+        { name: family.name },
+        { $set: family },
+        { upsert: true, new: true },
+      );
+      familyMap[family.name] = updated._id as mongoose.Types.ObjectId;
+    }
 
     const affinityMap: Record<string, mongoose.Types.ObjectId> = {};
-    createdAffinities.forEach((a) => {
-      affinityMap[a.name] = a._id as mongoose.Types.ObjectId;
-    });
+    for (const affinity of affinitiesData) {
+      const updated = await AffinityModel.findOneAndUpdate(
+        { name: affinity.name },
+        { $set: affinity },
+        { upsert: true, new: true },
+      );
+      affinityMap[affinity.name] = updated._id as mongoose.Types.ObjectId;
+    }
 
-    console.log("🗺️ Liaison des cartes avec les identifiants de la base...");
-    const preparedCards = cardsData.map((card) => {
+    console.log(
+      "🗺️ Liaison et Synchronisation des cartes (Upsert via Slug)...",
+    );
+
+    let cardsUpserted = 0;
+
+    for (const card of cardsData) {
       const familyId = familyMap[card.family] || familyMap["Sans Famille"];
-      const affinityId = affinityMap[card.affinity] || affinityMap["Sans Affinité"];
-      const serieId = serieMap[card.serie.name_serie] || createdSeries[0]._id;
+      const affinityId =
+        affinityMap[card.affinity] || affinityMap["Sans Affinité"];
 
-      return {
+      const fallbackSerieId = Object.values(serieMap)[0];
+      const serieId = serieMap[card.serie.name_serie] || fallbackSerieId;
+
+      const preparedCard = {
         name: card.name,
         slug: card.slug,
         type: card.type,
         rarity: card.rarity,
-        description: card.description || "", // 🎯 Ajout de la description ici
+        description: card.description || "",
         ATK: card.ATK,
         PV: card.PV,
         family: familyId,
@@ -78,21 +94,27 @@ async function seedDatabase() {
           position: card.serie.position,
         },
       };
-    });
 
-    console.log("🃏 Insertion des cartes...");
-    await CardModel.insertMany(preparedCards);
+      // 🎯 L'élément clé : On cherche par SLUG. Si trouvé, on update. Sinon, on crée.
+      await CardModel.findOneAndUpdate(
+        { slug: card.slug },
+        { $set: preparedCard },
+        { upsert: true },
+      );
+
+      cardsUpserted++;
+    }
 
     console.log("✨ ------------------------------------------------ ✨");
-    console.log("🚀 BASE DE DONNÉES SEEDÉE AVEC SUCCÈS ET SANS LIENS BRISÉS !");
+    console.log("🚀 BASE DE DONNÉES SYNCHRONISÉE SANS PERTE D'IDENTIFIANTS !");
     console.log(
-      `📊 Résumé : ${createdSeries.length} Série(s), ${createdFamilies.length} Famille(s), ${createdAffinities.length} Affinité(s), ${preparedCards.length} Cartes.`
+      `📊 Résumé : ${Object.keys(serieMap).length} Série(s), ${Object.keys(familyMap).length} Famille(s), ${Object.keys(affinityMap).length} Affinité(s) et ${cardsUpserted} Cartes vérifiées/mises à jour.`,
     );
     console.log("✨ ------------------------------------------------ ✨");
 
     process.exit(0);
   } catch (error) {
-    console.error("❌ Erreur critique pendant le seeding :", error);
+    console.error("❌ Erreur critique pendant la synchronisation :", error);
     process.exit(1);
   }
 }
