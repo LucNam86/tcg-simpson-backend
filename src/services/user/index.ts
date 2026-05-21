@@ -1,4 +1,4 @@
 export { registerUser } from './user.register';
 export { connectUser } from './user.connect';
-export { fetchUserById } from './user.fetch';
+export { fetchUserById,fetchUserWithCollectionsAndDeckById } from './user.fetch';
 export { updateUser } from './user.update';
