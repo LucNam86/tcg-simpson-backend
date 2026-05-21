@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Sans Famille",
+    "desc": "Aucun bonus de famille",
+    "bonus": { "ATK": 0, "PV": 0 }
+  },
+  {
+    "name": "Simpson",
+    "desc": "La célèbre famille dysfonctionnelle de Springfield",
+    "bonus": { "ATK": 0, "PV": 10 }
+  },
+  {
+    "name": "Méchants",
+    "desc": "Les pires crapules et antagonistes de la ville",
+    "bonus": { "ATK": 20, "PV": 0 }
+  },
+  {
+    "name": "Police",
+    "desc": "La brigade d'intervention (presque) compétente",
+    "bonus": { "ATK": 0, "PV": 30 }
+  },
+  {
+    "name": "Van Houten",
+    "desc": "Une famille plutôt fragile et sensible",
+    "bonus": { "ATK": 10, "PV": 10 }
+  },
+  {
+    "name": "Flanders",
+    "desc": "Salut les voisins ! Un bonus ultra-divin",
+    "bonus": { "ATK": 0, "PV": 10 }
+  },
+  {
+    "name": "Animaux",
+    "desc": "Les fidèles compagnons à poils ou à écailles",
+    "bonus": { "ATK": 20, "PV": 0 }
+  }
+]
