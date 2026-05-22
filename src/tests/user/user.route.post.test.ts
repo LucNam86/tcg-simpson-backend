@@ -1,7 +1,7 @@
 // routes/user.test.ts
 import request from 'supertest';
 import express from 'express';
-import userRoutes from '@routes/user';
+import userRoutes from '@routes/user/user.post';
 
 // Mock du service
 jest.mock('@services/user', () => ({

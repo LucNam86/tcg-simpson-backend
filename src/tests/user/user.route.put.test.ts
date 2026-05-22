@@ -1,6 +1,5 @@
 import request from "supertest";
 import express from "express";
-import router from "./user.put";
 import { updateUser } from "@services/user";
 
 jest.mock("@services/user");
@@ -11,6 +10,8 @@ jest.mock("@middleware/jwt.middleware", () => ({
   },
 }));
 
+import router from "@routes/user/user.put";
+
 const app = express();
 app.use(express.json());
 app.use(router);
@@ -19,7 +20,17 @@ describe("PUT /me/profile", () => {
   it("met à jour le profil avec succès", async () => {
     (updateUser as jest.Mock).mockResolvedValue({
       ok: true,
-      value: { id: "user-123", pseudo: "NouveauPseudo" },
+      value: {
+        id: "user-123",
+        pseudo: "NouveauPseudo",
+        email: "luc@test.com",
+        avatar: "",
+        money: 100,
+        myCollection: [],
+        boosters: [],
+        deck: [],
+        darkMode: false,
+      },
     });
 
     const res = await request(app)
@@ -30,14 +41,6 @@ describe("PUT /me/profile", () => {
     expect(res.body.pseudo).toBe("NouveauPseudo");
   });
 
-  it("retourne 400 si le body est invalide", async () => {
-    const res = await request(app)
-      .put("/me/profile")
-      .send({ invalidField: "test" });
-
-    expect(res.status).toBe(400);
-  });
-
   it("retourne 400 si aucun champ à mettre à jour", async () => {
     const res = await request(app)
       .put("/me/profile")
@@ -45,6 +48,14 @@ describe("PUT /me/profile", () => {
 
     expect(res.status).toBe(400);
     expect(res.body.error).toBe("No fields to update provided.");
+  });
+
+  it("retourne 400 si le body contient un champ invalide", async () => {
+    const res = await request(app)
+      .put("/me/profile")
+      .send({ champInvalide: "test" });
+
+    expect(res.status).toBe(400);
   });
 
   it("retourne 404 si l'utilisateur n'est pas trouvé", async () => {

@@ -1,4 +1,4 @@
-import { updateUser } from "./user.update";
+import { updateUser } from "@services/user/user.update";
 import { updateById } from "@database/methods/user";
 import bcrypt from "bcrypt";
 
@@ -12,19 +12,19 @@ const mockToObject = (data: object) => ({
   toObject: jest.fn().mockReturnValue(data),
 });
 
-describe("updateUser", () => {
-  const mockUpdatedUser = {
-    id: "user-123",
-    pseudo: "NouveauPseudo",
-    email: "luc@test.com",
-    avatar: null,
-    money: 100,
-    myCollection: [],
-    boosters: [],
-    deck: [],
-    darkMode: false,
-  };
+const mockUpdatedUser = {
+  id: "user-123",
+  pseudo: "NouveauPseudo",
+  email: "luc@test.com",
+  avatar: "",
+  money: 100,
+  myCollection: [],
+  boosters: [],
+  deck: [],
+  darkMode: false,
+};
 
+describe("updateUser", () => {
   it("met à jour le pseudo avec succès", async () => {
     (updateById as jest.Mock).mockResolvedValue({
       ok: true,
@@ -67,5 +67,17 @@ describe("updateUser", () => {
 
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.error).toBe("USER_NOT_FOUND");
+  });
+
+  it("retourne INVALID_USER si le parsing échoue", async () => {
+    (updateById as jest.Mock).mockResolvedValue({
+      ok: true,
+      value: mockToObject({ id: "user-123" }),
+    });
+
+    const result = await updateUser("user-123", { pseudo: "Test" });
+
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error).toBe("INVALID_USER");
   });
 });

@@ -1,4 +1,4 @@
-import { connectUser } from "./user.connect";
+import { connectUser } from "@services/user/user.connect";
 import { findByEmail } from "@database/methods/user";
 import bcrypt from "bcrypt";
 
@@ -11,7 +11,7 @@ describe("connectUser", () => {
     pseudo: "LucYop",
     email: "luc@test.com",
     passwordHash: "hashedPassword",
-    avatar: null,
+    avatar: "",
     money: 100,
     myCollection: [],
     boosters: [],

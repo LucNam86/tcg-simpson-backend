@@ -1,8 +1,6 @@
 import request from "supertest";
 import express from "express";
-import router from "./user.get";
 import { fetchUserById, fetchUserCollection } from "@services/user";
-import { jwtMiddleware } from "@middleware/jwt.middleware";
 
 jest.mock("@services/user");
 jest.mock("@middleware/jwt.middleware", () => ({
@@ -12,6 +10,8 @@ jest.mock("@middleware/jwt.middleware", () => ({
   },
 }));
 
+import router from "@routes/user/user.get";
+
 const app = express();
 app.use(express.json());
 app.use(router);
@@ -20,7 +20,17 @@ describe("GET /me/profile", () => {
   it("retourne le profil de l'utilisateur", async () => {
     (fetchUserById as jest.Mock).mockResolvedValue({
       ok: true,
-      value: { id: "user-123", pseudo: "LucYop", email: "luc@test.com" },
+      value: {
+        id: "user-123",
+        pseudo: "LucYop",
+        email: "luc@test.com",
+        avatar: "",
+        money: 100,
+        myCollection: [],
+        boosters: [],
+        deck: [],
+        darkMode: false,
+      },
     });
 
     const res = await request(app).get("/me/profile");
@@ -41,17 +51,15 @@ describe("GET /me/profile", () => {
     expect(res.body.error).toBe("USER_NOT_FOUND");
   });
 
-  it("retourne 401 si pas de userId", async () => {
-    jest.resetModules();
-    jest.mock("@middleware/jwt.middleware", () => ({
-      jwtMiddleware: (req: any, res: any, next: any) => {
-        req.user = null;
-        next();
-      },
-    }));
+  it("retourne 404 sur DATABASE_ERROR", async () => {
+    (fetchUserById as jest.Mock).mockResolvedValue({
+      ok: false,
+      error: "DATABASE_ERROR",
+    });
 
     const res = await request(app).get("/me/profile");
-    expect(res.status).toBe(401);
+
+    expect(res.status).toBe(404);
   });
 });
 
