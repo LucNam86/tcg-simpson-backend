@@ -30,6 +30,9 @@ export const UserBoosterSchema = z.object({
   number: z.number(),
 });
 
+export const UserBoosterArraySchema = z.array(UserBoosterSchema);
+export type UserBoosters = z.infer<typeof UserBoosterArraySchema>;
+
 export const PublicUserSchema = z.object({
   id: z.string(),
   pseudo: z.string(),

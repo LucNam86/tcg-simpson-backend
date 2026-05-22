@@ -6,6 +6,6 @@ export interface SerieDocument extends Document {
 
 const serieSchema = new Schema({
   name: { type: String, required: true },
-});
+}, { toObject: { virtuals: true }, toJSON: { virtuals: true } });
 
 export const SerieModel = model<SerieDocument>("Serie", serieSchema);

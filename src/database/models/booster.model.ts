@@ -12,7 +12,6 @@ export interface BoosterDocument extends Document {
         value: number;
     }[];
 }
-
 const boosterSchema = new Schema({
     name: { type: String, required: true },
     price: { type: Number, required: true, default: 0 },
@@ -32,6 +31,5 @@ const boosterSchema = new Schema({
             { rarity: "Legendary", value: 5 },
         ],
     },
-});
-
+}, { toObject: { virtuals: true }, toJSON: { virtuals: true } });
 export const BoosterModel = model<BoosterDocument>("Booster", boosterSchema);

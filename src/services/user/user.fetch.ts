@@ -3,9 +3,8 @@ import {
   findById,findByIdWithPopulate
 } from "@database/methods/user";
 
-import {PublicUserSchema, PublicUser } from "@shared/Schemas/user.schema";
+import {PublicUserSchema, PublicUser,UserBoosterArraySchema, UserBoosters } from "@shared/Schemas/user.schema";
 import {PublicCardArraySchema, PublicCardArray } from "@shared/Schemas/card.schema";
-import {PublicBoosterArraySchema, PublicBoosterArray } from "@shared/Schemas/booster.schema";
 
 type GetUserError = "USER_NOT_FOUND" | "DATABASE_ERROR" | "INVALID_USER";
 
@@ -43,7 +42,9 @@ export const fetchUserCollection = async (
 
 export const fetchUserBoosters = async (
   id: string,
-): Promise<Result<PublicBoosterArray, GetUserError>> => {
+): Promise<Result<UserBoosters, GetUserError>> => {
+    console.log("fetchUserBoosters called with id:", id);
+
   const result = await findByIdWithPopulate(id);
 
   if (!result.ok) return err("DATABASE_ERROR");
@@ -51,7 +52,7 @@ export const fetchUserBoosters = async (
 
   const obj = result.value.toObject({ virtuals: true });
   console.log("boosters:", JSON.stringify(obj.boosters, null, 2));
-  const parsed = PublicBoosterArraySchema.safeParse(obj.boosters);
+  const parsed = UserBoosterArraySchema.safeParse(obj.boosters);
   if (!parsed.success) return err("INVALID_USER");
 
   return ok(parsed.data);

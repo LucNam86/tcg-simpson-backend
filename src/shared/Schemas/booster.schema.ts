@@ -2,6 +2,7 @@ import { z } from 'zod';
 import {PublicCardSchema} from "@shared/Schemas/card.schema";
 
 export const PublicBoosterSchema = z.object({
+  id: z.string(),
   name: z.string(),
   price : z.number(),
   slug : z.string(),
@@ -12,6 +13,7 @@ export const PublicBoosterSchema = z.object({
     name: z.string(),
   }),
   probabilities: z.array(z.object({
+        id: z.string(),
     rarity: z.enum(["Common", "Rare", "Legendary"]),
     value: z.number(),
   }))
