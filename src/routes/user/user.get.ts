@@ -21,15 +21,15 @@ router.get("/me/profile", jwtMiddleware, async (req: AuthRequest, res) => {
     return res.json(result.value);
 });
 
-router.get("/me/collection", jwtMiddleware, async (req: AuthRequest, res) => {
-  const userId = req.user?.id;
-  if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
+// router.get("/me/collection", jwtMiddleware, async (req: AuthRequest, res) => {
+//   const userId = req.user?.id;
+//   if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
 
-  const result = await fetchUserCollection(userId);
-  if (!result.ok) return res.status(404).json({ error: result.error });
+//   const result = await fetchUserCollection(userId);
+//   if (!result.ok) return res.status(404).json({ error: result.error });
 
-  return res.json(result.value);
-});
+//   return res.json(result.value);
+// });
 
 
 router.get("/me/boosters", jwtMiddleware, async (req: AuthRequest, res) => {
@@ -37,6 +37,23 @@ router.get("/me/boosters", jwtMiddleware, async (req: AuthRequest, res) => {
   if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
 
   const result = await fetchUserBoosters(userId);
+  if (!result.ok) return res.status(404).json({ error: result.error });
+
+  return res.json(result.value);
+});
+
+router.get("/me/collection", jwtMiddleware, async (req: AuthRequest, res) => {
+  const userId = req.user?.id;
+  if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
+
+  const { rarity, type, serie } = req.query;
+
+  const result = await fetchUserCollection(userId , {
+    rarity: rarity as string,
+    type: type as string,
+    serie: serie as string,
+  });
+
   if (!result.ok) return res.status(404).json({ error: result.error });
 
   return res.json(result.value);

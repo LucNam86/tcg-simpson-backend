@@ -25,8 +25,9 @@ export const fetchUserById = async (
 
 export const fetchUserCollection = async (
   id: string,
+  filters: { rarity?: string; type?: string; serie?: string }
 ): Promise<Result<PublicCardArray, GetUserError>> => {
-  const result = await findByIdWithPopulate(id);
+  const result = await findByIdWithPopulate(id, filters);
 
   if (!result.ok) return err("DATABASE_ERROR");
   if (!result.value) return err("USER_NOT_FOUND");
