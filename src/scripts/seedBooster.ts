@@ -24,52 +24,45 @@ async function seedBooster() {
     await mongoose.connect(mongoUri);
     console.log("✅ Connecté avec succès.");
 
-    // 1. Nettoyage de la collection des Boosters
-    await BoosterModel.deleteMany({});
-
-    // 2. Préparation dynamique des boosters avec leurs vrais ObjectIds de Série
-    const preparedBoosters = [];
+    let boostersUpserted = 0;
 
     for (const booster of boostersData) {
-      // On cherche l'id de la série en BDD (ex: "Série 1")
+      // 1. On cherche l'id de la série en BDD (ex: "Série 1")
       const serieDoc = await SerieModel.findOne({ name: booster.serie });
       
       if (!serieDoc) {
+        console.warn(`⚠️ Série "${booster.serie}" introuvable. Booster "${booster.name}" ignoré.`);
         continue; 
       }
 
-      // On crée l'objet final prêt pour Mongoose
-      preparedBoosters.push({
+      // 2. Récupération dynamique des ObjectIds des cartes correspondantes à cette série
+      // On le fait avant l'upsert pour injecter directement le tableau complet
+      const matchingCards = await CardModel.find({ "serie.id_serie": serieDoc._id }).select("_id");
+      const cardIds = matchingCards.map(card => card._id);
+
+      // 3. Préparation de l'objet final prêt pour Mongoose
+      const preparedBooster = {
         name: booster.name,
         price: booster.price,
         slug: booster.slug,
         quantity: booster.quantity,
-        cards: [],          // Initialisé à vide au début
-        serie: serieDoc._id // 👈 On injecte le vrai ObjectId de la série ici !
-      });
-    }
+        cards: cardIds, // Injecté directement ici !
+        serie: serieDoc._id
+      };
 
-    // 3. Insertion de tous les boosters configurés
-    await BoosterModel.insertMany(preparedBoosters);
-
-    for (const booster of preparedBoosters) {
-      // Vu qu'on a déjà l'id de la série dans l'objet, on cherche directement les cartes correspondantes
-      const matchingCards = await CardModel.find({ "serie.id_serie": booster.serie }).select("_id");
-      const cardIds = matchingCards.map(card => card._id);
-      
-      if (cardIds.length === 0) {
-        continue;
-      }
-
-      // Injection des cartes dans le tableau cards
-      await BoosterModel.updateOne(
-        { name: booster.name }, 
-        { $set: { cards: cardIds } }
+      // 🎯 L'upsert : On cherche par SLUG. Si trouvé, on update. Sinon, on crée.
+      await BoosterModel.findOneAndUpdate(
+        { name: booster.name },
+        { $set: preparedBooster },
+        { upsert: true, new: true }
       );
 
+      boostersUpserted++;
     }
 
-    console.log("🚀 TOUS LES BOOSTERS ONT ÉTÉ TRAITÉS, ENREGISTRÉS ET PEUPLÉS !");
+
+    console.log("🚀 TOUS LES BOOSTERS ONT ÉTÉ SYNCHRONISÉS !");
+
 
     process.exit(0);
   } catch (error) {
