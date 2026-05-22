@@ -1,4 +1,9 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, Types } from "mongoose";
+
+export interface BoosterEntry {
+  booster: Types.ObjectId;
+  number: number;
+}
 
 export interface UserDocument extends Document {
   pseudo: string;
@@ -6,11 +11,12 @@ export interface UserDocument extends Document {
   avatar: string;
   passwordHash: string;
   money: number;
-  myCollection: { type: Schema.Types.ObjectId, ref: "Card", default: [] };
-  boosters: string[];
-  deck: { type: Schema.Types.ObjectId, ref: "Card", default: [] };
+  myCollection: Types.ObjectId[];
+  boosters: BoosterEntry[];
+  decks: Types.ObjectId[];
   darkMode: boolean;
 }
+
 
 const userSchema = new Schema({
   pseudo: { type: String, required: true },
@@ -19,8 +25,11 @@ const userSchema = new Schema({
   passwordHash: { type: String, required: true },
   money: { type: Number, default: 0 },
   myCollection: [{ type: Schema.Types.ObjectId, ref: "Card", default: [] }],
-  boosters: { type: [String], default: [] },
-  deck: [{ type: Schema.Types.ObjectId, ref: "Card", default: [] }],
+  boosters: [{
+  booster: { type: Schema.Types.ObjectId, ref: "Booster", required: true },
+  number: { type: Number, required: true, default: 1 },
+}],
+  decks: [{ type: Schema.Types.ObjectId, ref: "Card", default: [] }],
   darkMode: { type: Boolean, default: false },
 });
 

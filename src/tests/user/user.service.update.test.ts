@@ -20,7 +20,7 @@ const mockUpdatedUser = {
   money: 100,
   myCollection: [],
   boosters: [],
-  deck: [],
+  decks: [],
   darkMode: false,
 };
 

@@ -1,20 +1,32 @@
 import { Result, ok, err } from "@shared/Result";
-import {findById} from "@database/methods/booster/booster.findById";
-import {PublicBoosterSchema } from "@shared/Schemas/booster.schema";
-
-
+import {findById, find} from "@database/methods/booster";
+import {PublicBoosterSchema,PublicBoosterArraySchema,PublicBoosterArray,PublicBooster } from "@shared/Schemas/booster.schema";
 
 type GetBoosterError = "DATABASE_ERROR" | "UNKNOWN_BOOSTER" | "INVALID_BOOSTER";
 
 export const fetchBoosterById = async (
   id: string,
-): Promise<Result<PublicBoosterSchema, GetBoosterError>> => {
+): Promise<Result<PublicBooster, GetBoosterError>> => {
   const result = await findById(id);
 
   if (!result.ok) return err("DATABASE_ERROR");
   if (!result.value) return err("UNKNOWN_BOOSTER");
 
   const parsed = PublicBoosterSchema.safeParse(result.value.toObject({ virtuals: true }));
+  if (!parsed.success) return err("INVALID_BOOSTER");
+
+  return ok(parsed.data);
+};
+
+export const fetchBoosters = async (
+): Promise<Result<PublicBoosterArray, GetBoosterError>> => {
+  const result = await find();
+
+  if (!result.ok) return err("DATABASE_ERROR");
+  if (!result.value) return err("UNKNOWN_BOOSTER");
+
+  const parsed = PublicBoosterArraySchema.safeParse(result.value.map((b) => b.toObject({ virtuals: true })));
+  console.log("Parsed boosters:", parsed);
   if (!parsed.success) return err("INVALID_BOOSTER");
 
   return ok(parsed.data);

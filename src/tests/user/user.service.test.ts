@@ -42,7 +42,7 @@ describe('registerUser', () => {
       expect(result.value.money).toBe(100);
       expect(result.value.avatar).toBe('');
       expect(result.value.myCollection).toEqual([]);
-      expect(result.value.deck).toEqual([]);
+      expect(result.value.decks).toEqual([]);
       expect(result.value.darkMode).toBe(false);
     }
   });
@@ -86,7 +86,7 @@ describe('registerUser', () => {
     const savedUser = mockSave.mock.calls[0][0];
     expect(savedUser.money).toBe(100);
     expect(savedUser.myCollection).toEqual([]);
-    expect(savedUser.deck).toEqual([]);
+    expect(savedUser.decks).toEqual([]);
     expect(savedUser.darkMode).toBe(false);
     expect(savedUser.avatar).toBe('');
   });

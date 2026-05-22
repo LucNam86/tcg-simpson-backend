@@ -1,5 +1,5 @@
 import { fetchUserById, fetchUserCollection } from "@services/user/user.fetch";
-import { findById, findByIdWithCollectionsAndDeck } from "@database/methods/user";
+import { findById, findByIdWithPopulate } from "@database/methods/user";
 
 jest.mock("@database/methods/user");
 
@@ -42,7 +42,7 @@ const mockUser = {
   money: 100,
   myCollection: [],
   boosters: [],
-  deck: [],
+  decks: [],
   darkMode: false,
 };
 
@@ -94,7 +94,7 @@ describe("fetchUserById", () => {
 
 describe("fetchUserCollection", () => {
   it("retourne la collection de l'utilisateur", async () => {
-    (findByIdWithCollectionsAndDeck as jest.Mock).mockResolvedValue({
+    (findByIdWithPopulate as jest.Mock).mockResolvedValue({
       ok: true,
       value: mockToObject({ myCollection: [mockCard] }),
     });
@@ -109,7 +109,7 @@ describe("fetchUserCollection", () => {
   });
 
   it("retourne une collection vide", async () => {
-    (findByIdWithCollectionsAndDeck as jest.Mock).mockResolvedValue({
+    (findByIdWithPopulate as jest.Mock).mockResolvedValue({
       ok: true,
       value: mockToObject({ myCollection: [] }),
     });
@@ -121,7 +121,7 @@ describe("fetchUserCollection", () => {
   });
 
   it("retourne DATABASE_ERROR si la DB échoue", async () => {
-    (findByIdWithCollectionsAndDeck as jest.Mock).mockResolvedValue({ ok: false });
+    (findByIdWithPopulate as jest.Mock).mockResolvedValue({ ok: false });
 
     const result = await fetchUserCollection("user-123");
 
@@ -130,7 +130,7 @@ describe("fetchUserCollection", () => {
   });
 
   it("retourne USER_NOT_FOUND si l'utilisateur est null", async () => {
-    (findByIdWithCollectionsAndDeck as jest.Mock).mockResolvedValue({
+    (findByIdWithPopulate as jest.Mock).mockResolvedValue({
       ok: true,
       value: null,
     });

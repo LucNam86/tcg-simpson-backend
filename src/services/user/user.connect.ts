@@ -28,6 +28,6 @@ export const connectUser = async (
     money: existing.value.money,
     myCollection: existing.value.myCollection,
     boosters: existing.value.boosters,
-    deck: existing.value.deck,
+    decks: existing.value.decks,
     darkMode: existing.value.darkMode });
 };

@@ -1,1 +1,1 @@
-export { fetchBoosterById } from './booster.fetch';
+export { fetchBoosterById,fetchBoosters } from './booster.fetch';

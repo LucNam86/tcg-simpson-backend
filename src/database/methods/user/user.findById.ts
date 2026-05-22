@@ -13,7 +13,7 @@ export const findById = async (
   }
 };
 
-export const findByIdWithCollectionsAndDeck = async (
+export const findByIdWithPopulate = async (
  id: string,
 ): Promise<Result<any, string>> => {
   try {
@@ -27,16 +27,23 @@ export const findByIdWithCollectionsAndDeck = async (
     ]
   })
   .populate({
-    path: "deck",
+    path: "decks",
     populate: [
       { path: "family" },
       { path: "affinity" },
       { path: "serie.id_serie" },
     ]
-  });
+  }).populate({
+  path: "boosters.booster",
+  populate: [
+    { path: "cards" },
+    { path: "serie" },
+  ]
+  })
     return ok(user);
+    console.log("findByIdWithPopulate result:", user);
   } catch (e) {
-    console.error("findByIdWithCollectionsAndDeck error:", e);
+    console.error("findByIdWithPopulate error:", e);
     return err("Erreur lors de la recherche par ID avec collections et deck");
   }
 };
