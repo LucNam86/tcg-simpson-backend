@@ -1,13 +1,9 @@
 import { Result, ok, err } from "@shared/Result";
-import {
-  findByEmail,
-} from "@database/methods/user";
+import { findByEmail } from "@database/methods/user";
 import bcrypt from "bcrypt";
 import { ConnectInput, PublicUser } from "@shared/Schemas/user.schema";
 
-
 type ConnectError = "CREDENTIALS_UNKNOWN" | "WRONG_CREDENTIALS";
-
 
 export const connectUser = async (
   input: ConnectInput,
@@ -20,7 +16,7 @@ export const connectUser = async (
   );
   if (!compareHashedPassword) return err("WRONG_CREDENTIALS");
 
-  return ok({     
+  return ok({
     id: existing.value.id,
     pseudo: existing.value.pseudo,
     email: existing.value.email,
@@ -29,5 +25,7 @@ export const connectUser = async (
     myCollection: existing.value.myCollection,
     boosters: existing.value.boosters,
     decks: existing.value.decks,
-    darkMode: existing.value.darkMode });
+    friends: existing.value.friends || [],
+    darkMode: existing.value.darkMode,
+  });
 };
