@@ -3,6 +3,7 @@ import {
   findById,
   findByIdWithPopulate,
   fetchFriends,
+  searchByPseudo,
 } from "@database/methods/user";
 
 import {
@@ -87,4 +88,13 @@ export const fetchUserFriends = async (
   if (!parsed.success) return err("INVALID_USER");
 
   return ok(parsed.data);
+};
+export const fetchPseudosAutocomplete = async (
+  query: string,
+  excludeUserId: string,
+): Promise<Result<PublicFriend[], GetUserError>> => {
+  const result = await searchByPseudo(query, excludeUserId);
+  if (!result.ok) return err("DATABASE_ERROR");
+
+  return ok(result.value as PublicFriend[]);
 };

@@ -5,6 +5,7 @@ import {
   fetchUserCollection,
   fetchUserBoosters,
   fetchUserFriends,
+  fetchPseudosAutocomplete,
 } from "@services/user";
 import { jwtMiddleware, AuthRequest } from "@middleware/jwt.middleware";
 
@@ -70,5 +71,16 @@ router.get("/me/friends", jwtMiddleware, async (req: AuthRequest, res) => {
 
   return res.json(result.value);
 });
+router.get("/search", jwtMiddleware, async (req: AuthRequest, res) => {
+  const userId = req.user?.id;
+  if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
 
+  const { q } = req.query;
+  if (!q || typeof q !== "string") return res.json([]);
+
+  const result = await fetchPseudosAutocomplete(q, userId);
+  if (!result.ok) return res.status(500).json({ error: result.error });
+
+  return res.json(result.value);
+});
 export default router;

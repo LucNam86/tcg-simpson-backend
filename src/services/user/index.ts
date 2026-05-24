@@ -5,6 +5,7 @@ export {
   fetchUserCollection,
   fetchUserBoosters,
   fetchUserFriends,
+  fetchPseudosAutocomplete,
 } from "./user.fetch";
 export { updateUser } from "./user.update";
 export { addUserFriend } from "./user.friend";
