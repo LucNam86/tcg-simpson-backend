@@ -4,8 +4,9 @@ import {
   findByIdWithPopulate,
   fetchFriends,
   searchByPseudo,
+  fetchDecks,
 } from "@database/methods/user";
-
+import { DeckDocument } from "@database/models/deck.model";
 import {
   PublicUserSchema,
   PublicUser,
@@ -68,9 +69,10 @@ export const fetchUserCollection = async (
 
   if (filters.serie) {
     collection = collection.filter((card: any) => {
-      return card.serie?.id_serie.name.toLowerCase() === filters.serie?.toLowerCase()
-    }
-    );
+      return (
+        card.serie?.id_serie.name.toLowerCase() === filters.serie?.toLowerCase()
+      );
+    });
   }
 
   const parsed = PublicCardArraySchema.safeParse(collection);
@@ -118,4 +120,19 @@ export const fetchPseudosAutocomplete = async (
   if (!result.ok) return err("DATABASE_ERROR");
 
   return ok(result.value as PublicFriend[]);
+};
+
+type FetchDecksError = "USER_NOT_FOUND" | "DATABASE_ERROR";
+
+export const fetchUserDecks = async (
+  userId: string,
+): Promise<Result<DeckDocument[], FetchDecksError>> => {
+  const result = await fetchDecks(userId);
+
+  if (!result.ok) {
+    if (result.error === "USER_NOT_FOUND") return err("USER_NOT_FOUND");
+    return err("DATABASE_ERROR");
+  }
+
+  return ok(result.value);
 };

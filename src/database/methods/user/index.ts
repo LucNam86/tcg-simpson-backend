@@ -7,3 +7,4 @@ export { save } from "./user.save";
 export { updateById } from "./user.updateById";
 export { addFriendById } from "./user.addFriendById";
 export { searchByPseudo } from "./user.searchByPseudo";
+export { fetchDecks } from "./user.fetchDecks";
