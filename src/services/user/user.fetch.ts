@@ -17,6 +17,7 @@ import {
   PublicCardArraySchema,
   PublicCardArray,
 } from "@shared/Schemas/card.schema";
+import { SerieModel } from "@database/models/serie.model";
 
 type GetUserError = "USER_NOT_FOUND" | "DATABASE_ERROR" | "INVALID_USER";
 
@@ -45,14 +46,34 @@ export const fetchUserCollection = async (
   id: string,
   filters: { rarity?: string; type?: string; serie?: string },
 ): Promise<Result<PublicCardArray, GetUserError>> => {
-  const result = await findByIdWithPopulate(id, filters);
+  const result = await findByIdWithPopulate(id);
 
   if (!result.ok) return err("DATABASE_ERROR");
   if (!result.value) return err("USER_NOT_FOUND");
 
   const obj = result.value.toObject({ virtuals: true });
+  let collection = obj.myCollection || [];
 
-  const parsed = PublicCardArraySchema.safeParse(obj.myCollection);
+  if (filters.rarity) {
+    collection = collection.filter(
+      (card: any) => card.rarity === filters.rarity,
+    );
+  }
+
+  if (filters.type) {
+    collection = collection.filter(
+      (card: any) => card.type?.toLowerCase() === filters.type?.toLowerCase(),
+    );
+  }
+
+  if (filters.serie) {
+    collection = collection.filter((card: any) => {
+      return card.serie?.id_serie.name.toLowerCase() === filters.serie?.toLowerCase()
+    }
+    );
+  }
+
+  const parsed = PublicCardArraySchema.safeParse(collection);
   if (!parsed.success) return err("INVALID_USER");
 
   return ok(parsed.data);
