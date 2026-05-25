@@ -3,6 +3,7 @@ import { UserModel } from "@database/models/user.model";
 
 type DbResultError = "DATABASE_ERROR";
 
+
 export const removeFriendById = async (
   userId: string,
   friendId: string,

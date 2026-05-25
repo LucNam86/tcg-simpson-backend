@@ -6,6 +6,7 @@ import {
 } from "@database/methods/user";
 
 type AddFriendError = "USER_NOT_FOUND" | "CANT_ADD_SELF" | "DATABASE_ERROR";
+type RemoveFriendError = "USER_NOT_FOUND" | "DATABASE_ERROR";
 
 export const addUserFriend = async (
   userId: string,
@@ -35,14 +36,26 @@ export const addUserFriend = async (
 
   return ok(true);
 };
-type RemoveFriendError = "DATABASE_ERROR";
 
-export const removeUserFriend = async (
+export const removeUserFriendByPseudo = async (
   userId: string,
-  friendId: string,
+  friendPseudo: string,
 ): Promise<Result<boolean, RemoveFriendError>> => {
-  const removeResult = await removeFriendById(userId, friendId);
+  const friendResult = await findByPseudo(friendPseudo);
 
+  if (!friendResult.ok) return err("DATABASE_ERROR");
+  if (!friendResult.value) return err("USER_NOT_FOUND");
+
+  const friend = friendResult.value;
+  const friendId = friend._id
+    ? String(friend._id)
+    : friend.id
+      ? String(friend.id)
+      : null;
+
+  if (!friendId) return err("DATABASE_ERROR");
+
+  const removeResult = await removeFriendById(userId, friendId);
   if (!removeResult.ok) return err("DATABASE_ERROR");
 
   return ok(true);

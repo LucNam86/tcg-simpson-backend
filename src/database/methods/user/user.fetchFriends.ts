@@ -7,7 +7,7 @@ export const fetchFriends = async (
   try {
     const user = await UserModel.findById(userId).populate(
       "friends",
-      "pseudo avatar",
+      "_id pseudo avatar",
     );
 
     if (!user) return err("USER_NOT_FOUND");
