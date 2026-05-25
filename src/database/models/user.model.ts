@@ -14,22 +14,25 @@ export interface UserDocument extends Document {
   myCollection: Types.ObjectId[];
   boosters: BoosterEntry[];
   decks: Types.ObjectId[];
+  friends: Types.ObjectId[];
   darkMode: boolean;
 }
 
-
 const userSchema = new Schema({
-  pseudo: { type: String, required: true },
+  pseudo: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   avatar: { type: String, default: "" },
   passwordHash: { type: String, required: true },
   money: { type: Number, default: 0 },
   myCollection: [{ type: Schema.Types.ObjectId, ref: "Card", default: [] }],
-  boosters: [{
-  booster: { type: Schema.Types.ObjectId, ref: "Booster", required: true },
-  number: { type: Number, required: true, default: 1 },
-}],
+  boosters: [
+    {
+      booster: { type: Schema.Types.ObjectId, ref: "Booster", required: true },
+      number: { type: Number, required: true, default: 1 },
+    },
+  ],
   decks: [{ type: Schema.Types.ObjectId, ref: "Card", default: [] }],
+  friends: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
   darkMode: { type: Boolean, default: false },
 });
 

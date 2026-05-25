@@ -1,23 +1,25 @@
 // services/user.service.ts
 import { Result, ok, err } from "@shared/Result";
-import {
-  findByEmail,
-  save,
-} from "@database/methods/user";
+import { findByEmail, findByPseudo, save } from "@database/methods/user";
 import bcrypt from "bcrypt";
-import { RegisterInput,PublicUser  } from "@shared/Schemas/user.schema";
+import { RegisterInput, PublicUser } from "@shared/Schemas/user.schema";
 import { env } from "@config/env";
 
-
-type RegisterError = "EMAIL_TAKEN" | "USER_CREATION_FAILED";
+type RegisterError = "EMAIL_TAKEN" | "PSEUDO_TAKEN" | "USER_CREATION_FAILED";
 
 export const registerUser = async (
   input: RegisterInput,
 ): Promise<Result<PublicUser, RegisterError>> => {
-  const existing = await findByEmail(input.email);
-  if (existing.ok && existing.value) return err("EMAIL_TAKEN");
+  const existingEmail = await findByEmail(input.email);
+  if (existingEmail.ok && existingEmail.value) return err("EMAIL_TAKEN");
 
-  const passwordHash = await bcrypt.hash(input.password, env.BCRYPT_SALT_ROUNDS);
+  const existingPseudo = await findByPseudo(input.pseudo);
+  if (existingPseudo.ok && existingPseudo.value) return err("PSEUDO_TAKEN");
+
+  const passwordHash = await bcrypt.hash(
+    input.password,
+    env.BCRYPT_SALT_ROUNDS,
+  );
 
   const user = {
     pseudo: input.pseudo,
@@ -26,7 +28,7 @@ export const registerUser = async (
     avatar: "",
     money: 100,
     myCollection: [],
-    boosters : [],
+    boosters: [],
     decks: [],
     darkMode: false,
   };
@@ -34,14 +36,16 @@ export const registerUser = async (
   const saved = await save(user);
   if (!saved.ok) return err("USER_CREATION_FAILED");
 
-  return ok({     
+  return ok({
     id: saved.value,
     pseudo: user.pseudo,
     email: user.email,
     avatar: user.avatar,
     money: user.money,
     myCollection: user.myCollection,
-    boosters : user.boosters,
+    boosters: user.boosters,
     decks: user.decks,
-    darkMode: user.darkMode });
+    friends: [],
+    darkMode: user.darkMode,
+  });
 };

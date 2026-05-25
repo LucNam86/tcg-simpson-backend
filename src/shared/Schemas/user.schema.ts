@@ -1,7 +1,7 @@
 // shared/schemas/user.schemas.ts
-import { z } from 'zod';
-import {PublicCardSchema} from "@shared/Schemas/card.schema";
-import {PublicBoosterSchema} from "@shared/Schemas/booster.schema";
+import { z } from "zod";
+import { PublicCardSchema } from "@shared/Schemas/card.schema";
+import { PublicBoosterSchema } from "@shared/Schemas/booster.schema";
 
 export const RegisterSchema = z.object({
   pseudo: z.string().min(3).max(20),
@@ -18,10 +18,12 @@ export const ConnectSchema = z.object({
 
 export type ConnectInput = z.infer<typeof ConnectSchema>;
 
-export const UpdateUserSchema = z.object({
-  pseudo: z.string().min(3).max(20).optional(),
-  password: z.string().min(8).max(72).optional(),
-}).strict();
+export const UpdateUserSchema = z
+  .object({
+    pseudo: z.string().min(3).max(20).optional(),
+    password: z.string().min(8).max(72).optional(),
+  })
+  .strict();
 
 export type UpdateInput = z.infer<typeof UpdateUserSchema>;
 
@@ -33,6 +35,14 @@ export const UserBoosterSchema = z.object({
 export const UserBoosterArraySchema = z.array(UserBoosterSchema);
 export type UserBoosters = z.infer<typeof UserBoosterArraySchema>;
 
+export const PublicFriendSchema = z.object({
+  pseudo: z.string(),
+  avatar: z.string(),
+});
+
+export const PublicFriendArraySchema = z.array(PublicFriendSchema);
+export type PublicFriend = z.infer<typeof PublicFriendSchema>;
+
 export const PublicUserSchema = z.object({
   id: z.string(),
   pseudo: z.string(),
@@ -40,9 +50,10 @@ export const PublicUserSchema = z.object({
   avatar: z.string(),
   money: z.number(),
   myCollection: z.array(PublicCardSchema),
-  boosters : z.array(UserBoosterSchema),
+  boosters: z.array(UserBoosterSchema),
   decks: z.array(PublicCardSchema),
   darkMode: z.boolean(),
+  friends: z.array(PublicFriendSchema).default([]),
 });
 
 export type PublicUser = z.infer<typeof PublicUserSchema>;
