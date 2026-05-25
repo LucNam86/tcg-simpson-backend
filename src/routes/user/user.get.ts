@@ -42,9 +42,9 @@ router.get("/me/collection", jwtMiddleware, async (req: AuthRequest, res) => {
   const { rarity, type, serie } = req.query;
 
   const result = await fetchUserCollection(userId, {
-    rarity: rarity as string,
-    type: type as string,
-    serie: serie as string,
+    rarity: rarity as string[],
+    type: type as string[],
+    serie: serie as string[],
   });
 
   if (!result.ok) return res.status(404).json({ error: result.error });
