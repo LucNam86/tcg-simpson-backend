@@ -18,15 +18,8 @@ export const findById = async (
 };
 
 export const findByIdWithPopulate = async (
- id: string,
- filters?: { rarity?: string; type?: string; serie?: string }
-): Promise<Result<any, string>> => {
+ id: string): Promise<Result<any, string>> => {
   try {
-
-  const matchFilters: any = {};
-      if (filters?.rarity) matchFilters.rarity = filters.rarity;
-      if (filters?.type) matchFilters.type = filters.type;
-      if (filters?.serie) matchFilters.serie = filters.serie;
 
   const user = await UserModel.findById(id)
   .populate({
