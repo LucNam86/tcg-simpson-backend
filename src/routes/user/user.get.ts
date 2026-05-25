@@ -6,7 +6,9 @@ import {
   fetchUserBoosters,
   fetchUserFriends,
   fetchPseudosAutocomplete,
+  fetchUserDecks,
 } from "@services/user";
+
 import { jwtMiddleware, AuthRequest } from "@middleware/jwt.middleware";
 
 const router = Router();
@@ -62,7 +64,6 @@ router.get("/me/friends", jwtMiddleware, async (req: AuthRequest, res) => {
   return res.json(result.value);
 });
 
-
 router.get("/search", jwtMiddleware, async (req: AuthRequest, res) => {
   const userId = req.user?.id;
   if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
@@ -72,6 +73,22 @@ router.get("/search", jwtMiddleware, async (req: AuthRequest, res) => {
 
   const result = await fetchPseudosAutocomplete(q, userId);
   if (!result.ok) return res.status(500).json({ error: result.error });
+
+  return res.json(result.value);
+});
+
+router.get("/me/decks", jwtMiddleware, async (req: AuthRequest, res) => {
+  const userId = req.user?.id;
+  if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
+
+  const result = await fetchUserDecks(userId);
+
+  if (!result.ok) {
+    if (result.error === "USER_NOT_FOUND") {
+      return res.status(404).json({ error: result.error });
+    }
+    return res.status(500).json({ error: "SERVER_ERROR" });
+  }
 
   return res.json(result.value);
 });

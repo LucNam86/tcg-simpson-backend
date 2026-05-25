@@ -6,6 +6,7 @@ export {
   fetchUserBoosters,
   fetchUserFriends,
   fetchPseudosAutocomplete,
+  fetchUserDecks,
 } from "./user.fetch";
 export { updateUser } from "./user.update";
 export { addUserFriend, removeUserFriendByPseudo } from "./user.friend";
