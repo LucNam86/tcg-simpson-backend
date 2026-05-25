@@ -31,7 +31,7 @@ const userSchema = new Schema({
       number: { type: Number, required: true, default: 1 },
     },
   ],
-  decks: [{ type: Schema.Types.ObjectId, ref: "Card", default: [] }],
+  decks: [{ type: Schema.Types.ObjectId, ref: "Deck", default: [] }],
   friends: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
   darkMode: { type: Boolean, default: false },
 });
