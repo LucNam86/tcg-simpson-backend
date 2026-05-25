@@ -5,22 +5,28 @@ import {
   fetchFriends,
   searchByPseudo,
   fetchDecks,
+  updateById,
 } from "@database/methods/user";
 import { DeckDocument } from "@database/models/deck.model";
+import { UserDocument } from "@database/models/user.model";
+import bcrypt from "bcrypt";
 import {
   PublicUserSchema,
   PublicUser,
   UserBoosterArraySchema,
   UserBoosters,
   PublicFriendArraySchema,
+  UpdateInput,
 } from "@shared/Schemas/user.schema";
 import {
   PublicCardArraySchema,
   PublicCardArray,
 } from "@shared/Schemas/card.schema";
-import { SerieModel } from "@database/models/serie.model";
+import { env } from "@config/env";
 
 type GetUserError = "USER_NOT_FOUND" | "DATABASE_ERROR" | "INVALID_USER";
+type UpdateUserError = "USER_NOT_FOUND" | "DATABASE_ERROR" | "INVALID_USER";
+type FetchDecksError = "USER_NOT_FOUND" | "DATABASE_ERROR";
 
 export interface PublicFriend {
   pseudo: string;
@@ -70,7 +76,8 @@ export const fetchUserCollection = async (
   if (filters.serie) {
     collection = collection.filter((card: any) => {
       return (
-        card.serie?.id_serie.name.toLowerCase() === filters.serie?.toLowerCase()
+        card.serie?.id_serie?.name?.toLowerCase() ===
+        filters.serie?.toLowerCase()
       );
     });
   }
@@ -84,8 +91,6 @@ export const fetchUserCollection = async (
 export const fetchUserBoosters = async (
   id: string,
 ): Promise<Result<UserBoosters, GetUserError>> => {
-  console.log("fetchUserBoosters called with id:", id);
-
   const result = await findByIdWithPopulate(id);
 
   if (!result.ok) return err("DATABASE_ERROR");
@@ -112,6 +117,7 @@ export const fetchUserFriends = async (
 
   return ok(parsed.data);
 };
+
 export const fetchPseudosAutocomplete = async (
   query: string,
   excludeUserId: string,
@@ -121,8 +127,6 @@ export const fetchPseudosAutocomplete = async (
 
   return ok(result.value as PublicFriend[]);
 };
-
-type FetchDecksError = "USER_NOT_FOUND" | "DATABASE_ERROR";
 
 export const fetchUserDecks = async (
   userId: string,
@@ -135,4 +139,31 @@ export const fetchUserDecks = async (
   }
 
   return ok(result.value);
+};
+
+export const updateUser = async (
+  id: string,
+  input: UpdateInput,
+): Promise<Result<PublicUser, UpdateUserError>> => {
+  const updateData: Partial<UserDocument> = {};
+
+  if (input.pseudo) updateData.pseudo = input.pseudo;
+  if (input.password) {
+    updateData.passwordHash = await bcrypt.hash(
+      input.password,
+      env.BCRYPT_SALT_ROUNDS,
+    );
+  }
+
+  const result = await updateById(id, updateData);
+
+  if (!result.ok) return err("DATABASE_ERROR");
+  if (!result.value) return err("USER_NOT_FOUND");
+
+  const parsed = PublicUserSchema.safeParse(
+    result.value.toObject({ virtuals: true }),
+  );
+  if (!parsed.success) return err("INVALID_USER");
+
+  return ok(parsed.data);
 };

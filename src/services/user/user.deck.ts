@@ -22,25 +22,30 @@ export const createDeck = async (
     const user = await UserModel.findById(input.userId);
     if (!user) return err("USER_NOT_FOUND");
 
-    if (user.decks.length >= 3) {
+    // Vérification de la limite de decks
+    if (user.decks && user.decks.length >= 3) {
       return err("MAX_DECKS_REACHED");
     }
 
+    // Vérification du nombre de cartes
     if (input.cards.length !== 10) {
       return err("INVALID_CARD_COUNT");
     }
 
+    // Création du nouveau deck
     const newDeck = new DeckModel({
       name: input.name || "Mon Super Deck",
       cards: input.cards.map((id) => new Types.ObjectId(id)),
       user: new Types.ObjectId(input.userId),
-      isActive: user.decks.length === 0,
+      isActive: !user.decks || user.decks.length === 0,
     });
 
     await newDeck.save();
 
-    user.decks.push(newDeck._id as Types.ObjectId);
-    await user.save();
+    await UserModel.updateOne(
+      { _id: input.userId },
+      { $push: { decks: newDeck._id } },
+    );
 
     return ok(newDeck);
   } catch (error) {
