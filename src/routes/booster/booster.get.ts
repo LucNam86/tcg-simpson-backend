@@ -9,7 +9,6 @@
 
  router.get("/", jwtMiddleware, async (req: AuthRequest, res) => {
      const userId = req.user?.id;
-     console.log("User ID from JWT:", userId); // Debug log to check the user ID
 
      if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
 

@@ -4,7 +4,7 @@ import { findByEmail, findByPseudo, save } from "@database/methods/user";
 import {find} from "@database/methods/booster";
 import bcrypt from "bcrypt";
 import { RegisterInput, PublicUser } from "@shared/Schemas/user.schema";
-import { mapUserBoosters } from "@database/mapper/booster.mapper";
+import { mapUserBoosters,mapBoostersFromFind } from "@database/mapper/booster.mapper";
 import { env } from "@config/env";
 
 type RegisterError = "EMAIL_TAKEN" | "PSEUDO_TAKEN" | "USER_CREATION_FAILED" | "DATABASE_ERROR";
@@ -12,10 +12,13 @@ type RegisterError = "EMAIL_TAKEN" | "PSEUDO_TAKEN" | "USER_CREATION_FAILED" | "
 export const registerUser = async (
   input: RegisterInput,
 ): Promise<Result<PublicUser, RegisterError>> => {
+
   const existingEmail = await findByEmail(input.email);
+
   if (existingEmail.ok && existingEmail.value) return err("EMAIL_TAKEN");
 
   const existingPseudo = await findByPseudo(input.pseudo);
+
   if (existingPseudo.ok && existingPseudo.value) return err("PSEUDO_TAKEN");
 
   if (!existingEmail.ok) return err("DATABASE_ERROR");
@@ -26,6 +29,7 @@ export const registerUser = async (
   const boosters = await find();
   if (!boosters.ok) return err("DATABASE_ERROR");
 
+
   const user = {
     pseudo: input.pseudo,
     email: input.email.toLowerCase(),
@@ -33,7 +37,10 @@ export const registerUser = async (
     avatar: "",
     money: 100,
     myCollection: [],
-    boosters: mapUserBoosters(boosters.value),
+    boosters: boosters.value.map((booster) => ({
+      booster: booster._id,
+      number: 1,
+  })),
     decks: [],
     darkMode: false,
   };
@@ -48,7 +55,7 @@ export const registerUser = async (
     avatar: user.avatar,
     money: user.money,
     myCollection: user.myCollection,
-    boosters: user.boosters,
+    boosters: mapBoostersFromFind(boosters.value),
     decks: user.decks,
     friends: [],
     darkMode: user.darkMode,

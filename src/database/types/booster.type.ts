@@ -7,7 +7,6 @@ export type PopulatedSerie = { _id: Types.ObjectId; name: string };
 export type PopulatedFamily = { 
   _id: Types.ObjectId; 
   name: string; 
-  desc: string;
   description: string;
   bonus: { ATK: number; PV: number } 
 };
@@ -16,7 +15,6 @@ export type PopulatedFamily = {
 export type PopulatedAffinity = { 
   _id: Types.ObjectId; 
   name: string; 
-  desc: string;
   description: string;
   bonus: { ATK: number; PV: number } 
 };

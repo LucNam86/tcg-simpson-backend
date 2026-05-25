@@ -18,7 +18,7 @@ import {
   PublicCardArraySchema,
   PublicCardArray,
 } from "@shared/Schemas/card.schema";
-import { SerieModel } from "@database/models/serie.model";
+import { mapUserBoosters } from "@database/mapper/booster.mapper";
 
 type GetUserError = "USER_NOT_FOUND" | "DATABASE_ERROR" | "INVALID_USER";
 
@@ -81,22 +81,13 @@ export const fetchUserCollection = async (
   return ok(parsed.data);
 };
 
-export const fetchUserBoosters = async (
-  id: string,
-): Promise<Result<UserBoosters, GetUserError>> => {
-  console.log("fetchUserBoosters called with id:", id);
 
-  const result = await findByIdWithPopulate(id);
-
+export const fetchUserBoosters = async (userId: string): Promise<Result<UserBoosters, GetUserError>> => {
+  const result = await findByIdWithPopulate(userId); // méthode DB qui fetch le user
   if (!result.ok) return err("DATABASE_ERROR");
   if (!result.value) return err("USER_NOT_FOUND");
 
-  const obj = result.value.toObject({ virtuals: true });
-
-  const parsed = UserBoosterArraySchema.safeParse(obj.boosters);
-  if (!parsed.success) return err("INVALID_USER");
-
-  return ok(parsed.data);
+return ok(mapUserBoosters(result.value.boosters));
 };
 
 export const fetchUserFriends = async (

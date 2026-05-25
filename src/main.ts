@@ -1,3 +1,4 @@
+console.log("MAIN LOADED");
 import express from 'express';
 import mongoose from 'mongoose';
 import { env } from '@config/env';
@@ -5,7 +6,6 @@ import userRoutes from '@routes/user';
 import cardRoutes from '@routes/card';
 import boosterRoutes from '@routes/booster';
 import cors from 'cors';
-
 
 async function main() {
   await mongoose.connect(env.DATABASE_URL);
@@ -17,9 +17,15 @@ async function main() {
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
   app.use(express.json());
+  app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
   app.use('/users', userRoutes);
   app.use('/cards', cardRoutes);
   app.use('/boosters', boosterRoutes);
+
   app.listen(env.PORT, () =>
     console.log(`API up on :${env.PORT}`)
   );

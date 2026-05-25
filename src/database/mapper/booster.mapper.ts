@@ -4,7 +4,7 @@ import { PublicBooster } from "@shared/Schemas/booster.schema";
 import { PublicCard } from "@shared/Schemas/card.schema";
 import type { PopulatedBooster, PopulatedCard } from "@database/types/booster.type";
 
-const mapCard = (card: PopulatedCard): PublicCard => ({
+export const mapCard = (card: PopulatedCard): PublicCard => ({
   id: card._id.toString(),
   name: card.name,
   ATK: card.ATK,
@@ -24,7 +24,7 @@ const mapCard = (card: PopulatedCard): PublicCard => ({
   affinity: { id: card.affinity._id.toString(), name: card.affinity.name, description: card.affinity.description, bonus: card.affinity.bonus },
 });
 
-const mapBooster = (booster: PopulatedBooster): PublicBooster => ({
+export const mapBooster = (booster: PopulatedBooster): PublicBooster => ({
   id: booster._id.toString(),
   name: booster.name,
   price: booster.price,
@@ -39,5 +39,8 @@ const mapBooster = (booster: PopulatedBooster): PublicBooster => ({
   })),
 });
 
-export const mapUserBoosters = (boosters: PopulatedBooster[]) =>
+export const mapUserBoosters = (boosters: any[]) =>
+  boosters.map((entry) => ({ booster: mapBooster(entry.booster), number: entry.number }));
+
+export const mapBoostersFromFind = (boosters: PopulatedBooster[]) =>
   boosters.map((booster) => ({ booster: mapBooster(booster), number: 1 }));

@@ -14,10 +14,9 @@ export const find = async (): Promise<Result<PopulatedBooster[], string>> => {
           { path: "serie.id_serie" },
         ],
       })
-      .populate("serie")
-      .lean<PopulatedBooster[]>();
+      .populate("serie");
 
-    return ok(boosters);
+    return ok(boosters as unknown as PopulatedBooster[]);
   } catch (e) {
     console.error("find error:", e);
     return err("Erreur lors de la recherche de tous les boosters");

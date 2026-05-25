@@ -1,11 +1,12 @@
-// services/booster.service.ts
-
-import { findById } from "@database/methods/user";
-import { PopulatedBooster } from "@database/types/booster.type";
+// services/booster.open.ts
 import { Result, ok, err } from "@shared/Result";
-import { PublicCard } from "@shared/Schemas/card.schema";
+import { findByIdWithPopulate,saveCardsToCollection } from "@database/methods/user";
+import type { PublicCard } from "@shared/Schemas/card.schema";
+import type { UserBoosters } from "@shared/Schemas/user.schema";
+import { mapCard } from "@database/mapper/booster.mapper";
 
-type OpenBoosterError = "DATABASE_ERROR" | "USER_NOT_FOUND" | "NO_BOOSTER_AVAILABLE";
+
+type OpenBoosterError = "DATABASE_ERROR" | "USER_NOT_FOUND" | "NO_BOOSTER_AVAILABLE" | "BOOSTER_NOT_FOUND";
 
 const pickRarity = (probabilities: { rarity: "Common" | "Rare" | "Legendary"; value: number }[]) => {
   const roll = Math.random() * 100;
@@ -16,18 +17,16 @@ const pickRarity = (probabilities: { rarity: "Common" | "Rare" | "Legendary"; va
     if (roll < cumulative) return probability.rarity;
   }
 
-  return "Common"; // fallback
+  return "Common";
 };
 
-const pickCards = (cards: PublicCard[], probabilities: PopulatedBooster["probabilities"], count: number): PublicCard[] => {
+const pickCards = (cards: PublicCard[], probabilities: { rarity: "Common" | "Rare" | "Legendary"; value: number }[]): PublicCard[] => {
   const result: PublicCard[] = [];
 
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < 5; i++) {
     const rarity = pickRarity(probabilities);
     const cardsOfRarity = cards.filter((card) => card.rarity === rarity);
-    const fallback = cards; // si aucune carte de cette rareté
-
-    const pool = cardsOfRarity.length > 0 ? cardsOfRarity : fallback;
+    const pool = cardsOfRarity.length > 0 ? cardsOfRarity : cards;
     const picked = pool[Math.floor(Math.random() * pool.length)];
     result.push(picked);
   }
@@ -35,20 +34,25 @@ const pickCards = (cards: PublicCard[], probabilities: PopulatedBooster["probabi
   return result;
 };
 
-export const openBooster = async (userId: string): Promise<Result<PublicCard[], OpenBoosterError>> => {
-  const userResult = await findById(userId);
+// services/booster.open.ts
+export const openBooster = async (userId: string, boosterId: string): Promise<Result<PublicCard[], OpenBoosterError>> => {
+  const userResult = await findByIdWithPopulate(userId);
   if (!userResult.ok) return err("DATABASE_ERROR");
   if (!userResult.value) return err("USER_NOT_FOUND");
 
-  const userBoosters = userResult.value.boosters;
-  if (userBoosters.length === 0) return err("NO_BOOSTER_AVAILABLE");
+  const userBooster = userResult.value.boosters.find(
+    (userBooster: UserBoosters[number]) => userBooster.booster.id === boosterId
+  );
+  if (!userBooster) return err("BOOSTER_NOT_FOUND");
+  if (userBooster.number <= 0) return err("NO_BOOSTER_AVAILABLE");
 
-  const userBooster = userBoosters[0]; // ou logique pour choisir lequel ouvrir
-  const { booster, number } = userBooster;
+const rawCards = userBooster.booster.cards as any[];
+const mappedCards = rawCards.map(mapCard);
+const cards = pickCards(mappedCards, userBooster.booster.probabilities);
 
-  if (number <= 0) return err("NO_BOOSTER_AVAILABLE");
-
-  const cards = pickCards(booster.cards, booster.probabilities, 5);
+  // 👇 Sauvegarder les cartes dans myCollection et décrémenter le booster
+  const saveResult = await saveCardsToCollection(userId, boosterId, cards);
+  if (!saveResult.ok) return err("DATABASE_ERROR");
 
   return ok(cards);
 };

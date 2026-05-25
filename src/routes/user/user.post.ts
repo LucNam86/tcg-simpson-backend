@@ -11,10 +11,14 @@ import {
   jwtMiddleware,
   AuthRequest,
 } from "@middleware/jwt.middleware";
+import { openBooster } from "@services/booster";
+
 
 const router = Router();
 
 router.post("/register", async (req, res) => {
+    console.log("REGISTER ROUTE HIT", req.body);
+
   const body = RegisterSchema.safeParse(req.body);
   if (!body.success) return res.status(400).json({ error: "EMAIL_INVALID" });
 
@@ -29,7 +33,8 @@ router.post("/register", async (req, res) => {
   }
 
   const token = signToken({ id: result.value.id });
-  return res.status(201).json({ token, ...result.value });
+  const { id, ...userWithoutId } = result.value;
+  return res.status(201).json({ token, ...userWithoutId });
 });
 
 router.post("/connect", async (req, res) => {
@@ -91,5 +96,19 @@ router.post("/me/decks", jwtMiddleware, async (req: AuthRequest, res) => {
 
   return res.status(201).json(result.value);
 });
+
+// routes/booster.route.ts
+router.post("/me/boosters/:boosterId/open", jwtMiddleware, async (req: AuthRequest, res) => {
+  const userId = req.user?.id;
+  if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
+
+  const boosterId  = req.params.boosterId as string;
+
+  const result = await openBooster(userId, boosterId);
+  if (!result.ok) return res.status(404).json({ error: result.error });
+
+  return res.json({ cards: result.value });
+});
+
 
 export default router;
