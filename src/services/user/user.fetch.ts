@@ -54,7 +54,7 @@ export const fetchUserById = async (
 
 export const fetchUserCollection = async (
   id: string,
-  filters: { rarity?: string; type?: string; serie?: string },
+  filters: { rarity?: string[]; type?: string[]; serie?: string[] },
 ): Promise<Result<PublicCardArray, GetUserError>> => {
   const result = await findByIdWithPopulate(id);
 
@@ -66,23 +66,21 @@ export const fetchUserCollection = async (
 
   if (filters.rarity) {
     collection = collection.filter(
-      (card: any) => card.rarity === filters.rarity,
+      (card: any) => filters.rarity?.includes(card.rarity),
     );
   }
 
   if (filters.type) {
     collection = collection.filter(
-      (card: any) => card.type?.toLowerCase() === filters.type?.toLowerCase(),
+      (card: any) => filters.type?.includes(card.type),
     );
   }
 
   if (filters.serie) {
     collection = collection.filter((card: any) => {
-      return (
-        card.serie?.id_serie?.name?.toLowerCase() ===
-        filters.serie?.toLowerCase()
-      );
-    });
+      return filters.serie?.includes(card.serie?.id_serie.name)
+    }
+    );
   }
 
   const parsed = PublicCardArraySchema.safeParse(collection);
