@@ -1,22 +1,22 @@
 [
   {
     "name": "Sans Affinité",
-    "desc": "Aucun bonus d'affinité",
+    "description": "Aucun bonus d'affinité",
     "bonus": { "ATK": 0, "PV": 0 }
   },
   {
     "name": "Homer et Marge",
-    "desc": "L'amour fou malgré les crises et les donuts",
+    "description": "L'amour fou malgré les crises et les donuts",
     "bonus": { "ATK": 0, "PV": 30 }
   },
   {
     "name": "Bart et Lisa",
-    "desc": "Frère et sœur, rivaux au quotidien mais soudés",
+    "description": "Frère et sœur, rivaux au quotidien mais soudés",
     "bonus": { "ATK": 10, "PV": 0 }
   },
   {
     "name": "Burns et Smithers",
-    "desc": "Excellent, Smithers ! Une dévotion sans faille",
+    "description": "Excellent, Smithers ! Une dévotion sans faille",
     "bonus": { "ATK": 20, "PV": 0 }
   }
 ]

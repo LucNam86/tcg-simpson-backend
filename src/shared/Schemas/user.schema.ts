@@ -43,6 +43,15 @@ export const PublicFriendSchema = z.object({
 export const PublicFriendArraySchema = z.array(PublicFriendSchema);
 export type PublicFriend = z.infer<typeof PublicFriendSchema>;
 
+export const PublicDeckSchema = z.object({
+  _id: z.string().optional(),
+  id: z.string().optional(),
+  name: z.string(),
+  cards: z.array(z.string()).or(z.array(PublicCardSchema)),
+  isActive: z.boolean().default(false),
+  user: z.string(),
+});
+
 export const PublicUserSchema = z.object({
   id: z.string(),
   pseudo: z.string(),
@@ -51,7 +60,7 @@ export const PublicUserSchema = z.object({
   money: z.number(),
   myCollection: z.array(PublicCardSchema),
   boosters: z.array(UserBoosterSchema),
-  decks: z.array(PublicCardSchema),
+  decks: z.array(z.string()).or(z.array(PublicDeckSchema)),
   darkMode: z.boolean(),
   friends: z.array(PublicFriendSchema).default([]),
 });
