@@ -136,30 +136,3 @@ export const fetchUserDecks = async (
 
   return ok(result.value);
 };
-
-export const updateUser = async (
-  id: string,
-  input: UpdateInput,
-): Promise<Result<PublicUser, UpdateUserError>> => {
-  const updateData: Partial<UserDocument> = {};
-
-  if (input.pseudo) updateData.pseudo = input.pseudo;
-  if (input.password) {
-    updateData.passwordHash = await bcrypt.hash(
-      input.password,
-      env.BCRYPT_SALT_ROUNDS,
-    );
-  }
-
-  const result = await updateById(id, updateData);
-
-  if (!result.ok) return err("DATABASE_ERROR");
-  if (!result.value) return err("USER_NOT_FOUND");
-
-  const parsed = PublicUserSchema.safeParse(
-    result.value.toObject({ virtuals: true }),
-  );
-  if (!parsed.success) return err("INVALID_USER");
-
-  return ok(parsed.data);
-};
