@@ -52,6 +52,11 @@ export const findByIdWithPopulate = async (
           },
           { path: "serie" },
         ],
+      })
+      .populate({
+        path: "friends",
+        select: "pseudo avatar",
+        options: { strictPopulate: false },
       });
 
     return ok(user);

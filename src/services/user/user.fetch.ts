@@ -36,15 +36,18 @@ export interface PublicFriend {
 export const fetchUserById = async (
   id: string,
 ): Promise<Result<PublicUser, GetUserError>> => {
-  const result = await findById(id);
+  const result = await findByIdWithPopulate(id);
 
   if (!result.ok) return err("DATABASE_ERROR");
   if (!result.value) return err("USER_NOT_FOUND");
 
   const parsed = PublicUserSchema.safeParse(
-    result.value.toObject({ virtuals: true }),
+    JSON.parse(JSON.stringify(result.value.toJSON({ virtuals: true })))
   );
-  if (!parsed.success) return err("INVALID_USER");
+  if (!parsed.success) {
+    console.error("PublicUserSchema.safeParse failed in fetchUserById:", parsed.error);
+    return err("INVALID_USER");
+  }
 
   return ok(parsed.data);
 };

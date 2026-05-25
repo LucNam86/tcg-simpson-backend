@@ -13,6 +13,9 @@ export const updateById = async (
     return ok(user);
   } catch (e: any) {
     console.error("updateUserById error:", JSON.stringify(e, null, 2));
+    if (e.code === 11000) {
+      return err("PSEUDO_ALREADY_USED");
+    }
     return err("Erreur lors de la mise à jour de l'utilisateur");
   }
 };
