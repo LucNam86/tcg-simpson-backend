@@ -8,4 +8,4 @@ export {
   fetchPseudosAutocomplete,
 } from "./user.fetch";
 export { updateUser } from "./user.update";
-export { addUserFriend } from "./user.friend";
+export { addUserFriend, removeUserFriend } from "./user.friend";

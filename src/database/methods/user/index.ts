@@ -1,6 +1,7 @@
 export { findByEmail } from "./user.findByEmail";
 export { findByPseudo } from "./user.findByPseudo";
 export { fetchFriends } from "./user.fetchFriends";
+export { removeFriendById } from "./user.removeFriendById";
 export { findById, findByIdWithPopulate } from "./user.findById";
 export { save } from "./user.save";
 export { updateById } from "./user.updateById";

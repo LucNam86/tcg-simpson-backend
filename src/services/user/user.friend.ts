@@ -1,5 +1,9 @@
 import { Result, ok, err } from "@shared/Result";
-import { findByPseudo, addFriendById } from "@database/methods/user";
+import {
+  findByPseudo,
+  addFriendById,
+  removeFriendById,
+} from "@database/methods/user";
 
 type AddFriendError = "USER_NOT_FOUND" | "CANT_ADD_SELF" | "DATABASE_ERROR";
 
@@ -14,24 +18,32 @@ export const addUserFriend = async (
 
   const friend = friendResult.value;
 
-  // 🎯 Extraction sécurisée de l'ID (gère le fait que ce soit ._id ou .id sans crash)
   const friendId = friend._id
     ? String(friend._id)
     : friend.id
       ? String(friend.id)
       : null;
 
-  // Si on n'a pas pu récupérer d'ID pour cet ami, c'est un problème de base de données/projection
   if (!friendId) return err("DATABASE_ERROR");
 
-  // Comparaison propre avec l'userId du token
   if (friendId === String(userId)) {
     return err("CANT_ADD_SELF");
   }
 
-  // Ajout en BDD
   const addResult = await addFriendById(userId, friendId);
   if (!addResult.ok) return err("DATABASE_ERROR");
+
+  return ok(true);
+};
+type RemoveFriendError = "DATABASE_ERROR";
+
+export const removeUserFriend = async (
+  userId: string,
+  friendId: string,
+): Promise<Result<boolean, RemoveFriendError>> => {
+  const removeResult = await removeFriendById(userId, friendId);
+
+  if (!removeResult.ok) return err("DATABASE_ERROR");
 
   return ok(true);
 };

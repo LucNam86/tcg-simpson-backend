@@ -36,7 +36,7 @@ router.post("/connect", async (req, res) => {
   return res.status(201).json({ token, ...result.value });
 });
 
-// 🎯 Correction ici : Remplacement de signToken par jwtMiddleware
+
 router.post("/me/friends", jwtMiddleware, async (req: AuthRequest, res) => {
   const userId = req.user?.id;
   if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
