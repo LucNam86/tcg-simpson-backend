@@ -71,6 +71,8 @@ router.get("/me/friends", jwtMiddleware, async (req: AuthRequest, res) => {
 
   return res.json(result.value);
 });
+
+
 router.get("/search", jwtMiddleware, async (req: AuthRequest, res) => {
   const userId = req.user?.id;
   if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });

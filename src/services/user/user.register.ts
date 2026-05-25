@@ -1,11 +1,13 @@
 // services/user.service.ts
 import { Result, ok, err } from "@shared/Result";
 import { findByEmail, findByPseudo, save } from "@database/methods/user";
+import {find} from "@database/methods/booster";
 import bcrypt from "bcrypt";
 import { RegisterInput, PublicUser } from "@shared/Schemas/user.schema";
+import { mapUserBoosters } from "@database/mapper/booster.mapper";
 import { env } from "@config/env";
 
-type RegisterError = "EMAIL_TAKEN" | "PSEUDO_TAKEN" | "USER_CREATION_FAILED";
+type RegisterError = "EMAIL_TAKEN" | "PSEUDO_TAKEN" | "USER_CREATION_FAILED" | "DATABASE_ERROR";
 
 export const registerUser = async (
   input: RegisterInput,
@@ -16,10 +18,13 @@ export const registerUser = async (
   const existingPseudo = await findByPseudo(input.pseudo);
   if (existingPseudo.ok && existingPseudo.value) return err("PSEUDO_TAKEN");
 
-  const passwordHash = await bcrypt.hash(
-    input.password,
-    env.BCRYPT_SALT_ROUNDS,
-  );
+  if (!existingEmail.ok) return err("DATABASE_ERROR");
+  if (!existingPseudo.ok) return err("DATABASE_ERROR");
+
+  const passwordHash = await bcrypt.hash(input.password, env.BCRYPT_SALT_ROUNDS);
+
+  const boosters = await find();
+  if (!boosters.ok) return err("DATABASE_ERROR");
 
   const user = {
     pseudo: input.pseudo,
@@ -28,7 +33,7 @@ export const registerUser = async (
     avatar: "",
     money: 100,
     myCollection: [],
-    boosters: [],
+    boosters: mapUserBoosters(boosters.value),
     decks: [],
     darkMode: false,
   };

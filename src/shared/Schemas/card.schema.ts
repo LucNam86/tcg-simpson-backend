@@ -9,14 +9,14 @@ const BonusSchema = z.object({
 export const PublicFamilySchema = z.object({
   id: z.string(),
   name: z.string(),
-  desc: z.string(),
+  description: z.string(),
   bonus: BonusSchema,
 });
 
 export const PublicAffinitySchema = z.object({
   id: z.string(),
   name: z.string(),
-  desc: z.string(),
+  description: z.string(),
   bonus: BonusSchema,
 });
 
