@@ -3,10 +3,10 @@ import { Router } from "express";
 import {
   fetchUserById,
   fetchUserCollection,
-  fetchUserBoosters,
   fetchUserFriends,
   fetchPseudosAutocomplete,
 } from "@services/user";
+import { openBooster } from "@services/booster";
 import { jwtMiddleware, AuthRequest } from "@middleware/jwt.middleware";
 
 const router = Router();
@@ -29,10 +29,10 @@ router.get("/me/boosters", jwtMiddleware, async (req: AuthRequest, res) => {
   const userId = req.user?.id;
   if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
 
-  const result = await fetchUserBoosters(userId);
+  const result = await openBooster(userId);
   if (!result.ok) return res.status(404).json({ error: result.error });
 
-  return res.json(result.value);
+  return res.json({ cards: result.value });
 });
 
 router.get("/me/collection", jwtMiddleware, async (req: AuthRequest, res) => {
