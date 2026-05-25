@@ -52,10 +52,7 @@ export const findByIdWithPopulate = async (
     { path: "serie" }
   ]
 });
-  
-  console.log("raw boosters:", JSON.stringify(user?.boosters, null, 2));
     return ok(user);
-    console.log("findByIdWithPopulate result:", user);
   } catch (e) {
     console.error("findByIdWithPopulate error:", e);
     return err("Erreur lors de la recherche par ID avec collections et deck");

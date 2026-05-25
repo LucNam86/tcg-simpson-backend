@@ -51,7 +51,7 @@ export const fetchUserBoosters = async (
   if (!result.value) return err("USER_NOT_FOUND");
 
   const obj = result.value.toObject({ virtuals: true });
-  console.log("boosters:", JSON.stringify(obj.boosters, null, 2));
+
   const parsed = UserBoosterArraySchema.safeParse(obj.boosters);
   if (!parsed.success) return err("INVALID_USER");
 
