@@ -1,14 +1,8 @@
 import { Result, ok, err } from "@shared/Result";
 import { UserModel } from "@database/models/user.model";
-import { BoosterModel } from "@database/models/booster.model";
-import { SerieModel } from "@database/models/serie.model";
+import { CardModel } from "@database/models/card.model";
 
-
-
-
-export const findById = async (
-  id: string,
-): Promise<Result<any, string>> => {
+export const findById = async (id: string): Promise<Result<any, string>> => {
   try {
     const user = await UserModel.findById(id);
     return ok(user);
@@ -18,44 +12,56 @@ export const findById = async (
 };
 
 export const findByIdWithPopulate = async (
- id: string): Promise<Result<any, string>> => {
+  id: string,
+): Promise<Result<any, string>> => {
   try {
+    const user = await UserModel.findById(id)
+      .populate({
+        path: "myCollection",
+        options: { strictPopulate: false },
+        populate: [
+          { path: "family" },
+          { path: "affinity" },
+          { path: "serie.id_serie" },
+        ],
+      })
 
-  const user = await UserModel.findById(id)
-  .populate({
-    path: "myCollection",
-    populate: [
-      { path: "family" },
-      { path: "affinity" },
-      { path: "serie.id_serie" },
-    ]
-  })
-  .populate({
-    path: "decks",
-    populate: [
-      { path: "family" },
-      { path: "affinity" },
-      { path: "serie.id_serie" },
-    ]
-  })
-  .populate({
-  path: "boosters.booster",
-  populate: [
-    {
-      path: "cards",
-      populate: [
-        { path: "family" },
-        { path: "affinity" },
-        { path: "serie.id_serie" },
-      ]
-    },
-    { path: "serie" }
-  ]
-});
+      .populate({
+        path: "decks",
+        options: { strictPopulate: false },
+        populate: {
+          path: "cards",
+          populate: [
+            { path: "family" },
+            { path: "affinity" },
+            { path: "serie.id_serie" },
+          ],
+        },
+      })
+      .populate({
+        path: "boosters.booster",
+        options: { strictPopulate: false },
+        populate: [
+          {
+            path: "cards",
+            populate: [
+              { path: "family" },
+              { path: "affinity" },
+              { path: "serie.id_serie" },
+            ],
+          },
+          { path: "serie" },
+        ],
+      })
+      .populate({
+        path: "friends",
+        select: "pseudo avatar",
+        options: { strictPopulate: false },
+      });
+
     return ok(user);
   } catch (e) {
     console.error("findByIdWithPopulate error:", e);
     return err("Erreur lors de la recherche par ID avec collections et deck");
   }
-
 };

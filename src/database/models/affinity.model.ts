@@ -7,13 +7,13 @@ interface IBonus {
 
 export interface AffinityDocument extends Document {
   name: string;
-  desc: string;
+  description: string;
   bonus: IBonus;
 }
 
 const affinitySchema = new Schema({
   name: { type: String, required: true },
-  desc: { type: String, required: true },
+  description: { type: String, required: true },
   bonus: {
     ATK: { type: Number, required: true, default: 0 },
     PV: { type: Number, required: true, default: 0 },

@@ -10,4 +10,4 @@ export {
 } from "./user.fetch";
 export { updateUser } from "./user.update";
 export { addUserFriend, removeUserFriendByPseudo } from "./user.friend";
-export { createDeck } from "./user.deck";
+export { createDeck, updateDeck, setActiveDeck, deleteDeck } from "./user.deck";
