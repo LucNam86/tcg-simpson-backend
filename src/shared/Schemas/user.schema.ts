@@ -22,6 +22,7 @@ export const UpdateUserSchema = z
   .object({
     pseudo: z.string().min(3).max(20).optional(),
     password: z.string().min(8).max(72).optional(),
+    money: z.number().nonnegative().optional(),
   })
   .strict();
 

@@ -9,11 +9,15 @@ import {
 } from "@shared/Schemas/user.schema";
 import { env } from "@config/env";
 
-type UpdateUserError = "USER_NOT_FOUND" | "DATABASE_ERROR" | "INVALID_USER" | "PSEUDO_ALREADY_USED";
+type UpdateUserError =
+  | "USER_NOT_FOUND"
+  | "DATABASE_ERROR"
+  | "INVALID_USER"
+  | "PSEUDO_ALREADY_USED";
 
 export const updateUser = async (
   id: string,
-  input: UpdateInput,
+  input: UpdateInput & { money?: number },
 ): Promise<Result<PublicUser, UpdateUserError>> => {
   const updateData: Partial<UserDocument> = {};
 
@@ -25,13 +29,18 @@ export const updateUser = async (
     );
   }
 
+  if (input.money !== undefined) {
+    updateData.money = input.money;
+  }
+
   const result = await updateById(id, updateData);
 
   if (!result.ok) {
-    if (result.error === "PSEUDO_ALREADY_USED") return err("PSEUDO_ALREADY_USED");
+    if (result.error === "PSEUDO_ALREADY_USED")
+      return err("PSEUDO_ALREADY_USED");
     return err("DATABASE_ERROR");
   }
-  
+
   if (!result.value) return err("USER_NOT_FOUND");
 
   const populatedResult = await findByIdWithPopulate(id);
@@ -39,10 +48,15 @@ export const updateUser = async (
   if (!populatedResult.value) return err("USER_NOT_FOUND");
 
   const parsed = PublicUserSchema.safeParse(
-    JSON.parse(JSON.stringify(populatedResult.value.toJSON({ virtuals: true })))
+    JSON.parse(
+      JSON.stringify(populatedResult.value.toJSON({ virtuals: true })),
+    ),
   );
   if (!parsed.success) {
-    console.error("PublicUserSchema.safeParse failed in updateUser:", parsed.error);
+    console.error(
+      "PublicUserSchema.safeParse failed in updateUser:",
+      parsed.error,
+    );
     return err("INVALID_USER");
   }
 
