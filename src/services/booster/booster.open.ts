@@ -1,6 +1,6 @@
 // services/booster.open.ts
 import { Result, ok, err } from "@shared/Result";
-import { findByIdWithPopulate,saveCardsToCollection } from "@database/methods/user";
+import { findByIdWithBoosters,saveCardsToCollection } from "@database/methods/user";
 import type { PublicCard } from "@shared/Schemas/card.schema";
 import type { UserBoosters } from "@shared/Schemas/user.schema";
 import { mapCard } from "@database/mapper/card.mapper";
@@ -37,13 +37,13 @@ const pickCards = (cards: PublicCard[], probabilities: { rarity: "Common" | "Rar
 
 // services/booster.open.ts
 export const openBooster = async (userId: string, boosterId: string): Promise<Result<PublicCard[], OpenBoosterError>> => {
-  const userResult = await findByIdWithPopulate(userId);
+  const userResult = await findByIdWithBoosters(userId);
   if (!userResult.ok) return err("DATABASE_ERROR");
   if (!userResult.value) return err("USER_NOT_FOUND");
 
   const userBooster = userResult.value.boosters.find(
-    (userBooster: UserBoosters[number]) => userBooster.booster.id === boosterId
-  );
+  (userBooster) => userBooster.booster._id.toString() === boosterId
+);
   if (!userBooster) return err("BOOSTER_NOT_FOUND");
   if (userBooster.number <= 0) return err("NO_BOOSTER_AVAILABLE");
 

@@ -1,8 +1,5 @@
-
-
 import { Result, ok, err } from "@shared/Result";
-import { DeckModel } from "@database/models/deck.model";
-import { Types } from "mongoose";
+import { updateActiveDeck } from "@database/methods/deck/deck.updateActiveDeck";
 
 export type DeckOperationError =
   | "USER_NOT_FOUND"
@@ -11,23 +8,16 @@ export type DeckOperationError =
   | "INVALID_CARD_COUNT"
   | "DATABASE_ERROR";
 
-export const setActiveDeck = async (
+export async function activateDeck(
   userId: string,
-  deckId: string
-): Promise<Result<void, DeckOperationError>> => {
-  try {
-    const deck = await DeckModel.findById(deckId);
-    if (!deck) return err("DECK_NOT_FOUND");
-    if (deck.user.toString() !== userId) return err("UNAUTHORIZED_DECK");
+  deckId: string,
+): Promise<Result<void, DeckOperationError>> {
+  const result = await updateActiveDeck(userId, deckId);
 
-    await DeckModel.updateMany({ user: new Types.ObjectId(userId) }, { isActive: false });
-
-    deck.isActive = true;
-    await deck.save();
-
-    return ok(undefined);
-  } catch (error) {
-    console.error("Erreur setActiveDeck service :", error);
+  if (!result.ok) {
+    if (result.error === "DECK_NOT_FOUND") return err("DECK_NOT_FOUND");
+    if (result.error === "UNAUTHORIZED_DECK") return err("UNAUTHORIZED_DECK");
     return err("DATABASE_ERROR");
-  }
-};
+}
+  return ok(undefined);
+}

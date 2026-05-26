@@ -53,7 +53,7 @@ export const PublicDeckSchema = z.object({
   user: z.string(),
 });
 
-export const PublicUserSchema = z.object({
+export const PublicUserFullSchema = z.object({
   id: z.string(),
   pseudo: z.string(),
   email: z.string(),
@@ -66,4 +66,14 @@ export const PublicUserSchema = z.object({
   friends: z.array(PublicFriendSchema).default([]),
 });
 
+export const PublicUserSchema = z.object({
+  id: z.string(),
+  pseudo: z.string(),
+  email: z.string(),
+  avatar: z.string(),
+  money: z.number(),
+  darkMode: z.boolean(),
+});
+
 export type PublicUser = z.infer<typeof PublicUserSchema>;
+export type PublicUserFull = z.infer<typeof PublicUserFullSchema>;

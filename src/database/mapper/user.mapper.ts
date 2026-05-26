@@ -1,9 +1,10 @@
 // database/mappers/user.mapper.ts
 import { mapCard } from "./card.mapper";
 import { mapUserBoosters } from "./booster.mapper";
-import type { PublicUser } from "@shared/Schemas/user.schema";
+import type { PublicUser, PublicUserFull } from "@shared/Schemas/user.schema";
+import { UserDocument } from "@database/models/user.model";
 
-export const mapUser = (user: any): PublicUser => ({
+export const mapUser = (user: any): PublicUserFull => ({
   id: user._id.toString(),
   pseudo: user.pseudo,
   email: user.email,
@@ -18,6 +19,17 @@ export const mapUser = (user: any): PublicUser => ({
   })),
   darkMode: user.darkMode,
 });
+
+export function mapUserPublic(user: UserDocument) {
+  return {
+    id: user._id.toString(),
+    pseudo: user.pseudo,
+    email: user.email,
+    avatar: user.avatar,
+    money: user.money,
+    darkMode: user.darkMode,
+  };
+}
 
 export const mapFriend = (friend: any) => ({
   pseudo: friend.pseudo,

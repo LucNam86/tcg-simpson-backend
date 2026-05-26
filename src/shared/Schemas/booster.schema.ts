@@ -13,7 +13,6 @@ export const PublicBoosterSchema = z.object({
     name: z.string(),
   }),
   probabilities: z.array(z.object({
-        id: z.string(),
     rarity: z.enum(["Common", "Rare", "Legendary"]),
     value: z.number(),
   }))

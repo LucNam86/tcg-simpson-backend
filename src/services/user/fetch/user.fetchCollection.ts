@@ -13,8 +13,7 @@ export async function fetchUserCollection(
   if (!result.ok) return err("DATABASE_ERROR");
   if (!result.value) return err("USER_NOT_FOUND");
 
-  const obj = result.value.toObject({ virtuals: true });
-  let collection = obj.myCollection || [];
+  let collection = result.value.myCollection || [];
 
   if (filters.rarity) {
     collection = collection.filter((card: any) => filters.rarity?.includes(card.rarity));

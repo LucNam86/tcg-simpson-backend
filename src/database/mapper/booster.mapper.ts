@@ -13,14 +13,14 @@ export const mapBooster = (booster: PopulatedBoosterDocument): PublicBooster => 
   cards: booster.cards.map(mapCard),
   serie: { id: booster.serie._id.toString(), name: booster.serie.name },
   probabilities: booster.probabilities.map((probability) => ({
-    id: (probability as any)._id.toString(),
     rarity: probability.rarity,
     value: probability.value,
   })),
 });
 
-export const mapUserBoosters = (boosters: any[]) =>
-  boosters.map((entry) => ({ booster: mapBooster(entry.booster), number: entry.number }));
-
+export const mapUserBoosters = (boosters: any[]) => {
+  console.log("First booster entry:", JSON.stringify(boosters[0], null, 2));
+  return boosters.map((entry) => ({ booster: mapBooster(entry.booster), number: entry.number }));
+};
 export const mapBoostersFromFind = (boosters: PopulatedBoosterDocument[]) =>
   boosters.map((booster) => ({ booster: mapBooster(booster), number: 1 }));

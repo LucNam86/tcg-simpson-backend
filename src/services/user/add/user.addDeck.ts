@@ -1,55 +1,27 @@
 import { Result, ok, err } from "@shared/Result";
-import { DeckModel, DeckDocument } from "@database/models/deck.model";
-import { UserModel } from "@database/models/user.model";
-import { Types } from "mongoose";
+import { saveDeck } from "@database/methods/user";
 
-type AddDeckError =
-  | "USER_NOT_FOUND"
-  | "MAX_DECKS_REACHED"
-  | "INVALID_CARD_COUNT"
-  | "DATABASE_ERROR";
+type CreateDeckError = "USER_NOT_FOUND" | "MAX_DECKS_REACHED" | "INVALID_CARD_COUNT" | "DATABASE_ERROR";
 
-interface AddDeckInput {
-  userId: string;
+export interface PublicDeckBasic {
+  id: string;
   name: string;
+  isActive: boolean;
   cards: string[];
 }
 
-export const addDeck = async (
-  input: AddDeckInput,
-): Promise<Result<DeckDocument, AddDeckError>> => {
-  try {
-    const user = await UserModel.findById(input.userId);
-    if (!user) return err("USER_NOT_FOUND");
+export async function addDeck(input: {
+  userId: string;
+  name: string;
+  cards: string[];
+}): Promise<Result<PublicDeckBasic, CreateDeckError>> {
+  const result = await saveDeck(input);
+  if (!result.ok) return err(result.error);
 
-    // Vérification de la limite de decks
-    if (user.decks && user.decks.length >= 3) {
-      return err("MAX_DECKS_REACHED");
-    }
-
-    // Vérification du nombre de cartes
-    if (input.cards.length !== 10) {
-      return err("INVALID_CARD_COUNT");
-    }
-
-    // Création du nouveau deck
-    const newDeck = new DeckModel({
-      name: input.name || "Mon Super Deck",
-      cards: input.cards.map((id) => new Types.ObjectId(id)),
-      user: new Types.ObjectId(input.userId),
-      isActive: !user.decks || user.decks.length === 0,
-    });
-
-    await newDeck.save();
-
-    await UserModel.updateOne(
-      { _id: input.userId },
-      { $push: { decks: newDeck._id } },
-    );
-
-    return ok(newDeck);
-  } catch (error) {
-    console.error("Erreur addDeck service :", error);
-    return err("DATABASE_ERROR");
-  }
-};
+  return ok({
+    id: result.value._id.toString(),
+    name: result.value.name,
+    isActive: result.value.isActive,
+    cards: input.cards,
+  });
+}

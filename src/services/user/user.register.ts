@@ -1,10 +1,11 @@
 // services/user.service.ts
 import { Result, ok, err } from "@shared/Result";
-import { findByEmail, findByPseudo, save } from "@database/methods/user";
+import { findByEmail, findByPseudo, save,findById } from "@database/methods/user";
 import {find} from "@database/methods/booster";
 import bcrypt from "bcrypt";
 import { RegisterInput, PublicUser } from "@shared/Schemas/user.schema";
-import {mapBoostersFromFind } from "@database/mapper/booster.mapper";
+import { mapUserPublic } from "@database/mapper/user.mapper";
+
 import { env } from "@config/env";
 
 type RegisterError = "EMAIL_TAKEN" | "PSEUDO_TAKEN" | "USER_CREATION_FAILED" | "DATABASE_ERROR";
@@ -45,19 +46,11 @@ export async function registerUser(
     darkMode: false,
   };
 
-  const saved = await save(user);
-  if (!saved.ok) return err("USER_CREATION_FAILED");
+const saved = await save(user);
+if (!saved.ok) return err("USER_CREATION_FAILED");
 
-  return ok({
-    id: saved.value,
-    pseudo: user.pseudo,
-    email: user.email,
-    avatar: user.avatar,
-    money: user.money,
-    myCollection: user.myCollection,
-    boosters: mapBoostersFromFind(boosters.value),
-    decks: user.decks,
-    friends: [],
-    darkMode: user.darkMode,
-  });
+const savedUser = await findById(saved.value);
+if (!savedUser.ok || !savedUser.value) return err("USER_CREATION_FAILED");
+
+return ok(mapUserPublic(savedUser.value));
 };

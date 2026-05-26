@@ -1,7 +1,7 @@
 // routes/user.ts
 import { Router } from "express";
 import { updateUser } from "@services/user";
-import { updateDeck, setActiveDeck } from "@services/deck";
+import { updateDeck, activateDeck } from "@services/deck";
 import { jwtMiddleware, AuthRequest } from "@middleware/jwt.middleware";
 import { UpdateUserSchema } from "@shared/Schemas/user.schema";
 
@@ -67,7 +67,7 @@ router.put(
     if (!deckId || typeof deckId !== "string")
       return res.status(400).json({ error: "MISSING_DECK_ID" });
 
-    const result = await setActiveDeck(userId, deckId);
+    const result = await activateDeck(userId, deckId);
     if (!result.ok) {
       if (["DECK_NOT_FOUND", "USER_NOT_FOUND"].includes(result.error))
         return res.status(404).json({ error: result.error });

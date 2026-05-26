@@ -11,3 +11,4 @@ export { findByManyPseudo } from "./find/user.findbyManyPseudo";
 export { findByIdWithDecks } from "./find/user.findByIdWithDecks";
 export{findByIdWithCollection} from "./find/user.findByIdWithCollection"
 export{findByIdWithBoosters} from "./find/user.findByIdWithBoosters"
+export { saveDeck } from "./save/user.saveDeck";
