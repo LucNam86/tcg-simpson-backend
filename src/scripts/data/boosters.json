@@ -2,10 +2,27 @@
   {
     "name": "Booster 1",
     "price": 50,
-    "slug" : "booster1.webp",
+    "slug": "booster1.webp",
     "quantity": 5,
-    "cards" : [],
-    "serie" : "Série 1"
-
+    "cards": [],
+    "serie": "Série 1",
+    "probabilities": [
+      { "rarity": "Common", "value": 70 },
+      { "rarity": "Rare", "value": 25 },
+      { "rarity": "Legendary", "value": 5 }
+    ]
+  },
+  {
+    "name": "Booster légendaire",
+    "price": 500,
+    "slug": "booster2.webp",
+    "quantity": 1,
+    "cards": [],
+    "serie": "Série 1",
+    "probabilities": [
+      { "rarity": "Common", "value": 0 },
+      { "rarity": "Rare", "value": 70 },
+      { "rarity": "Legendary", "value": 30 }
+    ]
   }
 ]
