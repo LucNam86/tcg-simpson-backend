@@ -1,6 +1,5 @@
 import { Result, ok, err } from "@shared/Result";
 import { UserModel } from "@database/models/user.model";
-import { CardModel } from "@database/models/card.model";
 
 export const findById = async (id: string): Promise<Result<any, string>> => {
   try {

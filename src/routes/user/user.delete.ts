@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { jwtMiddleware, AuthRequest } from "@middleware/jwt.middleware";
-import { removeUserFriendByPseudo, deleteDeck } from "@services/user";
+import { removeUserFriendByPseudo, removeUserDeck } from "@services/user";
 
 const router = Router();
 
@@ -39,7 +39,7 @@ router.delete(
     const { deckId } = req.params;
     if (!deckId || typeof deckId !== "string") return res.status(400).json({ error: "MISSING_DECK_ID" });
 
-    const result = await deleteDeck(userId, deckId);
+    const result = await removeUserDeck(userId, deckId);
     if (!result.ok) {
       if (["DECK_NOT_FOUND", "USER_NOT_FOUND"].includes(result.error)) return res.status(404).json({ error: result.error });
       if (result.error === "UNAUTHORIZED_DECK") return res.status(403).json({ error: result.error });

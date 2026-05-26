@@ -4,6 +4,7 @@ export interface CardDocument extends Document {
   name: string;
   ATK: number;
   PV: number;
+  description: string; // 👈 manquait
   family: Types.ObjectId;
   affinity: Types.ObjectId;
   slug: string;
@@ -14,6 +15,7 @@ export interface CardDocument extends Document {
   rarity: string;
   type: "Personnage" | "Objet" | "Terrain";
 }
+
 
 const cardSchema = new Schema({
   name: { type: String, required: true },

@@ -4,8 +4,8 @@ import {
   registerUser,
   connectUser,
   addUserFriend,
-  createDeck,
 } from "@services/user";
+import { addDeck } from "@services/user";
 import {
   signToken,
   jwtMiddleware,
@@ -79,7 +79,7 @@ router.post("/me/decks", jwtMiddleware, async (req: AuthRequest, res) => {
     return res.status(400).json({ error: "INPUT_INVALID" });
   }
 
-  const result = await createDeck({ userId, name, cards });
+  const result = await addDeck({ userId, name, cards });
 
   if (!result.ok) {
     switch (result.error) {

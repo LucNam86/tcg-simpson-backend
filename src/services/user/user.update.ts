@@ -2,11 +2,8 @@ import { Result, ok, err } from "@shared/Result";
 import { updateById, findByIdWithPopulate } from "@database/methods/user";
 import { UserDocument } from "@database/models/user.model";
 import bcrypt from "bcrypt";
-import {
-  UpdateInput,
-  PublicUser,
-  PublicUserSchema,
-} from "@shared/Schemas/user.schema";
+import { UpdateInput, PublicUser } from "@shared/Schemas/user.schema";
+import { mapUser } from "@database/mapper";
 import { env } from "@config/env";
 
 type UpdateUserError =
@@ -15,10 +12,10 @@ type UpdateUserError =
   | "INVALID_USER"
   | "PSEUDO_ALREADY_USED";
 
-export const updateUser = async (
+export async function updateUser(
   id: string,
   input: UpdateInput & { money?: number },
-): Promise<Result<PublicUser, UpdateUserError>> => {
+): Promise<Result<PublicUser, UpdateUserError>> {
   const updateData: Partial<UserDocument> = {};
 
   if (input.pseudo) updateData.pseudo = input.pseudo;
@@ -28,16 +25,12 @@ export const updateUser = async (
       env.BCRYPT_SALT_ROUNDS,
     );
   }
-
-  if (input.money !== undefined) {
-    updateData.money = input.money;
-  }
+  if (input.money !== undefined) updateData.money = input.money;
 
   const result = await updateById(id, updateData);
 
   if (!result.ok) {
-    if (result.error === "PSEUDO_ALREADY_USED")
-      return err("PSEUDO_ALREADY_USED");
+    if (result.error === "PSEUDO_ALREADY_USED") return err("PSEUDO_ALREADY_USED");
     return err("DATABASE_ERROR");
   }
 
@@ -47,18 +40,5 @@ export const updateUser = async (
   if (!populatedResult.ok) return err("DATABASE_ERROR");
   if (!populatedResult.value) return err("USER_NOT_FOUND");
 
-  const parsed = PublicUserSchema.safeParse(
-    JSON.parse(
-      JSON.stringify(populatedResult.value.toJSON({ virtuals: true })),
-    ),
-  );
-  if (!parsed.success) {
-    console.error(
-      "PublicUserSchema.safeParse failed in updateUser:",
-      parsed.error,
-    );
-    return err("INVALID_USER");
-  }
-
-  return ok(parsed.data);
-};
+  return ok(mapUser(populatedResult.value));
+}

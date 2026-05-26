@@ -4,14 +4,14 @@ import { findByEmail, findByPseudo, save } from "@database/methods/user";
 import {find} from "@database/methods/booster";
 import bcrypt from "bcrypt";
 import { RegisterInput, PublicUser } from "@shared/Schemas/user.schema";
-import { mapUserBoosters,mapBoostersFromFind } from "@database/mapper/booster.mapper";
+import {mapBoostersFromFind } from "@database/mapper/booster.mapper";
 import { env } from "@config/env";
 
 type RegisterError = "EMAIL_TAKEN" | "PSEUDO_TAKEN" | "USER_CREATION_FAILED" | "DATABASE_ERROR";
 
-export const registerUser = async (
+export async function registerUser(
   input: RegisterInput,
-): Promise<Result<PublicUser, RegisterError>> => {
+): Promise<Result<PublicUser, RegisterError>> {
 
   const existingEmail = await findByEmail(input.email);
 

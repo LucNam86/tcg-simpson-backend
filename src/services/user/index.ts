@@ -1,13 +1,13 @@
 export { registerUser } from "./user.register";
 export { connectUser } from "./user.connect";
-export {
-  fetchUserById,
-  fetchUserCollection,
-  fetchUserBoosters,
-  fetchUserFriends,
-  fetchPseudosAutocomplete,
-  fetchUserDecks,
-} from "./user.fetch";
+export { fetchUserById } from "./fetch/user.fetchById";
+export { fetchUserCollection } from "./fetch/user.fetchCollection";
+export { fetchUserBoosters } from "./fetch/user.fetchBoosters";
+export { fetchUserFriends } from "./fetch/user.fetchFriends";
+export { fetchPseudosAutocomplete } from "./fetch/user.fetchPseudos";
+export { fetchUserDecks } from "./fetch/user.fetchDecks";
 export { updateUser } from "./user.update";
-export { addUserFriend, removeUserFriendByPseudo } from "./user.friend";
-export { createDeck, updateDeck, setActiveDeck, deleteDeck } from "./user.deck";
+export { addUserFriend } from "./add/user.addFriend";
+export { removeUserFriendByPseudo } from "./remove/user.removeFriend";
+export { removeUserDeck } from "./remove/user.removeDeck";
+export { addDeck } from "./add/user.addDeck";

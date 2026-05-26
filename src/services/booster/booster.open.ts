@@ -3,7 +3,8 @@ import { Result, ok, err } from "@shared/Result";
 import { findByIdWithPopulate,saveCardsToCollection } from "@database/methods/user";
 import type { PublicCard } from "@shared/Schemas/card.schema";
 import type { UserBoosters } from "@shared/Schemas/user.schema";
-import { mapCard } from "@database/mapper/booster.mapper";
+import { mapCard } from "@database/mapper/card.mapper";
+import { PopulatedCardDocument } from "@database/interfaces/card.interface";
 
 
 type OpenBoosterError = "DATABASE_ERROR" | "USER_NOT_FOUND" | "NO_BOOSTER_AVAILABLE" | "BOOSTER_NOT_FOUND";
@@ -46,7 +47,7 @@ export const openBooster = async (userId: string, boosterId: string): Promise<Re
   if (!userBooster) return err("BOOSTER_NOT_FOUND");
   if (userBooster.number <= 0) return err("NO_BOOSTER_AVAILABLE");
 
-const rawCards = userBooster.booster.cards as any[];
+const rawCards = userBooster.booster.cards as PopulatedCardDocument[];
 const mappedCards = rawCards.map(mapCard);
 const cards = pickCards(mappedCards, userBooster.booster.probabilities);
 
