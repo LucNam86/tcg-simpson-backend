@@ -5,10 +5,11 @@ export { deleteFriendById } from "./delete/user.deleteFriendById";
 export { deleteDeck } from "./delete/user.deleteDeck";
 export { findById } from "./find/user.findById";
 export { save,saveCardsToCollection } from "./save/user.save";
-export { updateById } from "./user.updateById";
+export { updateById } from "./update/user.updateById";
 export { addFriendById } from "./save/user.saveFriendById";
 export { findByManyPseudo } from "./find/user.findbyManyPseudo";
 export { findByIdWithDecks } from "./find/user.findByIdWithDecks";
 export{findByIdWithCollection} from "./find/user.findByIdWithCollection"
 export{findByIdWithBoosters} from "./find/user.findByIdWithBoosters"
 export { saveDeck } from "./save/user.saveDeck";
+export {updateMoneyById} from "./update/user.updateMoneyById"
