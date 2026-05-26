@@ -7,7 +7,7 @@ type GetUserError = "USER_NOT_FOUND" | "DATABASE_ERROR" | "INVALID_USER";
 
 export async function fetchUserCollection(
   id: string,
-  filters: { rarity?: string[]; type?: string[]; serie?: string[] },
+  filters: { q?: string; rarity?: string[]; type?: string[]; serie?: string[] },
 ): Promise<Result<PublicCardArray, GetUserError>> {
   const result = await findByIdWithPopulate(id);
   if (!result.ok) return err("DATABASE_ERROR");
@@ -17,14 +17,18 @@ export async function fetchUserCollection(
   let collection = obj.myCollection || [];
 
   if (filters.rarity) {
-    collection = collection.filter((card: any) => filters.rarity?.includes(card.rarity));
+    collection = collection.filter((card: any) =>
+      filters.rarity?.includes(card.rarity),
+    );
   }
   if (filters.type) {
-    collection = collection.filter((card: any) => filters.type?.includes(card.type));
+    collection = collection.filter((card: any) =>
+      filters.type?.includes(card.type),
+    );
   }
   if (filters.serie) {
     collection = collection.filter((card: any) =>
-      filters.serie?.includes(card.serie?.id_serie.name)
+      filters.serie?.includes(card.serie?.id_serie.name),
     );
   }
 
