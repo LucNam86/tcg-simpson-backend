@@ -3,7 +3,7 @@ import { Router } from 'express';
 import {fetchCards} from "@services/card/card.fetch";
 import { jwtMiddleware, AuthRequest } from "@middleware/jwt.middleware";
 
-import '@database/models/card.model'; // ← 
+import '@database/models/card.model'; //
 import '@database/models/family.model';
 import '@database/models/affinity.model';
 import '@database/models/serie.model';
@@ -15,13 +15,21 @@ import '@database/models/serie.model';
 
      if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
 
-    const result = await fetchCards();
+    const { q, rarity, type, serie } = req.query;
+    const result = await fetchCards(
+     {
+    q: q as string,
+    rarity: rarity as string[],
+    type: type as string[],
+    serie: serie as string[],
+  });
+  
+  if (!result.ok) {
+      return res.status(404).json({ error: result.error });
+  }
 
-     if (!result.ok) {
-         return res.status(404).json({ error: result.error });
-     }
+return res.json(result.value);
+    });
 
-   return res.json(result.value);
-});
 
 export default router;
