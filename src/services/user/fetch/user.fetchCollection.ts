@@ -1,5 +1,5 @@
 import { Result, ok, err } from "@shared/Result";
-import { findByIdWithPopulate } from "@database/methods/user";
+import { findByIdWithCollection } from "@database/methods/user";
 import { PublicCardArray } from "@shared/Schemas/card.schema";
 import { mapCard } from "@database/mapper";
 
@@ -9,7 +9,7 @@ export async function fetchUserCollection(
   id: string,
   filters: { rarity?: string[]; type?: string[]; serie?: string[] },
 ): Promise<Result<PublicCardArray, GetUserError>> {
-  const result = await findByIdWithPopulate(id);
+  const result = await findByIdWithCollection(id);
   if (!result.ok) return err("DATABASE_ERROR");
   if (!result.value) return err("USER_NOT_FOUND");
 
