@@ -41,9 +41,10 @@ router.get("/me/collection", jwtMiddleware, async (req: AuthRequest, res) => {
   const userId = req.user?.id;
   if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
 
-  const { rarity, type, serie } = req.query;
+  const { q, rarity, type, serie } = req.query;
 
   const result = await fetchUserCollection(userId, {
+    q: q as string,
     rarity: rarity as string[],
     type: type as string[],
     serie: serie as string[],
