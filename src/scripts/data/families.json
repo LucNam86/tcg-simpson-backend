@@ -7,31 +7,31 @@
   {
     "name": "Simpson",
     "description": "La célèbre famille dysfonctionnelle de Springfield",
-    "bonus": { "ATK": 0, "PV": 10 }
+    "bonus": { "ATK": 20, "PV": 60 }
   },
   {
     "name": "Méchants",
     "description": "Les pires crapules et antagonistes de la ville",
-    "bonus": { "ATK": 20, "PV": 0 }
+    "bonus": { "ATK": 80, "PV": 0 }
   },
   {
     "name": "Police",
     "description": "La brigade d'intervention (presque) compétente",
-    "bonus": { "ATK": 0, "PV": 30 }
+    "bonus": { "ATK": 0, "PV": 100 }
   },
   {
     "name": "Van Houten",
     "description": "Une famille plutôt fragile et sensible",
-    "bonus": { "ATK": 10, "PV": 10 }
+    "bonus": { "ATK": 40, "PV": 40 }
   },
   {
     "name": "Flanders",
     "description": "Salut les voisins ! Un bonus ultra-divin",
-    "bonus": { "ATK": 0, "PV": 10 }
+    "bonus": { "ATK": 20, "PV": 80 }
   },
   {
     "name": "Animaux",
     "description": "Les fidèles compagnons à poils ou à écailles",
-    "bonus": { "ATK": 20, "PV": 0 }
+    "bonus": { "ATK": 70, "PV": 30 }
   }
 ]
