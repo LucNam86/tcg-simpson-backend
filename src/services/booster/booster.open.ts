@@ -43,9 +43,23 @@ const pickCards = (
 ): PublicCard[] => {
   const result: PublicCard[] = [];
 
+  // Dictionnaire de correspondance entre ton système de probabilités et tes IDs de cartes
+  const rarityMapping: Record<"Common" | "Rare" | "Legendary", string> = {
+    Common: "1",
+    Rare: "2",
+    Legendary: "3",
+  };
+
   for (let i = 0; i < packSize; i++) {
-    const rarity = pickRarity(probabilities);
-    const cardsOfRarity = cards.filter((card) => card.rarity === rarity);
+    const rarityText = pickRarity(probabilities);
+
+    // 🌟 FIX : On récupère l'ID correspondant ("1", "2" ou "3")
+    const targetRarityId = rarityMapping[rarityText];
+
+    // On filtre désormais sur l'ID de rareté de la carte
+    const cardsOfRarity = cards.filter(
+      (card) => card.rarity === targetRarityId,
+    );
 
     const pool = cardsOfRarity.length > 0 ? cardsOfRarity : cards;
     const picked = pool[Math.floor(Math.random() * pool.length)];
@@ -82,7 +96,41 @@ export const openBooster = async (
   );
 
   const saveResult = await saveCardsToCollection(userId, boosterId, cards);
+  console.log(`\n🎰 [BOOSTER OPENED] - ${userBooster.booster.name}`);
+  console.log(
+    `Distribution obtenue :`,
+    cards.map((c) => `Rareté [${c.rarity}] - ${c.name}`),
+  );
   if (!saveResult.ok) return err("DATABASE_ERROR");
 
   return ok(cards);
 };
+/*
+// 🧪 CONFIGURATION DU CRASH-TEST (À ENLEVER APRÈS VÉRIFICATION)
+if (process.env.NODE_ENV !== "production") {
+  const simulerTestProbabilites = () => {
+    const probasBooster1 = [
+      { rarity: "Common" as const, value: 70 },
+      { rarity: "Rare" as const, value: 29 },
+      { rarity: "Legendary" as const, value: 1 }
+    ];
+
+    const compteurs = { Common: 0, Rare: 0, Legendary: 0 };
+    const totalTirages = 50000; // 10 000 boosters de 5 cartes = 50 000 tirages
+
+    for (let i = 0; i < totalTirages; i++) {
+      const rareteTiree = pickRarity(probasBooster1);
+      compteurs[rareteTiree]++;
+    }
+
+    console.log("\n=============================================");
+    console.log("📊 RÉSULTAT DU CRASH-TEST (50 000 CARTES TIRÉES) :");
+    console.log(`🟢 Communes (70% attendus) : ${((compteurs.Common / totalTirages) * 100).toFixed(2)}% (${compteurs.Common})`);
+    console.log(`🔵 Rares (29% attendus)    : ${((compteurs.Rare / totalTirages) * 100).toFixed(2)}% (${compteurs.Rare})`);
+    console.log(`🟡 Légendaires (1% attendu) : ${((compteurs.Legendary / totalTirages) * 100).toFixed(2)}% (${compteurs.Legendary})`);
+    console.log("=============================================\n");
+  };
+
+  // Lance la simulation dès que le fichier est chargé par ton serveur Node
+  simulerTestProbabilites();
+}*/

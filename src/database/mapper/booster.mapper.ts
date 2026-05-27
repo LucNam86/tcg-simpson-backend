@@ -19,7 +19,6 @@ export const mapBooster = (booster: PopulatedBoosterDocument): PublicBooster => 
 });
 
 export const mapUserBoosters = (boosters: any[]) => {
-  console.log("First booster entry:", JSON.stringify(boosters[0], null, 2));
   return boosters.map((entry) => ({ booster: mapBooster(entry.booster), number: entry.number }));
 };
 export const mapBoostersFromFind = (boosters: PopulatedBoosterDocument[]) =>
