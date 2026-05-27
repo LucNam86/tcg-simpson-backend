@@ -29,5 +29,6 @@ export interface PopulatedUserFriendsDocument extends Omit<UserDocument, "friend
     _id: Types.ObjectId;
     pseudo: string;
     avatar: string;
+    myCollection: Types.ObjectId[];
   }[];
 }
