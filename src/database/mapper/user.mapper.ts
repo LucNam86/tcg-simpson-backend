@@ -14,10 +14,7 @@ export const mapUser = (user: any): PublicUserFull => ({
   myCollection: user.myCollection.map(mapCard),
   boosters: mapUserBoosters(user.boosters),
   decks: user.decks,
-  friends: user.friends.map((friend: any) => ({
-    pseudo: friend.pseudo,
-    avatar: friend.avatar,
-  })),
+  friends: user.friends.map((friend: any) => mapFriend(friend)),
   darkMode: user.darkMode,
 });
 
@@ -32,8 +29,14 @@ export function mapUserPublic(user: UserDocument) {
     darkMode: user.darkMode,
   };
 }
+export const mapFriend = (friend: any) => {
+  const uniqueCardsCount = friend.myCollection
+    ? new Set(friend.myCollection.map((cardId: any) => cardId.toString())).size
+    : 0;
 
-export const mapFriend = (friend: any) => ({
-  pseudo: friend.pseudo,
-  avatar: friend.avatar,
-});
+  return {
+    pseudo: friend.pseudo,
+    avatar: friend.avatar,
+    uniqueCardsCount,
+  };
+};
