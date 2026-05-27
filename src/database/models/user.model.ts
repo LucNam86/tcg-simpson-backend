@@ -11,6 +11,7 @@ export interface UserDocument extends Document {
   avatar: string;
   passwordHash: string;
   money: number;
+  countdownEnds: Date;
   myCollection: Types.ObjectId[];
   boosters: BoosterEntry[];
   decks: Types.ObjectId[];
@@ -24,6 +25,7 @@ const userSchema = new Schema({
   avatar: { type: String, default: "" },
   passwordHash: { type: String, required: true },
   money: { type: Number, default: 0 },
+  countdownEnds: {type : Date, default:""},
   myCollection: [{ type: Schema.Types.ObjectId, ref: "Card", default: [] }],
   boosters: [
     {

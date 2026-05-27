@@ -37,6 +37,7 @@ export async function registerUser(
     passwordHash,
     avatar: "",
     money: 100,
+    countdownEnds:new Date(),
     myCollection: [],
     boosters: boosters.value.map((booster) => ({
       booster: booster._id,

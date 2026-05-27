@@ -10,6 +10,7 @@ export const mapUser = (user: any): PublicUserFull => ({
   email: user.email,
   avatar: user.avatar,
   money: user.money,
+  countdownEnds: user.countdownEnds,
   myCollection: user.myCollection.map(mapCard),
   boosters: mapUserBoosters(user.boosters),
   decks: user.decks,
@@ -27,6 +28,7 @@ export function mapUserPublic(user: UserDocument) {
     email: user.email,
     avatar: user.avatar,
     money: user.money,
+    countdownEnds: user.countdownEnds,
     darkMode: user.darkMode,
   };
 }
