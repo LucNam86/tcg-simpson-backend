@@ -1,9 +1,6 @@
 import { Router } from "express";
 import { RegisterSchema, ConnectSchema } from "@shared/Schemas/user.schema";
-import {
-  registerUser,
-  connectUser,
-} from "@services/authentication";
+import { registerUser, connectUser } from "@services/authentication";
 import { addUserFriend } from "@services/friends/friends.add";
 import { addDeck } from "@services/deck";
 import {
@@ -12,12 +9,12 @@ import {
   AuthRequest,
 } from "@middleware/jwt.middleware";
 import { openBooster } from "@services/booster";
-
+import { sellCollectionCards } from "@services/card";
 
 const router = Router();
 
 router.post("/register", async (req, res) => {
-    console.log("REGISTER ROUTE HIT", req.body);
+  console.log("REGISTER ROUTE HIT", req.body);
 
   const body = RegisterSchema.safeParse(req.body);
   if (!body.success) return res.status(400).json({ error: "EMAIL_INVALID" });
@@ -98,17 +95,52 @@ router.post("/me/decks", jwtMiddleware, async (req: AuthRequest, res) => {
 });
 
 // routes/booster.route.ts
-router.post("/me/boosters/:boosterId/open", jwtMiddleware, async (req: AuthRequest, res) => {
-  const userId = req.user?.id;
-  if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
+router.post(
+  "/me/boosters/:boosterId/open",
+  jwtMiddleware,
+  async (req: AuthRequest, res) => {
+    const userId = req.user?.id;
+    if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
 
-  const boosterId  = req.params.boosterId as string;
+    const boosterId = req.params.boosterId as string;
 
-  const result = await openBooster(userId, boosterId);
-  if (!result.ok) return res.status(404).json({ error: result.error });
+    const result = await openBooster(userId, boosterId);
+    if (!result.ok) return res.status(404).json({ error: result.error });
 
-  return res.json({ cards: result.value });
-});
+    return res.json({ cards: result.value });
+  },
+);
 
+router.post(
+  "/me/collection/sell",
+  jwtMiddleware,
+  async (req: AuthRequest, res) => {
+    const userId = req.user?.id;
+    if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
+
+    const { cardId, count } = req.body;
+    if (!cardId || !count || typeof count !== "number" || count <= 0) {
+      return res.status(400).json({ error: "INPUT_INVALID" });
+    }
+
+    const result = await sellCollectionCards(userId, cardId, count);
+
+    if (!result.ok) {
+      switch (result.error) {
+        case "USER_NOT_FOUND":
+          return res.status(404).json({ error: "USER_NOT_FOUND" });
+        case "INSUFFICIENT_QUANTITY":
+          return res.status(400).json({ error: "INSUFFICIENT_QUANTITY" });
+        case "DATABASE_ERROR":
+        case "SERVER_ERROR":
+        default:
+          return res.status(500).json({ error: "SERVER_ERROR" });
+      }
+    }
+
+    // On renvoie le succès ainsi que les donuts calculés par le serveur
+    return res.json({ success: true, earnedDonuts: result.value.earnedDonuts });
+  },
+);
 
 export default router;
