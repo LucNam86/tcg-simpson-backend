@@ -30,8 +30,9 @@ export async function registerUser(
   const boosters = await find();
   if (!boosters.ok) return err("DATABASE_ERROR");
 
-  const randomId = Math.floor(Math.random() * 1182) + 1;
-const avatar = `https://cdn.thesimpsonsapi.com/500/character/${randomId}.webp`
+  const AVATAR_COUNT = 13;
+  const randomIndex = Math.floor(Math.random() * AVATAR_COUNT) + 1;
+  const avatar = `/avatars/avatar-${randomIndex}.webp`;
 
   const user = {
     pseudo: input.pseudo,
