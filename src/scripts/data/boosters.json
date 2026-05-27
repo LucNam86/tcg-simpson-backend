@@ -8,8 +8,8 @@
     "serie": "Série 1",
     "probabilities": [
       { "rarity": "Common", "value": 70 },
-      { "rarity": "Rare", "value": 25 },
-      { "rarity": "Legendary", "value": 5 }
+      { "rarity": "Rare", "value": 29 },
+      { "rarity": "Legendary", "value": 1 }
     ]
   },
   {
@@ -21,8 +21,8 @@
     "serie": "Série 1",
     "probabilities": [
       { "rarity": "Common", "value": 0 },
-      { "rarity": "Rare", "value": 70 },
-      { "rarity": "Legendary", "value": 30 }
+      { "rarity": "Rare", "value": 80 },
+      { "rarity": "Legendary", "value": 20 }
     ]
   }
 ]
