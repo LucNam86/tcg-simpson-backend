@@ -35,22 +35,33 @@ async function seedBooster() {
         continue; 
       }
 
-      // 2. Récupération dynamique des ObjectIds des cartes correspondantes à cette série
-      // On le fait avant l'upsert pour injecter directement le tableau complet
-      const matchingCards = await CardModel.find({ "serie.id_serie": serieDoc._id }).select("_id");
+      // 2. Construction dynamique du filtre de requêtage des cartes
+      const cardFilter: any = { "serie.id_serie": serieDoc._id };
+
+      // Condition spécifique : Si c'est le booster légendaire, on restreint aux raretés 2 (Rare) et 3 (Légendaire)
+      if (booster.name === "Booster légendaire") {
+        cardFilter.rarity = { $in: ["2", "3"] };
+        console.log(`✨ Filtrage des cartes pour "${booster.name}" : Uniquement Rares ("2") et Légendaires ("3")`);
+      }
+
+      // 3. Récupération des ObjectIds des cartes correspondantes au filtre
+      const matchingCards = await CardModel.find(cardFilter).select("_id");
       const cardIds = matchingCards.map(card => card._id);
 
-      // 3. Préparation de l'objet final prêt pour Mongoose
+      console.log(`📦 Booster "${booster.name}" lié à ${cardIds.length} cartes potentielles.`);
+
+      // 4. Préparation de l'objet final avec les probabilités incluses !
       const preparedBooster = {
         name: booster.name,
         price: booster.price,
         slug: booster.slug,
         quantity: booster.quantity,
-        cards: cardIds, // Injecté directement ici !
-        serie: serieDoc._id
+        cards: cardIds,
+        serie: serieDoc._id,
+        probabilities: booster.probabilities // 🌟 Injecté directement depuis le JSON
       };
 
-      // 🎯 L'upsert : On cherche par SLUG. Si trouvé, on update. Sinon, on crée.
+      // 5. L'upsert : On cherche par NOM. Si trouvé, on update (écrase avec $set). Sinon, on crée.
       await BoosterModel.findOneAndUpdate(
         { name: booster.name },
         { $set: preparedBooster },
@@ -60,10 +71,7 @@ async function seedBooster() {
       boostersUpserted++;
     }
 
-
-    console.log("🚀 TOUS LES BOOSTERS ONT ÉTÉ SYNCHRONISÉS !");
-
-
+    console.log(`\n🚀 TOUS LES BOOSTERS (${boostersUpserted}) ONT ÉTÉ SYNCHRONISÉS AVEC LEURS PROBABILITÉS !`);
     process.exit(0);
   } catch (error) {
     console.error("❌ Erreur critique pendant le seeding des boosters :", error);
