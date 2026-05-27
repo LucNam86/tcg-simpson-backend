@@ -1,6 +1,6 @@
 // routes/user.ts
 import { Router } from "express";
-import { updateUser, updateMoney } from "@services/profile/index";
+import { updateUser, updateMoney, updateCountdown } from "@services/profile/index";
 import { updateDeck, activateDeck } from "@services/deck";
 import { jwtMiddleware, AuthRequest } from "@middleware/jwt.middleware";
 import { UpdateUserSchema } from "@shared/Schemas/user.schema";
@@ -118,6 +118,35 @@ router.put("/me/boosters/:boosterId", jwtMiddleware, async (req: AuthRequest, re
   }
 
   return res.status(200).json({ success: true });
+});
+
+
+router.put("/me/countdownends", jwtMiddleware, async (req: AuthRequest, res) => {
+  const userId = req.user?.id;
+  if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
+
+  const { countdownends } = req.body;
+
+  if (countdownends === undefined || typeof countdownends !== "string") {
+    return res.status(400).json({ error: "INVALID_COUNTDOWNENDS" });
+  }
+
+  const dateObject = new Date(countdownends);
+
+  if (isNaN(dateObject.getTime())) {
+  return res.status(400).json({ error: "INVALID_COUNTDOWNENDS" });
+}
+
+// 4. On passe l'objet Date à la fonction
+const result = await updateCountdown(userId, dateObject);
+
+
+  if (!result.ok) {
+    if (result.error === "USER_NOT_FOUND") return res.status(404).json({ error: result.error });
+    return res.status(500).json({ error: result.error });
+  }
+
+  return res.json({ countdownEnds: result.value });
 });
 
 

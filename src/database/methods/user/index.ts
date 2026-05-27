@@ -10,3 +10,4 @@ export { findByPseudo } from "./find/user.findByPseudo";
 export { save, saveCardsToCollection } from "./save/user.save";
 export { updateById } from "./update/user.updateById";
 export { updateMoneyById } from "./update/user.updateMoneyById";
+export {updateCountdownEndsById} from "./update/user.updateCountdownEnds"

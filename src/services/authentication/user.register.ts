@@ -39,6 +39,7 @@ const avatar = `https://cdn.thesimpsonsapi.com/500/character/${randomId}.webp`
     passwordHash,
     avatar,
     money: 100,
+    countdownEnds:new Date(),
     myCollection: [],
     boosters: boosters.value.map((booster) => ({
       booster: booster._id,

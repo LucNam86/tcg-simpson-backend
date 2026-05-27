@@ -59,6 +59,7 @@ export const PublicUserFullSchema = z.object({
   email: z.string(),
   avatar: z.string(),
   money: z.number(),
+  countdownEnds: z.date(),
   myCollection: z.array(PublicCardSchema),
   boosters: z.array(UserBoosterSchema),
   decks: z.array(z.string()).or(z.array(PublicDeckSchema)),
@@ -72,6 +73,7 @@ export const PublicUserSchema = z.object({
   email: z.string(),
   avatar: z.string(),
   money: z.number(),
+  countdownEnds: z.date(),
   darkMode: z.boolean(),
 });
 
