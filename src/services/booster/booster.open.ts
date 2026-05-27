@@ -21,15 +21,19 @@ const pickRarity = (
   let cumulative = 0;
 
   const sortedProbabilities = [...probabilities].sort(
-    (a, b) => b.value - a.value,
+    (a, b) => a.value - b.value,
   );
 
   for (const probability of sortedProbabilities) {
     cumulative += probability.value;
-    if (roll < cumulative) return probability.rarity;
+    if (roll < cumulative) {
+      return probability.rarity;
+    }
   }
 
-  return sortedProbabilities[0]?.rarity || "Common";
+  return (
+    sortedProbabilities[sortedProbabilities.length - 1]?.rarity || "Common"
+  );
 };
 
 const pickCards = (
@@ -42,6 +46,7 @@ const pickCards = (
   for (let i = 0; i < packSize; i++) {
     const rarity = pickRarity(probabilities);
     const cardsOfRarity = cards.filter((card) => card.rarity === rarity);
+
     const pool = cardsOfRarity.length > 0 ? cardsOfRarity : cards;
     const picked = pool[Math.floor(Math.random() * pool.length)];
     result.push(picked);
