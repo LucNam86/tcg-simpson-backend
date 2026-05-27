@@ -7,7 +7,7 @@ import {
   fetchPseudosAutocomplete,
   fetchUserDecks,
   fetchUserBoosters
-} from "@services/user";
+} from "@services/index";
 import { jwtMiddleware, AuthRequest } from "@middleware/jwt.middleware";
 
 const router = Router();

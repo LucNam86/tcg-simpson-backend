@@ -1,10 +1,10 @@
 // routes/user.ts
 import { Router } from "express";
-import { updateUser, updateMoney } from "@services/user";
+import { updateUser, updateMoney } from "@services/index";
 import { updateDeck, activateDeck } from "@services/deck";
 import { jwtMiddleware, AuthRequest } from "@middleware/jwt.middleware";
 import { UpdateUserSchema } from "@shared/Schemas/user.schema";
-import { addBooster } from "@services/user/add/user.addBooster";
+import { addBooster } from "@services/booster/booster.add";
 
 const router = Router();
 

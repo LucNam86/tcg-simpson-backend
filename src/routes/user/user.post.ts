@@ -4,8 +4,8 @@ import {
   registerUser,
   connectUser,
   addUserFriend,
-} from "@services/user";
-import { addDeck } from "@services/user";
+} from "@services/index";
+import { addDeck } from "@services/index";
 import {
   signToken,
   jwtMiddleware,

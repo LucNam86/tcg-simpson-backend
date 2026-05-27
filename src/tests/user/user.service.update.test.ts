@@ -1,4 +1,4 @@
-import { updateUser } from "@services/user/update/user.update";
+import { updateUser } from "@services/profile/profile.update";
 import { updateById } from "@database/methods/user";
 import bcrypt from "bcrypt";
 

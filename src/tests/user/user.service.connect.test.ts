@@ -1,4 +1,4 @@
-import { connectUser } from "@services/user/user.connect";
+import { connectUser } from "@services/authentication/user.connect";
 import { findByEmail } from "@database/methods/user";
 import bcrypt from "bcrypt";
 
