@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { jwtMiddleware, AuthRequest } from "@middleware/jwt.middleware";
-import { removeUserFriendByPseudo, removeUserDeck } from "@services/index";
+import { removeUserFriendByPseudo } from "@services/friends";
+import {removeUserDeck} from "@services/deck";
 
 const router = Router();
 

@@ -1,5 +1,5 @@
 import { Result, ok, err } from "@shared/Result";
-import { deleteDeck } from "@database/methods/user";
+import { deleteDeck } from "@database/methods/deck";
 
 type RemoveDeckError = "USER_NOT_FOUND" | "DATABASE_ERROR" | "DECK_NOT_FOUND" | "UNAUTHORIZED_DECK";
 

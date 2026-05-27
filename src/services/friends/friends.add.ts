@@ -1,8 +1,8 @@
 import { Result, ok, err } from "@shared/Result";
 import {
   findByPseudo,
-  addFriendById,
 } from "@database/methods/user";
+import { saveFriend } from "@database/methods/friends"
 
 type AddFriendError = "USER_NOT_FOUND" | "CANT_ADD_SELF" | "DATABASE_ERROR";
 
@@ -19,7 +19,7 @@ export async function addUserFriend(
 
   if (friendId === userId) return err("CANT_ADD_SELF");
 
-  const addResult = await addFriendById(userId, friendId);
+  const addResult = await saveFriend(userId, friendId);
   if (!addResult.ok) return err("DATABASE_ERROR");
 
   return ok(true);

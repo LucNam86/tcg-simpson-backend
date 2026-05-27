@@ -1,5 +1,5 @@
 import { Result, ok, err } from "@shared/Result";
-import { saveDeck } from "@database/methods/user";
+import { saveDeck } from "@database/methods/deck";
 
 type CreateDeckError = "USER_NOT_FOUND" | "MAX_DECKS_REACHED" | "INVALID_CARD_COUNT" | "DATABASE_ERROR";
 

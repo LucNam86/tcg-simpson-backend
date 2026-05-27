@@ -1,5 +1,5 @@
 // services/user.service.test.ts
-import { registerUser } from '@services/index';
+import { registerUser } from '@services/profile/index';
 
 jest.mock('@database/methods/user', () => ({
   findByEmail: jest.fn(),

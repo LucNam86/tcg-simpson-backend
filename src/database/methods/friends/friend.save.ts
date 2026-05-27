@@ -2,7 +2,7 @@
 import { Result, ok, err } from "@shared/Result";
 import { UserModel } from "@database/models/user.model";
 
-export const addFriendById = async (
+export const saveFriend = async (
   userId: string,
   friendId: string,
 ): Promise<Result<boolean, string>> => {

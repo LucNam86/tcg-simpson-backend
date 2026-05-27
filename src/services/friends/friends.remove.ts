@@ -1,8 +1,8 @@
 import { Result, ok, err } from "@shared/Result";
 import {
   findByPseudo,
-  deleteFriendById,
 } from "@database/methods/user";
+import { deleteFriendById } from "@database/methods/friends"
 
 type RemoveFriendError = "USER_NOT_FOUND" | "DATABASE_ERROR";
 

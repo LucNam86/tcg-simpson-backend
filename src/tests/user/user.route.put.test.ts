@@ -1,6 +1,6 @@
 import request from "supertest";
 import express from "express";
-import { updateUser } from "@services/index";
+import { updateUser } from "@services/profile/index";
 
 jest.mock("@services/user");
 jest.mock("@middleware/jwt.middleware", () => ({

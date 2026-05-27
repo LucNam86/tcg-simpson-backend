@@ -3,9 +3,9 @@ import { RegisterSchema, ConnectSchema } from "@shared/Schemas/user.schema";
 import {
   registerUser,
   connectUser,
-  addUserFriend,
-} from "@services/index";
-import { addDeck } from "@services/index";
+} from "@services/authentication";
+import { addUserFriend } from "@services/friends/friends.add";
+import { addDeck } from "@services/deck";
 import {
   signToken,
   jwtMiddleware,

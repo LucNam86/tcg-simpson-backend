@@ -1,6 +1,6 @@
 import request from "supertest";
 import express from "express";
-import { fetchUserById, fetchUserCollection } from "@services/index";
+import { fetchUserById, fetchUserCollection } from "@services/profile/index";
 
 jest.mock("@services/user");
 jest.mock("@middleware/jwt.middleware", () => ({

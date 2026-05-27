@@ -14,7 +14,7 @@ jest.mock('@middleware/jwt.middleware', () => ({
   jwtMiddleware: jest.fn((_req: any, _res: any, next: any) => next()),
 }));
 
-import { registerUser } from '@services/index';
+import { registerUser } from '@services/profile/index';
 
 const mockCreateUser = registerUser as jest.Mock;
 

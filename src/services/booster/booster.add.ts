@@ -1,5 +1,5 @@
 import { Result, ok, err } from "@shared/Result";
-import { saveBoosterToUser } from "@database/methods/user/save/user.saveBooster";
+import { saveBoosterToUser } from "@database/methods/booster/booster.save";
 import { updateMoneyById } from "@database/methods/user/update/user.updateMoneyById";
 import { findById as findBoosterById } from "@database/methods/booster";
 import { findById } from "@database/methods/user";

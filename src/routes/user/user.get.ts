@@ -2,12 +2,12 @@
 import { Router } from "express";
 import {
   fetchUserById,
-  fetchUserCollection,
-  fetchUserFriends,
   fetchPseudosAutocomplete,
-  fetchUserDecks,
-  fetchUserBoosters
-} from "@services/index";
+} from "@services/profile/index";
+import {fetchUserBoosters} from "@services/booster"
+import {fetchUserDecks} from "@services/deck";
+import {fetchUserFriends} from "@services/friends"
+import {fetchUserCollection} from "@services/card"
 import { jwtMiddleware, AuthRequest } from "@middleware/jwt.middleware";
 
 const router = Router();

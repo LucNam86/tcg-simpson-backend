@@ -1,6 +1,6 @@
 // routes/user.ts
 import { Router } from "express";
-import { updateUser, updateMoney } from "@services/index";
+import { updateUser, updateMoney } from "@services/profile/index";
 import { updateDeck, activateDeck } from "@services/deck";
 import { jwtMiddleware, AuthRequest } from "@middleware/jwt.middleware";
 import { UpdateUserSchema } from "@shared/Schemas/user.schema";
