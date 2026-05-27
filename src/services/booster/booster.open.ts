@@ -111,8 +111,8 @@ if (process.env.NODE_ENV !== "production") {
   const simulerTestProbabilites = () => {
     const probasBooster1 = [
       { rarity: "Common" as const, value: 70 },
-      { rarity: "Rare" as const, value: 29 },
-      { rarity: "Legendary" as const, value: 1 }
+      { rarity: "Rare" as const, value: 25 },
+      { rarity: "Legendary" as const, value: 5 }
     ];
 
     const compteurs = { Common: 0, Rare: 0, Legendary: 0 };
@@ -126,8 +126,8 @@ if (process.env.NODE_ENV !== "production") {
     console.log("\n=============================================");
     console.log("📊 RÉSULTAT DU CRASH-TEST (50 000 CARTES TIRÉES) :");
     console.log(`🟢 Communes (70% attendus) : ${((compteurs.Common / totalTirages) * 100).toFixed(2)}% (${compteurs.Common})`);
-    console.log(`🔵 Rares (29% attendus)    : ${((compteurs.Rare / totalTirages) * 100).toFixed(2)}% (${compteurs.Rare})`);
-    console.log(`🟡 Légendaires (1% attendu) : ${((compteurs.Legendary / totalTirages) * 100).toFixed(2)}% (${compteurs.Legendary})`);
+    console.log(`🔵 Rares (25% attendus)    : ${((compteurs.Rare / totalTirages) * 100).toFixed(2)}% (${compteurs.Rare})`);
+    console.log(`🟡 Légendaires (5% attendu) : ${((compteurs.Legendary / totalTirages) * 100).toFixed(2)}% (${compteurs.Legendary})`);
     console.log("=============================================\n");
   };
 
