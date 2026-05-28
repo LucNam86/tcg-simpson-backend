@@ -13,6 +13,7 @@ interface UpdateInput {
   pseudo?: string;
   password?: string;
   money?: number;
+  avatar?: string;
 }
 
 interface UpdatedUser {
@@ -31,6 +32,8 @@ export async function updateUser(
     updateData.passwordHash = await bcrypt.hash(input.password, env.BCRYPT_SALT_ROUNDS);
   }
   if (input.money !== undefined) updateData.money = input.money;
+
+  if (input.avatar) updateData.avatar = input.avatar;
 
   const result = await updateById(id, updateData);
 
