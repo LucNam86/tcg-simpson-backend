@@ -11,6 +11,7 @@ import {
 } from "@middleware/jwt.middleware";
 import { openBooster } from "@services/booster";
 import { sellCollectionCards } from "@services/card";
+import { addMoney } from "@services/profile/profile.addMoney";
 
 const router = Router();
 
@@ -135,8 +136,36 @@ router.post(
     }
 
     // On renvoie le succès ainsi que les donuts calculés par le serveur
-    return res.json({ success: true, earnedDonuts: result.value.earnedDonuts });
+    return res.json({ success: true, earnedDonuts: result.value.earnedDonuts, money: result.value.money });
   },
 );
+
+const MONEY_PACKS: Record<string, number> = {
+  "pack-50": 50,
+  "pack-100": 100,
+  "pack-200": 200,
+  "pack-500": 500,
+  "pack-1000": 1000,
+};
+
+router.post("/me/money", jwtMiddleware, async (req: AuthRequest, res) => {
+  const userId = req.user?.id;
+  if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
+
+  const { packId } = req.body;
+  if (!packId || !MONEY_PACKS[packId]) {
+    return res.status(400).json({ error: "INVALID_PACK" });
+  }
+
+  const amount = MONEY_PACKS[packId];
+  const result = await addMoney(userId, amount);
+
+  if (!result.ok) {
+    if (result.error === "USER_NOT_FOUND") return res.status(404).json({ error: result.error });
+    return res.status(500).json({ error: result.error });
+  }
+
+  return res.json({ money: result.value });
+});
 
 export default router;

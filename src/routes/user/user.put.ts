@@ -119,7 +119,7 @@ router.put("/me/boosters/:boosterId", jwtMiddleware, async (req: AuthRequest, re
     return res.status(500).json({ error: result.error });
   }
 
-  return res.status(200).json({ success: true });
+  return res.status(200).json({ success: true,  money: result.value.money });
 });
 
 

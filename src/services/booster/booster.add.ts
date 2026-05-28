@@ -1,15 +1,19 @@
 import { Result, ok, err } from "@shared/Result";
 import { saveBoosterToUser } from "@database/methods/booster/booster.save";
 import { updateMoneyById } from "@database/methods/user/update/user.updateMoneyById";
-import { findById as findBoosterById } from "@database/methods/booster";
+import { findById as findBoosterById}  from "@database/methods/booster/booster.findById";
 import { findById } from "@database/methods/user";
 
 type AddBoosterError = "USER_NOT_FOUND" | "BOOSTER_NOT_FOUND" | "NOT_ENOUGH_MONEY" | "DATABASE_ERROR";
 
+interface AddBoosterResult {
+  money: number;
+}
+
 export async function addBooster(
   userId: string,
   boosterId: string,
-): Promise<Result<void, AddBoosterError>> {
+): Promise<Result<AddBoosterResult, AddBoosterError>> {
   const userResult = await findById(userId);
   if (!userResult.ok) return err("DATABASE_ERROR");
   if (!userResult.value) return err("USER_NOT_FOUND");
@@ -27,5 +31,5 @@ export async function addBooster(
   const moneyResult = await updateMoneyById(userId, newMoney);
   if (!moneyResult.ok) return err("DATABASE_ERROR");
 
-  return ok(undefined);
+  return ok({ money: moneyResult.value });
 }
