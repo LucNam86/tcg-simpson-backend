@@ -11,7 +11,7 @@ import {
 } from "@middleware/jwt.middleware";
 import { openBooster } from "@services/booster";
 import { sellCollectionCards } from "@services/card";
-import { addMoney } from "@services/profile/profile.addMoney";
+import { addMoney,updateDailyMoney } from "@services/profile";
 
 const router = Router();
 
@@ -166,6 +166,21 @@ router.post("/me/money", jwtMiddleware, async (req: AuthRequest, res) => {
   }
 
   return res.json({ money: result.value });
+});
+
+router.post("/me/money/daily", jwtMiddleware, async (req: AuthRequest, res) => {
+  const userId = req.user?.id;
+  if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
+
+  const result = await updateDailyMoney(userId);
+
+  if (!result.ok) {
+    if (result.error === "USER_NOT_FOUND") return res.status(404).json({ error: result.error });
+    if (result.error === "NOT_READY") return res.status(400).json({ error: result.error });
+    return res.status(500).json({ error: result.error });
+  }
+
+  return res.json({ money: result.value.money, countdownEnds: result.value.countdownEnds });
 });
 
 export default router;
