@@ -273,7 +273,7 @@
     "family": "Animaux",
     "affinity": "Sans Affinité",
     "serie": { "name_serie": "Série 1", "position": 23 },
-    "description": "Le cochon adopté par Homer devenu une icône. Il sait marcher au plafond, porte une cape et répond aussi au doux nom de Harry Crotter."
+    "description": "Le cochon adopté par Homer devenu une icône. Il sabe marcher au plafond, porte une cape et répond aussi au doux nom de Harry Crotter."
   },
   {
     "name": "Professeur Frink",
@@ -512,6 +512,7 @@
     "PV": 115,
     "family": "École",
     "affinity": "Sans Affinité",
+    "serie": { "name_serie": "Série 2", "position": 43 },
     "description": "Enseignante désabusée de la classe de Bart. Entre cynisme, cigarettes en douce et solitude, elle cherche désespérément le grand amour à Springfield."
   },
   {
@@ -674,7 +675,7 @@
     "name": "Maude Flanders",
     "slug": "maude",
     "type": "Personnage",
-    "rarity": "2",
+    "rarity": "1",
     "ATK": 20,
     "PV": 95,
     "family": "Flanders",
@@ -887,17 +888,17 @@
     "description": "Nouvelle élève surdouée qui a sauté une classe. Elle surpasse Lisa au saxophone, adore les anagrammes et maîtrise l'art de la confection de dioramas."
   },
   {
-  "name": "Le Crayon de Martin",
-  "slug": "le-crayon-de-martin",
-  "type": "Objet",
-  "rarity": "1",
-  "ATK": 5,
-  "PV": 0,
-  "family": "École",
-  "affinity": "Savoir",
-  "serie": { "name_serie": "Série 2", "position": 61 },
-  "description": "Un outil d'écriture parfaitement taillé, utilisé par Martin pour obtenir des notes parfaites. Malheureusement, il est bien trop fragile pour résister aux brutes de la cour de récréation."
-},
+    "name": "Le Crayon de Martin",
+    "slug": "le-crayon-de-martin",
+    "type": "Objet",
+    "rarity": "1",
+    "ATK": 5,
+    "PV": 0,
+    "family": "École",
+    "affinity": "Sans Affinité",
+    "serie": { "name_serie": "Série 2", "position": 75 },
+    "description": "Un outil d'écriture parfaitement taillé, utilisé par Martin pour obtenir des notes parfaites. Malheureusement, il est bien trop fragile pour résister aux brutes de la cour de récréation."
+  },
   {
     "name": "Manjula Nahasapeemapetilon",
     "slug": "manjula-nahasapeemapetilon",
@@ -905,11 +906,11 @@
     "rarity": "1",
     "ATK": 35,
     "PV": 110,
-    "family": "Famille",
+    "family": "Sans Famille",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 82 },
+    "serie": { "name_serie": "Série 2", "position": 76 },
     "description": "Épouse dévouée d'Apu et mère courageuse des octuplés de Springfield. Elle gère d'une main de fer le quotidien trépidant de sa grande famille."
-},
+  },
   {
     "name": "Canapé des Simpson",
     "slug": "canape-simpson",
