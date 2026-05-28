@@ -225,7 +225,7 @@
     "family": "Sans Famille",
     "affinity": "Sans Affinité",
     "serie": { "name_serie": "Série 1", "position": 19 },
-    "description": "L'instrument fétiche de Lisa. Reçu en cadeau pour stimuler son génie musical, il lui sert d'exutoire pour exprimer son blues au quotidien."
+    "description": "L'instrument fétiche de Lisa. Reçu en cadeau pour stimuler son génie musical, il lui sert d'exutoire pour expresser son blues au quotidien."
   },
   {
     "name": "Skateboard",
@@ -488,7 +488,7 @@
     "PV": 130,
     "family": "École",
     "affinity": "Skinner et Chalmers",
-    "serie": { "name_serie": "Série 2", "position": 41 },
+    "serie": { "name_serie": "Série 2", "position": 1 },
     "description": "Principal de l'école élémentaire, vétéran du Vietnam et fils modèle un peu trop couvé. Vit dans la terreur constante des canulars de Bart et des inspections."
   },
   {
@@ -500,19 +500,19 @@
     "PV": 120,
     "family": "École",
     "affinity": "Skinner et Chalmers",
-    "serie": { "name_serie": "Série 2", "position": 42 },
+    "serie": { "name_serie": "Série 2", "position": 2 },
     "description": "L'inspecteur d'académie au tempérament volcanique. Son cri de guerre 'SKINNER !' fait trembler les murs de l'école à chaque visite de routine."
   },
   {
     "name": "Edna Krapabelle",
-    "slug": "krabappel",
+    "slug": "krapabelle",
     "type": "Personnage",
     "rarity": "2",
     "ATK": 45,
     "PV": 115,
     "family": "École",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 43 },
+    "serie": { "name_serie": "Série 2", "position": 3 },
     "description": "Enseignante désabusée de la classe de Bart. Entre cynisme, cigarettes en douce et solitude, elle cherche désespérément le grand amour à Springfield."
   },
   {
@@ -524,7 +524,7 @@
     "PV": 90,
     "family": "Centrale",
     "affinity": "Lenny et Carl",
-    "serie": { "name_serie": "Série 2", "position": 44 },
+    "serie": { "name_serie": "Série 2", "position": 4 },
     "description": "Collègue de travail d'Homer et habitué du bar de Moe. Un gars simple, apprécié de tous, qui a une fâcheuse tendance à recevoir des objets dans l'œil."
   },
   {
@@ -536,7 +536,7 @@
     "PV": 85,
     "family": "Centrale",
     "affinity": "Lenny et Carl",
-    "serie": { "name_serie": "Série 2", "position": 45 },
+    "serie": { "name_serie": "Série 2", "position": 5 },
     "description": "L'esprit un peu plus terre-à-terre du duo qu'il forme avec Lenny. Scientifique de formation (malgré son poste à la centrale), il aime philosopher autour d'une Duff."
   },
   {
@@ -548,7 +548,7 @@
     "PV": 100,
     "family": "Artistes",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 46 },
+    "serie": { "name_serie": "Série 2", "position": 6 },
     "description": "Idole et mentor musical de Lisa. Ce jazzman légendaire joue un blues poignant capable de soigner les âmes solitaires, malgré son coût de santé exorbitant."
   },
   {
@@ -560,7 +560,7 @@
     "PV": 95,
     "family": "Médias",
     "affinity": "Brockman et Arnie",
-    "serie": { "name_serie": "Série 2", "position": 47 },
+    "serie": { "name_serie": "Série 2", "position": 7 },
     "description": "Le présentateur vedette du canal 6. Égocentrique, superficiel et obsédé par son brushing, il est toujours prêt à dramatiser l'actualité pour faire de l'audimat."
   },
   {
@@ -572,7 +572,7 @@
     "PV": 80,
     "family": "Médias",
     "affinity": "Brockman et Arnie",
-    "serie": { "name_serie": "Série 2", "position": 48 },
+    "serie": { "name_serie": "Série 2", "position": 8 },
     "description": "Le reporter en hélicoptère enragé. Sa haine viscérale pour Kent Brockman explose régulièrement en direct pendant le point trafic."
   },
   {
@@ -584,7 +584,7 @@
     "PV": 110,
     "family": "Police",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 49 },
+    "serie": { "name_serie": "Série 2", "position": 9 },
     "description": "Le flic le plus compétent du commissariat (ce qui n'est pas difficile). Il passe son temps à corriger subtilement les bêtises du Chef Wiggum."
   },
   {
@@ -596,7 +596,7 @@
     "PV": 95,
     "family": "Méchants",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 50 },
+    "serie": { "name_serie": "Série 2", "position": 10 },
     "description": "Le délinquant récidiviste en blouson de cuir. Expert en braquages du Kwik-E-Mart et en évasions de prison. Un vrai rebelle d'un autre temps."
   },
   {
@@ -608,7 +608,7 @@
     "PV": 140,
     "family": "Sans Famille",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 51 },
+    "serie": { "name_serie": "Série 2", "position": 11 },
     "description": "Le magistrat blasé de Springfield. Connu pour sa clémence soudaine ou ses verdicts expéditifs, souvent pressé de partir jouer au golf pour éviter les avocats."
   },
   {
@@ -620,7 +620,7 @@
     "PV": 90,
     "family": "Méchants",
     "affinity": "Guibs et Louie",
-    "serie": { "name_serie": "Série 2", "position": 52 },
+    "serie": { "name_serie": "Série 2", "position": 12 },
     "description": "Homme de main fidèle de Gros Tony. Silencieux, obéissant et redoutable quand il s'agit d'ajuster les rotules des mauvais payeurs."
   },
   {
@@ -632,7 +632,7 @@
     "PV": 85,
     "family": "Méchants",
     "affinity": "Guibs et Louie",
-    "serie": { "name_serie": "Série 2", "position": 53 },
+    "serie": { "name_serie": "Série 2", "position": 13 },
     "description": "Le mafieux à la voix aiguë et au tempérament anxieux. Il prend un plaisir un peu trop personnel à exécuter les menaces de la pègre."
   },
   {
@@ -644,7 +644,7 @@
     "PV": 80,
     "family": "Sans Famille",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 54 },
+    "serie": { "name_serie": "Série 2", "position": 14 },
     "description": "L'avocat le moins diplômé et le plus incompétent de la ville. Travaille aussi comme baby-sitter et cordonnier pour boucler ses fins de mois."
   },
   {
@@ -656,7 +656,7 @@
     "PV": 110,
     "family": "Scientifiques",
     "affinity": "Hibbert et Nick",
-    "serie": { "name_serie": "Série 2", "position": 55 },
+    "serie": { "name_serie": "Série 2", "position": 15 },
     "description": "Le médecin en chef de Springfield. Connu pour ses diagnostics hors de prix et son rire jovial totalement inapproprié face aux pires tragédies médicales."
   },
   {
@@ -668,7 +668,7 @@
     "PV": 75,
     "family": "Scientifiques",
     "affinity": "Hibbert et Nick",
-    "serie": { "name_serie": "Série 2", "position": 56 },
+    "serie": { "name_serie": "Série 2", "position": 16 },
     "description": "'Salut tout le monde !' Ce chirurgien low-cost opère avec des outils de jardinage. Ses diplômes proviennent probablement d'une boîte de céréales."
   },
   {
@@ -680,7 +680,7 @@
     "PV": 95,
     "family": "Flanders",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 57 },
+    "serie": { "name_serie": "Série 2", "position": 17 },
     "description": "L'épouse dévote de Ned. Protectrice acharnée de la moralité des enfants, elle passe son temps à prier et à désapprouver le mode de vie des Simpson."
   },
   {
@@ -692,7 +692,7 @@
     "PV": 75,
     "family": "Flanders",
     "affinity": "Rod et Todd",
-    "serie": { "name_serie": "Série 2", "position": 58 },
+    "serie": { "name_serie": "Série 2", "position": 18 },
     "description": "Le fils aîné de Ned. Il a peur des papillons, des cookies non bénis et passe ses journées à jouer à des jeux de société religieux avec son frère."
   },
   {
@@ -704,7 +704,7 @@
     "PV": 75,
     "family": "Flanders",
     "affinity": "Rod et Todd",
-    "serie": { "name_serie": "Série 2", "position": 59 },
+    "serie": { "name_serie": "Série 2", "position": 19 },
     "description": "Le plus jeune de la fratrie Flanders. Facilement influençable, il répète parfois des gros mots entendus chez Homer, au grand dam de son père."
   },
   {
@@ -716,7 +716,7 @@
     "PV": 80,
     "family": "École",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 60 },
+    "serie": { "name_serie": "Série 2", "position": 20 },
     "description": "Le chouchou de la maîtresse et rival intellectuel de Lisa. Sa passion pour le théâtre médiéval et les corrections grammaticales en fait la cible idéale de Nelson."
   },
   {
@@ -728,7 +728,7 @@
     "PV": 70,
     "family": "École",
     "affinity": "Sherri et Terri",
-    "serie": { "name_serie": "Série 2", "position": 61 },
+    "serie": { "name_serie": "Série 2", "position": 21 },
     "description": "Jumelle identique habillée en violet. Reine des moqueries mesquines à l'arrière du bus scolaire, elle ne se déplace jamais sans sa sœur."
   },
   {
@@ -740,7 +740,7 @@
     "PV": 70,
     "family": "École",
     "affinity": "Sherri et Terri",
-    "serie": { "name_serie": "Série 2", "position": 62 },
+    "serie": { "name_serie": "Série 2", "position": 22 },
     "description": "L'autre moitié du duo de jumelles harcelantes de l'école. Communique par télépathie ou messes basses pour exclure Lisa et les autres filles."
   },
   {
@@ -752,7 +752,7 @@
     "PV": 105,
     "family": "Méchants",
     "affinity": "Jimbo et Kearney",
-    "serie": { "name_serie": "Série 2", "position": 63 },
+    "serie": { "name_serie": "Série 2", "position": 23 },
     "description": "Brute de l'école au crâne rasé. Fait étrange : malgré son statut d'élève en primaire, il a l'âge d'avoir son permis de conduire et est déjà divorcé."
   },
   {
@@ -764,7 +764,7 @@
     "PV": 100,
     "family": "Méchants",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 64 },
+    "serie": { "name_serie": "Série 2", "position": 24 },
     "description": "Membre du gang des brutes. Reconnaissable à sa frange asymétrique, il parle plusieurs langues mais préfère utiliser celle des poings."
   },
   {
@@ -776,7 +776,7 @@
     "PV": 105,
     "family": "Méchants",
     "affinity": "Jimbo et Kearney",
-    "serie": { "name_serie": "Série 2", "position": 65 },
+    "serie": { "name_serie": "Série 2", "position": 25 },
     "description": "Le leader informel des brutes de Springfield, coiffé de son bonnet fétiche. Grand amateur de vol à l'étalage et de brimades gratuites."
   },
   {
@@ -788,7 +788,7 @@
     "PV": 50,
     "family": "Sans Famille",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 66 },
+    "serie": { "name_serie": "Série 2", "position": 26 },
     "description": "L'homme le plus malchanceux du monde. Malgré ses 31 ans (ravagé par l'alcool), il survit chaque jour à des explosions, des crashs et des enterrements prématurés."
   },
   {
@@ -800,7 +800,7 @@
     "PV": 90,
     "family": "Sans Famille",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 67 },
+    "serie": { "name_serie": "Série 2", "position": 27 },
     "description": "L'impitoyable avocat aux cheveux bleus représentant Mr. Burns ou la Walt Disney Company. Ne perd jamais un procès et adore brandir des copyrights."
   },
   {
@@ -812,7 +812,7 @@
     "PV": 110,
     "family": "Sans Famille",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 68 },
+    "serie": { "name_serie": "Série 2", "position": 28 },
     "description": "Le cynique propriétaire du Donjon de l'Androïde. Obèse, sarcastique, il passe sa vie à critique la pop culture. 'Pire. Carte. De collection. Jamais !'"
   },
   {
@@ -824,7 +824,7 @@
     "PV": 80,
     "family": "École",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 69 },
+    "serie": { "name_serie": "Série 2", "position": 29 },
     "description": "Le prof de musique frustré et ennuyé de l'école primaire. Déteste la créativité musicale et n'a d'yeux que pour la rigueur des marches militaires monotones."
   },
   {
@@ -836,7 +836,7 @@
     "PV": 130,
     "family": "Simpson",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 70 },
+    "serie": { "name_serie": "Série 2", "position": 30 },
     "description": "La mère d'Homer. Ancienne activiste hippie recherchée par le FBI depuis les années 60 pour avoir saboté les labos de guerre biologique de Burns."
   },
   {
@@ -848,7 +848,7 @@
     "PV": 20,
     "family": "Sans Famille",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 71 },
+    "serie": { "name_serie": "Série 2", "position": 31 },
     "description": "Le repaire ultime des geeks de Springfield. Rempli de comics rares, de figurines poussiéreuses et imprégné d'un mépris total pour les clients ordinaires."
   },
   {
@@ -860,7 +860,7 @@
     "PV": 25,
     "family": "Sans Famille",
     "affinity": "Moe et Barney",
-    "serie": { "name_serie": "Série 2", "position": 72 },
+    "serie": { "name_serie": "Série 2", "position": 32 },
     "description": "Un endroit sombre, sans fenêtres, où la Duff coule à flots. L'hygiène y est déplorable mais c'est le second foyer d'Homer et Barney."
   },
   {
@@ -872,7 +872,7 @@
     "PV": 45,
     "family": "Sans Famille",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 73 },
+    "serie": { "name_serie": "Série 2", "position": 33 },
     "description": "Le havre d'ennui des seniors de Springfield. La soupe y est tiède, la télévision n'a pas de bouton de volume et les fenêtres offrent une vue imprenable sur un mur."
   },
   {
@@ -884,7 +884,7 @@
     "PV": 95,
     "family": "École",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 74 },
+    "serie": { "name_serie": "Série 2", "position": 34 },
     "description": "Nouvelle élève surdouée qui a sauté une classe. Elle surpasse Lisa au saxophone, adore les anagrammes et maîtrise l'art de la confection de dioramas."
   },
   {
@@ -896,7 +896,7 @@
     "PV": 0,
     "family": "École",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 75 },
+    "serie": { "name_serie": "Série 2", "position": 35 },
     "description": "Un outil d'écriture parfaitement taillé, utilisé par Martin pour obtenir des notes parfaites. Malheureusement, il est bien trop fragile pour résister aux brutes de la cour de récréation."
   },
   {
@@ -908,7 +908,7 @@
     "PV": 110,
     "family": "Sans Famille",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 76 },
+    "serie": { "name_serie": "Série 2", "position": 36 },
     "description": "Épouse dévouée d'Apu et mère courageuse des octuplés de Springfield. Elle gère d'une main de fer le quotidien trépidant de sa grande famille."
   },
   {
@@ -920,7 +920,7 @@
     "PV": 60,
     "family": "Sans Famille",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 77 },
+    "serie": { "name_serie": "Série 2", "position": 37 },
     "description": "Le meuble le plus célèbre du salon. Théâtre de gags visuels complexes à chaque générique, il encaisse les charges d'Homer depuis des décennies."
   },
   {
@@ -932,7 +932,7 @@
     "PV": 110,
     "family": "Centrale",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 78 },
+    "serie": { "name_serie": "Série 2", "position": 38 },
     "description": "Professionnel diplômé, rigoureux et malchanceux. Sa némésis ? L'incompétence d'Homer Simpson. Son destin tragique l'a mené à une fin foudroyante à la centrale."
   },
   {
@@ -944,7 +944,7 @@
     "PV": 125,
     "family": "Sans Famille",
     "affinity": "Sans Affinité",
-    "serie": { "name_serie": "Série 2", "position": 79 },
+    "serie": { "name_serie": "Série 2", "position": 39 },
     "description": "Le porte-parole officiel de la bière Duff ! Toujours en slip par-dessus son collant, ceinture pleine de canettes et déhanché frénétique. Duffman ne meurt jamais, seulement l'acteur qui joue son rôle !"
   },
   {
@@ -956,7 +956,7 @@
     "PV": 30,
     "family": "Sans Famille",
     "affinity": "Hibbert et Nick",
-    "serie": { "name_serie": "Série 2", "position": 80 },
+    "serie": { "name_serie": "Série 2", "position": 40 },
     "description": "L'instrument médical du Dr. Hibbert. Permet d'écouter les battements de cœur des patients... juste avant de leur facturer une consultation astronomique."
   }
 ]
