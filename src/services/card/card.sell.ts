@@ -45,7 +45,7 @@ export async function sellCollectionCards(
     (card: any) => (card._id || card.id)?.toString() === cardId
   ).length;
 
-  if (currentOwnedCount < count) return err("INSUFFICIENT_QUANTITY");
+  if (currentOwnedCount - count < 1) return err("INSUFFICIENT_QUANTITY");
 
   let removed = 0;
   const updatedCollection = myCollection.filter((card: any) => {
