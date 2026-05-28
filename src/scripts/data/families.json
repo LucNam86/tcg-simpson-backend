@@ -33,5 +33,30 @@
     "name": "Animaux",
     "description": "Les fidèles compagnons à poils ou à écailles",
     "bonus": { "ATK": 70, "PV": 30 }
+  },
+  {
+    "name": "École",
+    "description": "Le corps enseignant et les élèves de l'école élémentaire",
+    "bonus": { "ATK": 35, "PV": 55 }
+  },
+  {
+    "name": "Centrale",
+    "description": "Les employés (plus ou moins) qualifiés du secteur nucléaire",
+    "bonus": { "ATK": 50, "PV": 40 }
+  },
+  {
+    "name": "Artistes",
+    "description": "Les âmes créatives et virtuoses de Springfield",
+    "bonus": { "ATK": 40, "PV": 50 }
+  },
+  {
+    "name": "Médias",
+    "description": "Les stars du petit écran et de l'information locale",
+    "bonus": { "ATK": 45, "PV": 45 }
+  },
+  {
+    "name": "Scientifiques",
+    "description": "Les esprits brillants et les experts de la santé",
+    "bonus": { "ATK": 30, "PV": 60 }
   }
 ]
