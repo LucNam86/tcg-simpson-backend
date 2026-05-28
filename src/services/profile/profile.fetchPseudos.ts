@@ -1,8 +1,12 @@
 import { Result, ok, err } from "@shared/Result";
 import { findByManyPseudo } from "@database/methods/user";
-import { PublicFriend } from "../friends/friends.fetch";
 
-type GetUserError = "USER_NOT_FOUND" | "DATABASE_ERROR" | "INVALID_USER";
+export interface PublicFriend {
+  pseudo: string;
+  avatar: string;
+}
+
+type GetUserError = "DATABASE_ERROR";
 
 export async function fetchPseudosAutocomplete(
   query: string,

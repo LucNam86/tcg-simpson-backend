@@ -3,12 +3,10 @@ import { DeckModel } from "@database/models/deck.model";
 import { UserModel } from "@database/models/user.model";
 import { Types } from "mongoose";
 
-type DbResultError = "DATABASE_ERROR" | "DECK_NOT_FOUND" | "UNAUTHORIZED_DECK";
-
 export async function deleteDeck(
   userId: string,
   deckId: string,
-): Promise<Result<void, DbResultError>> {
+): Promise<Result<void, string>> {
   try {
     const deck = await DeckModel.findById(deckId);
     if (!deck) return err("DECK_NOT_FOUND");

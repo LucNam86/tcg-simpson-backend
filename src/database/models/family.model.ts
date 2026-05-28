@@ -1,6 +1,6 @@
 import { Schema, model, Document } from "mongoose";
 
-interface IBonus {
+export interface IBonus {
   ATK: number;
   PV: number;
 }

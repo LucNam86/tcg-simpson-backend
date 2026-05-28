@@ -4,10 +4,10 @@ import {
   fetchUserById,
   fetchPseudosAutocomplete,
 } from "@services/profile/index";
-import {fetchUserBoosters} from "@services/booster"
-import {fetchUserDecks} from "@services/deck";
-import {fetchUserFriends} from "@services/friends"
-import {fetchUserCollection} from "@services/card"
+import { fetchUserBoosters } from "@services/booster"
+import { fetchUserDecks } from "@services/deck";
+import { fetchUserFriends } from "@services/friends"
+import { fetchUserCollection } from "@services/card"
 import { jwtMiddleware, AuthRequest } from "@middleware/jwt.middleware";
 
 const router = Router();
@@ -43,11 +43,17 @@ router.get("/me/collection", jwtMiddleware, async (req: AuthRequest, res) => {
 
   const { q, rarity, type, serie } = req.query;
 
+  const toArray = (val: unknown): string[] => {
+    if (!val) return [];
+    if (Array.isArray(val)) return val as string[];
+    return [val as string];
+  };
+
   const result = await fetchUserCollection(userId, {
-    q: q as string,
-    rarity: rarity as string[],
-    type: type as string[],
-    serie: serie as string[],
+    q: q as string | undefined,
+    rarity: toArray(rarity),
+    type: toArray(type),
+    serie: toArray(serie),
   });
 
   if (!result.ok) return res.status(404).json({ error: result.error });

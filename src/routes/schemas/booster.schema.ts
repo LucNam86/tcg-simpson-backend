@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import {PublicCardSchema} from "@shared/Schemas/card.schema";
+import {PublicCardSchema} from "@routes/schemas/card.schema";
 
 export const PublicBoosterSchema = z.object({
   id: z.string(),

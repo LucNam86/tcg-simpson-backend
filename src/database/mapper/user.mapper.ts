@@ -1,10 +1,8 @@
-// database/mappers/user.mapper.ts
 import { mapCard } from "./card.mapper";
 import { mapUserBoosters } from "./booster.mapper";
-import type { PublicUser, PublicUserFull } from "@shared/Schemas/user.schema";
 import { UserDocument } from "@database/models/user.model";
 
-export const mapUser = (user: any): PublicUserFull => ({
+export const mapUser = (user: any) => ({
   id: user._id.toString(),
   pseudo: user.pseudo,
   email: user.email,
@@ -29,6 +27,7 @@ export function mapUserPublic(user: UserDocument) {
     darkMode: user.darkMode,
   };
 }
+
 export const mapFriend = (friend: any) => {
   const uniqueCardsCount = friend.myCollection
     ? new Set(friend.myCollection.map((cardId: any) => cardId.toString())).size

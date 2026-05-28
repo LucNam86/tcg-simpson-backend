@@ -10,26 +10,28 @@ import '@database/models/serie.model';
 
  const router = Router();
 
- router.get("/", jwtMiddleware, async (req: AuthRequest, res) => {
-     const userId = req.user?.id;
+router.get("/", jwtMiddleware, async (req: AuthRequest, res) => {
+  const userId = req.user?.id;
+  if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
 
-     if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
+  const { q, rarity, type, serie } = req.query;
 
-    const { q, rarity, type, serie } = req.query;
-    const result = await fetchCards(
-     {
-    q: q as string,
-    rarity: rarity as string[],
-    type: type as string[],
-    serie: serie as string[],
+  const toArray = (val: unknown): string[] => {
+    if (!val) return [];
+    if (Array.isArray(val)) return val as string[];
+    return [val as string];
+  };
+
+  const result = await fetchCards({
+    q: q as string | undefined,
+    rarity: toArray(rarity),
+    type: toArray(type),
+    serie: toArray(serie),
   });
-  
-  if (!result.ok) {
-      return res.status(404).json({ error: result.error });
-  }
 
-return res.json(result.value);
-    });
+  if (!result.ok) return res.status(404).json({ error: result.error });
 
+  return res.json(result.value);
+});
 
 export default router;

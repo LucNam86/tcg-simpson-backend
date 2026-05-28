@@ -3,8 +3,9 @@ import { Router } from "express";
 import { updateUser, updateMoney, updateCountdown } from "@services/profile/index";
 import { updateDeck, activateDeck } from "@services/deck";
 import { jwtMiddleware, AuthRequest } from "@middleware/jwt.middleware";
-import { UpdateUserSchema } from "@shared/Schemas/user.schema";
+import { UpdateUserSchema } from "@routes/schemas/user.schema";
 import { addBooster } from "@services/booster/booster.add";
+import { UpdateDeckSchema } from "@routes/schemas/deck.schema";
 
 const router = Router();
 
@@ -39,12 +40,13 @@ router.put(
     if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
 
     const { deckId } = req.params;
-    const { name, cards } = req.body;
-
     if (!deckId || typeof deckId !== "string")
       return res.status(400).json({ error: "MISSING_DECK_ID" });
 
-    const result = await updateDeck(userId, deckId, { name, cards });
+    const body = UpdateDeckSchema.safeParse(req.body);
+    if (!body.success) return res.status(400).json({ error: "INPUT_INVALID" });
+
+    const result = await updateDeck(userId, deckId, body.data);
     if (!result.ok) {
       if (["DECK_NOT_FOUND", "USER_NOT_FOUND"].includes(result.error))
         return res.status(404).json({ error: result.error });

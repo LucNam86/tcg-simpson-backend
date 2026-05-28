@@ -2,42 +2,17 @@ import { Result, ok, err } from "@shared/Result";
 import { DeckModel, DeckDocument } from "@database/models/deck.model";
 import { UserModel } from "@database/models/user.model";
 import { Types } from "mongoose";
-
-type AddDeckError =
-  | "USER_NOT_FOUND"
-  | "MAX_DECKS_REACHED"
-  | "INVALID_CARD_COUNT"
-  | "DATABASE_ERROR";
-
-interface AddDeckInput {
-  userId: string;
-  name: string;
-  cards: string[];
-}
+import { SaveDeckInput } from "@database/interfaces/deck.interface";
 
 export async function saveDeck(
-  input: AddDeckInput,
-): Promise<Result<DeckDocument, AddDeckError>> {
+  input: SaveDeckInput,
+): Promise<Result<DeckDocument, string>> {
   try {
-    const user = await UserModel.findById(input.userId);
-    if (!user) return err("USER_NOT_FOUND");
-
-    // Vérification de la limite de decks
-    if (user.decks && user.decks.length >= 3) {
-      return err("MAX_DECKS_REACHED");
-    }
-
-    // Vérification du nombre de cartes
-    if (input.cards.length !== 10) {
-      return err("INVALID_CARD_COUNT");
-    }
-
-    // Création du nouveau deck
     const newDeck = new DeckModel({
-      name: input.name || "Mon Super Deck",
+      name: input.name,
       cards: input.cards.map((id) => new Types.ObjectId(id)),
       user: new Types.ObjectId(input.userId),
-      isActive: !user.decks || user.decks.length === 0,
+      isActive: input.isActive,
     });
 
     await newDeck.save();
@@ -49,7 +24,7 @@ export async function saveDeck(
 
     return ok(newDeck);
   } catch (error) {
-    console.error("Erreur addDeck service :", error);
+    console.error("Erreur saveDeck:", error);
     return err("DATABASE_ERROR");
   }
-};
+}

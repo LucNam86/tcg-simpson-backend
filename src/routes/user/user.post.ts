@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { RegisterSchema, ConnectSchema } from "@shared/Schemas/user.schema";
+import { RegisterSchema, ConnectSchema } from "@routes/schemas/user.schema";
 import { registerUser, connectUser } from "@services/authentication";
 import { addUserFriend } from "@services/friends/friends.add";
 import { addDeck } from "@services/deck";
+import { CreateDeckSchema } from "@routes/schemas/deck.schema";
 import {
   signToken,
   jwtMiddleware,
@@ -70,22 +71,17 @@ router.post("/me/decks", jwtMiddleware, async (req: AuthRequest, res) => {
   const userId = req.user?.id;
   if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
 
-  const { name, cards } = req.body;
+  const body = CreateDeckSchema.safeParse(req.body);
+  if (!body.success) return res.status(400).json({ error: "INPUT_INVALID" });
 
-  if (!name || !cards || !Array.isArray(cards)) {
-    return res.status(400).json({ error: "INPUT_INVALID" });
-  }
-
-  const result = await addDeck({ userId, name, cards });
+  const result = await addDeck({ userId, name: body.data.name, cards: body.data.cards });
 
   if (!result.ok) {
     switch (result.error) {
       case "USER_NOT_FOUND":
         return res.status(404).json({ error: result.error });
       case "MAX_DECKS_REACHED":
-        return res.status(400).json({ error: "MAX_DECKS_REACHED" });
-      case "INVALID_CARD_COUNT":
-        return res.status(400).json({ error: "INVALID_CARD_COUNT" });
+        return res.status(400).json({ error: result.error });
       default:
         return res.status(500).json({ error: "SERVER_ERROR" });
     }

@@ -3,16 +3,21 @@ import { Result, ok, err } from "@shared/Result";
 import { findByEmail, findByPseudo, save,findById } from "@database/methods/user";
 import {find} from "@database/methods/booster";
 import bcrypt from "bcrypt";
-import { RegisterInput, PublicUser } from "@shared/Schemas/user.schema";
 import { mapUserPublic } from "@database/mapper/user.mapper";
 
 import { env } from "@config/env";
 
 type RegisterError = "EMAIL_TAKEN" | "PSEUDO_TAKEN" | "USER_CREATION_FAILED" | "DATABASE_ERROR";
 
+interface RegisterInput {
+  pseudo: string;
+  email: string;
+  password: string;
+}
+
 export async function registerUser(
   input: RegisterInput,
-): Promise<Result<PublicUser, RegisterError>> {
+): Promise<Result<ReturnType<typeof mapUserPublic>, RegisterError>> {
 
   const existingEmail = await findByEmail(input.email);
 

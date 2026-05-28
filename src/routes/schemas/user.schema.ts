@@ -1,7 +1,7 @@
 // shared/schemas/user.schemas.ts
 import { z } from "zod";
-import { PublicCardSchema } from "@shared/Schemas/card.schema";
-import { PublicBoosterSchema } from "@shared/Schemas/booster.schema";
+import { PublicCardSchema } from "@routes/schemas/card.schema";
+import { PublicBoosterSchema } from "@routes/schemas/booster.schema";
 
 export const RegisterSchema = z.object({
   pseudo: z.string().min(3).max(20),
