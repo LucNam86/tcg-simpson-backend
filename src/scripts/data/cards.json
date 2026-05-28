@@ -939,7 +939,7 @@
     "name": "Duffman",
     "slug": "duffman",
     "type": "Personnage",
-    "rarity": "1",
+    "rarity": "3",
     "ATK": 65,
     "PV": 125,
     "family": "Sans Famille",
