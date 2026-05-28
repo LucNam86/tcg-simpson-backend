@@ -21,8 +21,21 @@
     "serie": "Série 1",
     "probabilities": [
       { "rarity": "Common", "value": 0 },
-      { "rarity": "Rare", "value": 80 },
-      { "rarity": "Legendary", "value": 20 }
+      { "rarity": "Rare", "value": 60 },
+      { "rarity": "Legendary", "value": 40 }
+    ]
+  },
+  {
+    "name": "Booster 2",
+    "price": 50,
+    "slug": "booster3.webp",
+    "quantity": 5,
+    "cards": [],
+    "serie": "Série 2",
+    "probabilities": [
+      { "rarity": "Common", "value": 70 },
+      { "rarity": "Rare", "value": 25 },
+      { "rarity": "Legendary", "value": 5 }
     ]
   }
 ]
