@@ -10,10 +10,8 @@ import '@database/models/serie.model';
 
  const router = Router();
 
-router.get("/", jwtMiddleware, async (req: AuthRequest, res) => {
-  const userId = req.user?.id;
-  if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
-
+router.get("/", async (req, res) => {
+  
   const { q, rarity, type, serie } = req.query;
 
   const toArray = (val: unknown): string[] => {
