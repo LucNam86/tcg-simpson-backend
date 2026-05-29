@@ -45,6 +45,7 @@ async function seedDatabase() {
       serieMap[serie.name] = updated._id as mongoose.Types.ObjectId;
     }
 
+    // 2. Upsert des Familles
     const familyMap: Record<string, mongoose.Types.ObjectId> = {};
     for (const family of familiesData) {
       const updated = await FamilyModel.findOneAndUpdate(
@@ -55,6 +56,7 @@ async function seedDatabase() {
       familyMap[family.name] = updated._id as mongoose.Types.ObjectId;
     }
 
+    // 3. Upsert des Affinités
     const affinityMap: Record<string, mongoose.Types.ObjectId> = {};
     for (const affinity of affinitiesData) {
       const updated = await AffinityModel.findOneAndUpdate(
@@ -72,6 +74,7 @@ async function seedDatabase() {
     let cardsUpserted = 0;
 
     for (const card of cardsData) {
+      // Sécurité : Récupération des IDs via les maps générées plus haut
       const familyId = familyMap[card.family] || familyMap["Sans Famille"];
       const affinityId =
         affinityMap[card.affinity] || affinityMap["Sans Affinité"];
@@ -95,11 +98,11 @@ async function seedDatabase() {
         },
       };
 
-      // 🎯 L'élément clé : On cherche par SLUG. Si trouvé, on update. Sinon, on crée.
+      // Upsert strict basé sur le slug (évite les doublons si seule la rareté change)
       await CardModel.findOneAndUpdate(
         { slug: card.slug },
         { $set: preparedCard },
-        { upsert: true },
+        { upsert: true, new: true, overwrite: false },
       );
 
       cardsUpserted++;
@@ -119,4 +122,7 @@ async function seedDatabase() {
   }
 }
 
-seedDatabase();
+seedDatabase().catch((err) => {
+  console.error("❌ Échec de l'exécution du script :", err);
+  process.exit(1);
+});

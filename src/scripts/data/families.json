@@ -58,5 +58,10 @@
     "name": "Scientifiques",
     "description": "Les esprits brillants et les experts de la santé",
     "bonus": { "ATK": 30, "PV": 60 }
+  },
+  {
+    "name": "Nahasapeemapetilon",
+    "description": "Gérer le Mini-Marché 24h/24 et élever des octuplés demande une énergie surhumaine. Merci, bonsoir !",
+    "bonus": { "ATK": 30, "PV": 60 }
   }
 ]

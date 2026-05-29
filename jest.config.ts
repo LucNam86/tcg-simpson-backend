@@ -1,4 +1,3 @@
-// jest.config.ts
 import type { Config } from 'jest';
 
 const config: Config = {
@@ -12,6 +11,17 @@ const config: Config = {
     '^@config/(.*)$': '<rootDir>/src/config/$1',
     '^@routes/(.*)$': '<rootDir>/src/routes/$1',
   },
+  verbose: true,
+  silent: true,
+  reporters: [
+  "jest-standard-reporter",
+  ["jest-html-reporter", {
+    pageTitle: "TCG Simpson - Test Report",
+    outputPath: "./coverage/report.html",
+    includeSuccessfulHtmlReport: true,
+  }]
+],
+coverageReporters: ["html", "text-summary"],
 };
 
 export default config;
