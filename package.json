@@ -4,6 +4,7 @@
   "main": "index.js",
   "author": "lnamur <lnamur@pm.me>",
   "license": "MIT",
+  "private": true,
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",

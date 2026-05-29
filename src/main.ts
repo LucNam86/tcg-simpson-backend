@@ -1,4 +1,3 @@
-console.log("MAIN LOADED");
 import express from 'express';
 import mongoose from 'mongoose';
 import { env } from '@config/env';
@@ -7,31 +6,30 @@ import cardRoutes from '@routes/card';
 import boosterRoutes from '@routes/booster';
 import cors from 'cors';
 
-async function main() {
-  await mongoose.connect(env.DATABASE_URL);
+const app = express();
 
-  const app = express();
-  app.use(cors({
+app.use(cors({
   origin: process.env.FRONTEND_URL,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
-  app.use(express.json());
-  app.use((req, res, next) => {
+app.use(express.json());
+app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
   next();
 });
 
-  app.use('/users', userRoutes);
-  app.use('/cards', cardRoutes);
-  app.use('/boosters', boosterRoutes);
+app.use('/users', userRoutes);
+app.use('/cards', cardRoutes);
+app.use('/boosters', boosterRoutes);
 
-  app.listen(env.PORT, () =>
-    console.log(`API up on :${env.PORT}`)
-  );
+mongoose.connect(env.DATABASE_URL).catch((err) => {
+  console.error('Failed to connect to MongoDB:', err);
+});
+
+// Pour le dev local
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(env.PORT, () => console.log(`API up on :${env.PORT}`));
 }
 
-main().catch((err) => {
-  console.error('Failed to start server:', err);
-  process.exit(1);
-});
+export default app;
