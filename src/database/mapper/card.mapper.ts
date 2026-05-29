@@ -13,6 +13,7 @@ export const mapCard = (card: PopulatedCardDocument) => ({
     id_serie: {
       id: card.serie.id_serie._id.toString(),
       name: card.serie.id_serie.name,
+      total: card.serie.id_serie.total,
     },
     position: card.serie.position,
   },

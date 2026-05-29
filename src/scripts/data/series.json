@@ -1,8 +1,10 @@
 [
   {
-    "name": "Série 1"
+    "name": "Série 1",
+    "total": 40
   },
   {
-    "name": "Série 2"
+    "name": "Série 2",
+    "total": 40
   }
 ]
