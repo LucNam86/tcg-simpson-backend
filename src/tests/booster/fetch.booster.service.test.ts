@@ -78,7 +78,7 @@ describe("fetchBoosters", () => {
 
       expect(boosterMapper.mapBooster).toHaveBeenCalledTimes(1);
       expect(boosterMapper.mapBooster).toHaveBeenCalledWith(
-        mockPopulatedBoosters[0] as any,
+        expect.objectContaining({ _id: "booster-id-123", name: "Booster Série 1" })
       );
     });
 

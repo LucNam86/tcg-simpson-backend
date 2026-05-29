@@ -10,5 +10,5 @@ export async function fetchBoosters(): Promise<Result<ReturnType<typeof mapBoost
   if (!result.ok) return err("DATABASE_ERROR");
   if (!result.value) return err("UNKNOWN_BOOSTER");
 
-  return ok(result.value.map(mapBooster));
+  return ok(result.value.map((booster) => mapBooster(booster)));
 }
