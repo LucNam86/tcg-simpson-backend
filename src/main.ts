@@ -1,3 +1,4 @@
+import 'module-alias/register';
 import express from 'express';
 import mongoose from 'mongoose';
 import { env } from '@config/env';
@@ -5,6 +6,7 @@ import userRoutes from '@routes/user';
 import cardRoutes from '@routes/card';
 import boosterRoutes from '@routes/booster';
 import cors from 'cors';
+
 
 const app = express();
 
