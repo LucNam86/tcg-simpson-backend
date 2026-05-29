@@ -44,11 +44,11 @@
     "typescript": "^6.0.3"
   },
   "_moduleAliases": {
-    "@routes": "dist/routes",
-    "@services": "dist/services",
-    "@database": "dist/database",
-    "@middleware": "dist/middleware",
-    "@shared": "dist/shared",
-    "@config": "dist/config"
+    "@routes": "src/routes",
+    "@services": "src/services",
+    "@database": "src/database",
+    "@middleware": "src/middleware",
+    "@shared": "src/shared",
+    "@config": "src/config"
   }
 }
