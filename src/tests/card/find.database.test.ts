@@ -18,7 +18,7 @@ const mockSerieId = new mongoose.Types.ObjectId();
 
 // "as const" permet de verrouiller les types littéraux (ex: type: "Personnage" au lieu de type: string)
 const validCard = {
-name: "Dragon Blanc",
+  name: "Dragon Blanc",
   slug: "dragon-blanc",
   description: "Un monstre mythique",
   rarity: "3",
@@ -60,9 +60,14 @@ describe("findAllCards", () => {
     });
 
     it("devrait retourner toutes les cartes présentes en base de données", async () => {
-      // Les deux appels passent désormais sans râler ni nécessiter de "as any" partout
       await CardModel.create(validCard);
-      await CardModel.create({ ...validCard, name: "Magicien Sombre" });
+      
+      // FIX : On passe un slug unique ("magicien-sombre") pour éviter le conflit d'unicité en BDD
+      await CardModel.create({ 
+        ...validCard, 
+        name: "Magicien Sombre",
+        slug: "magicien-sombre" 
+      });
 
       const result = await findAllCards();
 
