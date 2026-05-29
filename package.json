@@ -11,7 +11,9 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
+    "module-alias": "^2.3.4",
     "mongoose": "^9.6.2",
+    "tsconfig-paths": "^4.2.0",
     "zod": "^4.4.3"
   },
   "scripts": {
@@ -39,7 +41,14 @@
     "ts-jest": "^29.4.9",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "tsconfig-paths": "^4.2.0",
     "typescript": "^6.0.3"
+  },
+  "_moduleAliases": {
+    "@routes": "dist/routes",
+    "@services": "dist/services",
+    "@database": "dist/database",
+    "@middleware": "dist/middleware",
+    "@shared": "dist/shared",
+    "@config": "dist/config"
   }
 }
