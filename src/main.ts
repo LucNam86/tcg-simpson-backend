@@ -23,6 +23,10 @@ app.use('/users', userRoutes);
 app.use('/cards', cardRoutes);
 app.use('/boosters', boosterRoutes);
 
+app.get("/", (req, res) => {
+  res.json({ status: "ok", message: "TCG Simpson API" });
+});
+
 mongoose.connect(env.DATABASE_URL).catch((err) => {
   console.error('Failed to connect to MongoDB:', err);
 });
