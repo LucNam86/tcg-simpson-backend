@@ -22,7 +22,7 @@ const createUser = (pseudo: string, email: string, friends: string[] = []) => ({
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
-  await mongoose.connect(mongoServer.getUri());
+  await mongoose.connect(mongoServer.getUri() + "deleteFriend");
 });
 
 afterAll(async () => {

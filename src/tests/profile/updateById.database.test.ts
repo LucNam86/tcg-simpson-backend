@@ -21,8 +21,9 @@ const validUser = {
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
-  await mongoose.connect(mongoServer.getUri());
+  await mongoose.connect(mongoServer.getUri() + "updateUser");
 });
+
 
 afterAll(async () => {
   await mongoose.disconnect();

@@ -12,7 +12,8 @@ const config: Config = {
     '^@routes/(.*)$': '<rootDir>/src/routes/$1',
   },
   verbose: true,
-  silent: true,
+  //silent: true,
+    maxWorkers: 1,
   reporters: [
   "jest-standard-reporter",
   ["jest-html-reporter", {

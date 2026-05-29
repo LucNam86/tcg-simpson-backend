@@ -8,8 +8,7 @@ let mongoServer: MongoMemoryServer;
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
-  const uri = mongoServer.getUri();
-  await mongoose.connect(uri);
+  await mongoose.connect(mongoServer.getUri() + "saveUser");
 });
 
 afterAll(async () => {
