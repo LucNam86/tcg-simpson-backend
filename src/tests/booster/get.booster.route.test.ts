@@ -16,7 +16,6 @@ const app = express();
 app.use(express.json());
 app.use("/boosters", router);
 
-// 🎯 Mock complet aligné avec ton schéma strict de Booster
 const mockBoosters = [
   {
     id: "booster-1",
