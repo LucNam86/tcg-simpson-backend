@@ -88,5 +88,10 @@
     "name": "Jimbo et Kearney",
     "description": "Le duo de brutes qui mène la vie dure à la cour de récréation",
     "bonus": { "ATK": 65, "PV": 0 }
+  },
+  {
+    "name": "Apu et Manjula",
+    "description": "Ne sous-estimez jamais la fureur d'un couple capable de survivre à des braquages quotidiens et à des couches par milliers.",
+    "bonus": { "ATK": 65, "PV": 0 }
   }
 ]
