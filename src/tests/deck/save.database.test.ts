@@ -29,42 +29,44 @@ beforeEach(async () => {
 
 describe("saveDeck (Integration)", () => {
   describe("succès", () => {
-    it("devrait créer un deck en BDD et pousser son ID dans le modèle de l'utilisateur", async () => {
-      // 1. Création préalable d'un utilisateur fictif qui recevra le deck
-      await UserModel.create({
-        _id: mockUserId,
-        pseudo: "Yugi",
-        email: "yugi@test.com",
-        decks: [],
-      } as any);
+   it("devrait créer un deck en BDD et pousser son ID dans le modèle de l'utilisateur", async () => {
+  await UserModel.create({
+    _id: mockUserId,
+    pseudo: "Yugi",
+    email: "yugi@test.com",
+    passwordHash: "hashed-password",
+    avatar: "/avatars/avatar-1.webp",
+    money: 100,
+    countdownEnds: new Date(),
+    myCollection: [],
+    boosters: [],
+    decks: [],
+    darkMode: false,
+  });
 
-      const input = {
-        userId: mockUserId.toString(),
-        name: "Mon Deck Magique",
-        cards: [mockCardId1, mockCardId2],
-        isActive: true,
-      };
+  const input = {  // 👈 doit être défini ici
+    userId: mockUserId.toString(),
+    name: "Mon Deck Magique",
+    cards: [mockCardId1, mockCardId2],
+    isActive: true,
+  };
 
-      // 2. Exécution du test
-      const result = await saveDeck(input);
+  const result = await saveDeck(input);
 
-      expect(result.ok).toBe(true);
-      if (result.ok) {
-        expect(result.value.name).toBe("Mon Deck Magique");
-        expect(result.value.isActive).toBe(true);
-        expect(result.value.user.toString()).toBe(mockUserId.toString());
-        // On vérifie que les chaînes de cartes ont bien été stockées en ObjectIds
-        expect(result.value.cards[0].toString()).toBe(mockCardId1);
-      }
+  expect(result.ok).toBe(true);
+  if (result.ok) {
+    expect(result.value.name).toBe("Mon Deck Magique");
+    expect(result.value.isActive).toBe(true);
+    expect(result.value.user.toString()).toBe(mockUserId.toString());
+    expect(result.value.cards[0].toString()).toBe(mockCardId1);
+  }
 
-      // 3. Vérifications en Base de données
-      const createdDeck = await DeckModel.findOne({ name: "Mon Deck Magique" });
-      expect(createdDeck).not.toBeNull();
+  const createdDeck = await DeckModel.findOne({ name: "Mon Deck Magique" });
+  expect(createdDeck).not.toBeNull();
 
-      const updatedUser = await UserModel.findById(mockUserId);
-      // L'ID du deck créé doit désormais être présent dans la liste 'decks' de l'utilisateur
-      expect(updatedUser?.decks).toContainEqual(createdDeck?._id);
-    });
+  const updatedUser = await UserModel.findById(mockUserId);
+  expect(updatedUser?.decks).toContainEqual(createdDeck?._id);
+});
   });
 
   describe("erreurs", () => {

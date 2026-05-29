@@ -32,12 +32,19 @@ describe("deleteDeck (Integration)", () => {
     it("devrait supprimer le deck et le retirer du tableau de l'utilisateur", async () => {
       // 1. Création d'un faux utilisateur possédant le deck dans sa liste
       // Note: On utilise "as any" ou "as const" pour contourner la validation stricte des champs du schéma si nécessaire
-      await UserModel.create({
-        _id: mockUserId,
-        decks: [mockDeckId],
-        pseudo: "PlayerOne", // Mets ici tes champs obligatoires
-        email: "player@test.com"
-      } as any);
+    await UserModel.create({
+  _id: mockUserId,
+  pseudo: "PlayerOne",
+  email: "player@test.com",
+  passwordHash: "hashed-password",
+  avatar: "/avatars/avatar-1.webp",
+  money: 100,
+  countdownEnds: new Date(),
+  myCollection: [],
+  boosters: [],
+  decks: [mockDeckId],
+  darkMode: false,
+});
 
       // 2. Création du deck lié à cet utilisateur
       await DeckModel.create({
