@@ -1,0 +1,367 @@
+import { z } from "zod";
+export declare const RegisterSchema: z.ZodObject<{
+    pseudo: z.ZodString;
+    email: z.ZodEmail;
+    password: z.ZodString;
+}, z.core.$strip>;
+export type RegisterInput = z.infer<typeof RegisterSchema>;
+export declare const ConnectSchema: z.ZodObject<{
+    email: z.ZodEmail;
+    password: z.ZodString;
+}, z.core.$strip>;
+export type ConnectInput = z.infer<typeof ConnectSchema>;
+export declare const UpdateUserSchema: z.ZodObject<{
+    pseudo: z.ZodOptional<z.ZodString>;
+    password: z.ZodOptional<z.ZodString>;
+    avatar: z.ZodOptional<z.ZodString>;
+    money: z.ZodOptional<z.ZodNumber>;
+}, z.core.$strict>;
+export type UpdateInput = z.infer<typeof UpdateUserSchema>;
+export declare const UserBoosterSchema: z.ZodObject<{
+    booster: z.ZodObject<{
+        id: z.ZodString;
+        name: z.ZodString;
+        price: z.ZodNumber;
+        slug: z.ZodString;
+        quantity: z.ZodNumber;
+        cards: z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            name: z.ZodString;
+            ATK: z.ZodNumber;
+            PV: z.ZodNumber;
+            description: z.ZodString;
+            slug: z.ZodString;
+            rarity: z.ZodString;
+            type: z.ZodEnum<{
+                Personnage: "Personnage";
+                Objet: "Objet";
+                Terrain: "Terrain";
+            }>;
+            serie: z.ZodObject<{
+                id_serie: z.ZodObject<{
+                    id: z.ZodString;
+                    name: z.ZodString;
+                }, z.core.$strip>;
+                position: z.ZodNumber;
+            }, z.core.$strip>;
+            family: z.ZodObject<{
+                id: z.ZodString;
+                name: z.ZodString;
+                description: z.ZodString;
+                bonus: z.ZodObject<{
+                    ATK: z.ZodNumber;
+                    PV: z.ZodNumber;
+                }, z.core.$strip>;
+            }, z.core.$strip>;
+            affinity: z.ZodObject<{
+                id: z.ZodString;
+                name: z.ZodString;
+                description: z.ZodString;
+                bonus: z.ZodObject<{
+                    ATK: z.ZodNumber;
+                    PV: z.ZodNumber;
+                }, z.core.$strip>;
+            }, z.core.$strip>;
+        }, z.core.$strip>>;
+        serie: z.ZodObject<{
+            id: z.ZodString;
+            name: z.ZodString;
+        }, z.core.$strip>;
+        probabilities: z.ZodArray<z.ZodObject<{
+            rarity: z.ZodEnum<{
+                Common: "Common";
+                Rare: "Rare";
+                Legendary: "Legendary";
+            }>;
+            value: z.ZodNumber;
+        }, z.core.$strip>>;
+    }, z.core.$strip>;
+    number: z.ZodNumber;
+}, z.core.$strip>;
+export declare const UserBoosterArraySchema: z.ZodArray<z.ZodObject<{
+    booster: z.ZodObject<{
+        id: z.ZodString;
+        name: z.ZodString;
+        price: z.ZodNumber;
+        slug: z.ZodString;
+        quantity: z.ZodNumber;
+        cards: z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            name: z.ZodString;
+            ATK: z.ZodNumber;
+            PV: z.ZodNumber;
+            description: z.ZodString;
+            slug: z.ZodString;
+            rarity: z.ZodString;
+            type: z.ZodEnum<{
+                Personnage: "Personnage";
+                Objet: "Objet";
+                Terrain: "Terrain";
+            }>;
+            serie: z.ZodObject<{
+                id_serie: z.ZodObject<{
+                    id: z.ZodString;
+                    name: z.ZodString;
+                }, z.core.$strip>;
+                position: z.ZodNumber;
+            }, z.core.$strip>;
+            family: z.ZodObject<{
+                id: z.ZodString;
+                name: z.ZodString;
+                description: z.ZodString;
+                bonus: z.ZodObject<{
+                    ATK: z.ZodNumber;
+                    PV: z.ZodNumber;
+                }, z.core.$strip>;
+            }, z.core.$strip>;
+            affinity: z.ZodObject<{
+                id: z.ZodString;
+                name: z.ZodString;
+                description: z.ZodString;
+                bonus: z.ZodObject<{
+                    ATK: z.ZodNumber;
+                    PV: z.ZodNumber;
+                }, z.core.$strip>;
+            }, z.core.$strip>;
+        }, z.core.$strip>>;
+        serie: z.ZodObject<{
+            id: z.ZodString;
+            name: z.ZodString;
+        }, z.core.$strip>;
+        probabilities: z.ZodArray<z.ZodObject<{
+            rarity: z.ZodEnum<{
+                Common: "Common";
+                Rare: "Rare";
+                Legendary: "Legendary";
+            }>;
+            value: z.ZodNumber;
+        }, z.core.$strip>>;
+    }, z.core.$strip>;
+    number: z.ZodNumber;
+}, z.core.$strip>>;
+export type UserBoosters = z.infer<typeof UserBoosterArraySchema>;
+export declare const PublicFriendSchema: z.ZodObject<{
+    pseudo: z.ZodString;
+    avatar: z.ZodString;
+}, z.core.$strip>;
+export declare const PublicFriendArraySchema: z.ZodArray<z.ZodObject<{
+    pseudo: z.ZodString;
+    avatar: z.ZodString;
+}, z.core.$strip>>;
+export type PublicFriend = z.infer<typeof PublicFriendSchema>;
+export declare const PublicDeckSchema: z.ZodObject<{
+    _id: z.ZodOptional<z.ZodString>;
+    id: z.ZodOptional<z.ZodString>;
+    name: z.ZodString;
+    cards: z.ZodUnion<[z.ZodArray<z.ZodString>, z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        name: z.ZodString;
+        ATK: z.ZodNumber;
+        PV: z.ZodNumber;
+        description: z.ZodString;
+        slug: z.ZodString;
+        rarity: z.ZodString;
+        type: z.ZodEnum<{
+            Personnage: "Personnage";
+            Objet: "Objet";
+            Terrain: "Terrain";
+        }>;
+        serie: z.ZodObject<{
+            id_serie: z.ZodObject<{
+                id: z.ZodString;
+                name: z.ZodString;
+            }, z.core.$strip>;
+            position: z.ZodNumber;
+        }, z.core.$strip>;
+        family: z.ZodObject<{
+            id: z.ZodString;
+            name: z.ZodString;
+            description: z.ZodString;
+            bonus: z.ZodObject<{
+                ATK: z.ZodNumber;
+                PV: z.ZodNumber;
+            }, z.core.$strip>;
+        }, z.core.$strip>;
+        affinity: z.ZodObject<{
+            id: z.ZodString;
+            name: z.ZodString;
+            description: z.ZodString;
+            bonus: z.ZodObject<{
+                ATK: z.ZodNumber;
+                PV: z.ZodNumber;
+            }, z.core.$strip>;
+        }, z.core.$strip>;
+    }, z.core.$strip>>]>;
+    isActive: z.ZodDefault<z.ZodBoolean>;
+    user: z.ZodString;
+}, z.core.$strip>;
+export declare const PublicUserFullSchema: z.ZodObject<{
+    id: z.ZodString;
+    pseudo: z.ZodString;
+    email: z.ZodString;
+    avatar: z.ZodString;
+    money: z.ZodNumber;
+    countdownEnds: z.ZodDate;
+    myCollection: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        name: z.ZodString;
+        ATK: z.ZodNumber;
+        PV: z.ZodNumber;
+        description: z.ZodString;
+        slug: z.ZodString;
+        rarity: z.ZodString;
+        type: z.ZodEnum<{
+            Personnage: "Personnage";
+            Objet: "Objet";
+            Terrain: "Terrain";
+        }>;
+        serie: z.ZodObject<{
+            id_serie: z.ZodObject<{
+                id: z.ZodString;
+                name: z.ZodString;
+            }, z.core.$strip>;
+            position: z.ZodNumber;
+        }, z.core.$strip>;
+        family: z.ZodObject<{
+            id: z.ZodString;
+            name: z.ZodString;
+            description: z.ZodString;
+            bonus: z.ZodObject<{
+                ATK: z.ZodNumber;
+                PV: z.ZodNumber;
+            }, z.core.$strip>;
+        }, z.core.$strip>;
+        affinity: z.ZodObject<{
+            id: z.ZodString;
+            name: z.ZodString;
+            description: z.ZodString;
+            bonus: z.ZodObject<{
+                ATK: z.ZodNumber;
+                PV: z.ZodNumber;
+            }, z.core.$strip>;
+        }, z.core.$strip>;
+    }, z.core.$strip>>;
+    boosters: z.ZodArray<z.ZodObject<{
+        booster: z.ZodObject<{
+            id: z.ZodString;
+            name: z.ZodString;
+            price: z.ZodNumber;
+            slug: z.ZodString;
+            quantity: z.ZodNumber;
+            cards: z.ZodArray<z.ZodObject<{
+                id: z.ZodString;
+                name: z.ZodString;
+                ATK: z.ZodNumber;
+                PV: z.ZodNumber;
+                description: z.ZodString;
+                slug: z.ZodString;
+                rarity: z.ZodString;
+                type: z.ZodEnum<{
+                    Personnage: "Personnage";
+                    Objet: "Objet";
+                    Terrain: "Terrain";
+                }>;
+                serie: z.ZodObject<{
+                    id_serie: z.ZodObject<{
+                        id: z.ZodString;
+                        name: z.ZodString;
+                    }, z.core.$strip>;
+                    position: z.ZodNumber;
+                }, z.core.$strip>;
+                family: z.ZodObject<{
+                    id: z.ZodString;
+                    name: z.ZodString;
+                    description: z.ZodString;
+                    bonus: z.ZodObject<{
+                        ATK: z.ZodNumber;
+                        PV: z.ZodNumber;
+                    }, z.core.$strip>;
+                }, z.core.$strip>;
+                affinity: z.ZodObject<{
+                    id: z.ZodString;
+                    name: z.ZodString;
+                    description: z.ZodString;
+                    bonus: z.ZodObject<{
+                        ATK: z.ZodNumber;
+                        PV: z.ZodNumber;
+                    }, z.core.$strip>;
+                }, z.core.$strip>;
+            }, z.core.$strip>>;
+            serie: z.ZodObject<{
+                id: z.ZodString;
+                name: z.ZodString;
+            }, z.core.$strip>;
+            probabilities: z.ZodArray<z.ZodObject<{
+                rarity: z.ZodEnum<{
+                    Common: "Common";
+                    Rare: "Rare";
+                    Legendary: "Legendary";
+                }>;
+                value: z.ZodNumber;
+            }, z.core.$strip>>;
+        }, z.core.$strip>;
+        number: z.ZodNumber;
+    }, z.core.$strip>>;
+    decks: z.ZodUnion<[z.ZodArray<z.ZodString>, z.ZodArray<z.ZodObject<{
+        _id: z.ZodOptional<z.ZodString>;
+        id: z.ZodOptional<z.ZodString>;
+        name: z.ZodString;
+        cards: z.ZodUnion<[z.ZodArray<z.ZodString>, z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            name: z.ZodString;
+            ATK: z.ZodNumber;
+            PV: z.ZodNumber;
+            description: z.ZodString;
+            slug: z.ZodString;
+            rarity: z.ZodString;
+            type: z.ZodEnum<{
+                Personnage: "Personnage";
+                Objet: "Objet";
+                Terrain: "Terrain";
+            }>;
+            serie: z.ZodObject<{
+                id_serie: z.ZodObject<{
+                    id: z.ZodString;
+                    name: z.ZodString;
+                }, z.core.$strip>;
+                position: z.ZodNumber;
+            }, z.core.$strip>;
+            family: z.ZodObject<{
+                id: z.ZodString;
+                name: z.ZodString;
+                description: z.ZodString;
+                bonus: z.ZodObject<{
+                    ATK: z.ZodNumber;
+                    PV: z.ZodNumber;
+                }, z.core.$strip>;
+            }, z.core.$strip>;
+            affinity: z.ZodObject<{
+                id: z.ZodString;
+                name: z.ZodString;
+                description: z.ZodString;
+                bonus: z.ZodObject<{
+                    ATK: z.ZodNumber;
+                    PV: z.ZodNumber;
+                }, z.core.$strip>;
+            }, z.core.$strip>;
+        }, z.core.$strip>>]>;
+        isActive: z.ZodDefault<z.ZodBoolean>;
+        user: z.ZodString;
+    }, z.core.$strip>>]>;
+    darkMode: z.ZodBoolean;
+    friends: z.ZodDefault<z.ZodArray<z.ZodObject<{
+        pseudo: z.ZodString;
+        avatar: z.ZodString;
+    }, z.core.$strip>>>;
+}, z.core.$strip>;
+export declare const PublicUserSchema: z.ZodObject<{
+    id: z.ZodString;
+    pseudo: z.ZodString;
+    email: z.ZodString;
+    avatar: z.ZodString;
+    money: z.ZodNumber;
+    countdownEnds: z.ZodDate;
+    darkMode: z.ZodBoolean;
+}, z.core.$strip>;
+export type PublicUser = z.infer<typeof PublicUserSchema>;
+export type PublicUserFull = z.infer<typeof PublicUserFullSchema>;

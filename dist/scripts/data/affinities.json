@@ -1,0 +1,97 @@
+[
+    {
+        "name": "Sans Affinité",
+        "description": "Aucun bonus d'affinité",
+        "bonus": { "ATK": 0, "PV": 0 }
+    },
+    {
+        "name": "Homer et Marge",
+        "description": "L'amour fou malgré les crises et les donuts",
+        "bonus": { "ATK": 0, "PV": 80 }
+    },
+    {
+        "name": "Bart et Lisa",
+        "description": "Frère et sœur, rivaux au quotidien mais soudés",
+        "bonus": { "ATK": 60, "PV": 0 }
+    },
+    {
+        "name": "Burns et Smithers",
+        "description": "Excellent, Smithers ! Une dévotion sans faille",
+        "bonus": { "ATK": 70, "PV": 0 }
+    },
+    {
+        "name": "Wiggum et Eddie",
+        "description": "La patrouille la moins efficace de Springfield",
+        "bonus": { "ATK": 0, "PV": 90 }
+    },
+    {
+        "name": "Patty et Selma",
+        "description": "Les terribles belles-sœurs d'Homer, inséparables et impitoyables",
+        "bonus": { "ATK": 40, "PV": 40 }
+    },
+    {
+        "name": "Moe et Barney",
+        "description": "Le barman grincheux et son client le plus dévoué à la Duff",
+        "bonus": { "ATK": 30, "PV": 50 }
+    },
+    {
+        "name": "Ralph et Wiggum",
+        "description": "Le chef et son fils imprévisible, une paternité explosive",
+        "bonus": { "ATK": 20, "PV": 60 }
+    },
+    {
+        "name": "Nelson et Bart",
+        "description": "Les deux terreurs de Springfield, un duo explosif",
+        "bonus": { "ATK": 70, "PV": 0 }
+    },
+    {
+        "name": "Krusty et Tahiti Bob",
+        "description": "L'ennemi juré du clown, une rivalité sans fin",
+        "bonus": { "ATK": 60, "PV": 0 }
+    },
+    {
+        "name": "Skinner et Chalmers",
+        "description": "Une tension hiérarchique permanente rythmée par des cris",
+        "bonus": { "ATK": 40, "PV": 50 }
+    },
+    {
+        "name": "Lenny et Carl",
+        "description": "Inséparables collègues, la vraie définition de l'amitié",
+        "bonus": { "ATK": 35, "PV": 45 }
+    },
+    {
+        "name": "Brockman et Arnie",
+        "description": "L'information en direct teintée d'une haine professionnelle féroce",
+        "bonus": { "ATK": 45, "PV": 20 }
+    },
+    {
+        "name": "Guibs et Louie",
+        "description": "Les deux bras droits exécutifs de la mafia locale",
+        "bonus": { "ATK": 50, "PV": 30 }
+    },
+    {
+        "name": "Hibbert et Nick",
+        "description": "Le sommet de la médecine locale contre le roi de la chirurgie low-cost",
+        "bonus": { "ATK": 10, "PV": 90 }
+    },
+    {
+        "name": "Rod et Todd",
+        "description": "Une éducation fraternelle ultra-sécurisée loin du péché",
+        "bonus": { "ATK": 10, "PV": 60 }
+    },
+    {
+        "name": "Sherri et Terri",
+        "description": "Double dose de messes basses et de jugements secrets",
+        "bonus": { "ATK": 30, "PV": 30 }
+    },
+    {
+        "name": "Jimbo et Kearney",
+        "description": "Le duo de brutes qui mène la vie dure à la cour de récréation",
+        "bonus": { "ATK": 65, "PV": 0 }
+    },
+    {
+        "name": "Apu et Manjula",
+        "description": "Ne sous-estimez jamais la fureur d'un couple capable de survivre à des braquages quotidiens et à des couches par milliers.",
+        "bonus": { "ATK": 65, "PV": 0 }
+    }
+]
