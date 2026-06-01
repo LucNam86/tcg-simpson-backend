@@ -18,7 +18,7 @@
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --project tsconfig.json src/main.ts",
     "build": "tsc && tsc-alias",
-    "start": "node -r tsconfig-paths/register dist/main.js",
+    "start": "node dist/main.js",
     "test": "jest --detectOpenHandles",
     "db:seed": "ts-node src/scripts/seed.ts",
     "db:seedBooster": "ts-node src/scripts/seedBooster.ts"
