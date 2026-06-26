@@ -1,6 +1,6 @@
 # TCG Simpson Backend
 
-API REST en Node.js/TypeScript avec une architecture simple en couches.
+API REST en Node.js/TypeScript pour TCG Simpson, un jeu de cartes à collectionner : gestion des comptes utilisateurs, des collections de cartes, de l'ouverture de boosters et de la construction de decks. Architecture simple en couches.
 
 ## Stack
 
@@ -25,6 +25,8 @@ Copie le fichier d'exemple et remplis les variables :
 ```bash
 cp .env.example .env
 ```
+
+Le projet a besoin d'une instance MongoDB accessible (locale ou MongoDB Atlas) pour la variable `DATABASE_URL`.
 
 ## Sécurité — JWT Secret
 
@@ -72,11 +74,13 @@ routes → services → database
 
 ### Conventions
 
-- `type` pour toutes les structures de données
+- `type` pour toutes les structures de données, avec **Zod comme source de vérité** : chaque schéma Zod génère le type TypeScript correspondant via `z.infer`, pour garantir que la validation runtime et le typage statique ne divergent jamais
 - `Result<T, E>` pour toutes les opérations qui peuvent échouer — jamais de `throw`
 - `camelCase` pour tous les noms de fichiers
 
 ## Structure
+
+Chaque entité métier (utilisateur, carte, booster, deck, affinité, famille, série) suit la même décomposition en quatre fichiers. Exemple complet sur `user`, pattern identique pour les autres :
 
 ```
 src/
@@ -88,21 +92,27 @@ src/
 │
 ├── database/
 │   ├── models/
-│   │   └── user.model.ts          # Schema Mongoose + UserModel
+│   │   ├── user.model.ts          # Schema Mongoose + UserModel
+│   │   └── ...                    # card, booster, deck, affinity, family, serie
 │   └── methods/
-│       └── user.methods.ts        # Fonctions MongoDB (findUserByEmail, saveUser...)
+│       ├── user.methods.ts        # Fonctions MongoDB (findUserByEmail, saveUser...)
+│       └── ...                    # même pattern pour les autres entités
 │
 ├── services/
-│   └── user.service.ts            # Logique métier (createUser...)
+│   ├── user.service.ts            # Logique métier (createUser...)
+│   └── ...                        # card, booster, deck, affinity, family, serie
 │
 ├── middleware/
 │   └── jwt.middleware.ts          # Signature et vérification des tokens JWT
 │
 ├── routes/
-│   └── user.ts                    # Routes Express liées à l'utilisateur
+│   ├── user.ts                    # Routes Express liées à l'utilisateur
+│   └── ...                        # une route par entité
 │
 └── main.ts                        # Point d'entrée — connexion MongoDB + démarrage Express
 ```
+
+*(Arborescence simplifiée pour la lisibilité — adapte les noms exacts si besoin.)*
 
 ## Couches
 
@@ -121,7 +131,7 @@ else console.log(result.value);              // { id: string }
 Valide les variables d'environnement au démarrage via Zod. Si une variable est manquante ou invalide, le serveur s'arrête immédiatement avec un message d'erreur clair.
 
 ### database
-Contient les modèles Mongoose et les fonctions d'accès à MongoDB.
+Contient les modèles Mongoose et les fonctions d'accès à MongoDB, pour chaque entité.
 
 - `models/` — schémas Mongoose
 - `methods/` — fonctions qui appellent MongoDB directement (`findUserByEmail`, `saveUser`...)
@@ -189,6 +199,18 @@ if (!result.ok) {
   if (result.error === 'EMAIL_TAKEN') return res.status(409).json({ error: result.error });
   return res.status(400).json({ error: result.error });
 }
+```
+
+## Tests
+
+Suite de tests Jest + Supertest, organisée par couche :
+
+- **Tests unitaires** sur les méthodes d'accès à la base (`database/methods`) et sur la logique métier (`services`)
+- **Tests d'intégration** sur les routes Express via Supertest, couvrant les cas de succès et d'erreur (validation Zod, conflits, auth)
+- Base de données isolée à chaque run grâce à **mongodb-memory-server** : aucune dépendance à une instance MongoDB externe, aucun mock de la couche données
+
+```bash
+npm run test
 ```
 
 ## Configuration TypeScript
