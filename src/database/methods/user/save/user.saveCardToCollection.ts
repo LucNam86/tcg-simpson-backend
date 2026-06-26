@@ -1,4 +1,4 @@
-import {PopulatedCardDocument} from "@database/interfaces/card.interface";
+import { PopulatedCardDocument } from "@database/interfaces/card.interface";
 import { Result, ok, err } from "@shared/Result";
 import { UserModel } from "@database/models/user.model";
 
@@ -8,29 +8,22 @@ export const saveCardsToCollection = async (
   cards: PopulatedCardDocument[],
 ): Promise<Result<void, string>> => {
   try {
-    const user = await UserModel.findById(userId);
-    if (!user) return err("USER_NOT_FOUND");
-
-    const userBooster = user.boosters.find(
-      (b) => b.booster.toString() === boosterId
+    const updated = await UserModel.findOneAndUpdate(
+      {
+        _id: userId,
+        boosters: { $elemMatch: { booster: boosterId, number: { $gt: 0 } } },
+      },
+      {
+        $push: { myCollection: { $each: cards.map((card) => card._id.toString()) } },
+        $inc: { "boosters.$[b].number": -1 },
+      },
+      {
+        arrayFilters: [{ "b.booster": boosterId, "b.number": { $gt: 0 } }],
+        new: true,
+      },
     );
-    if (!userBooster) return err("BOOSTER_NOT_FOUND");
 
-    const update = userBooster.number === 1
-      ? {
-          $push: { myCollection: { $each: cards.map((card) => card._id.toString()) } },
-          $pull: { boosters: { booster: boosterId } },
-        }
-      : {
-          $push: { myCollection: { $each: cards.map((card) => card._id.toString()) } },
-          $inc: { "boosters.$[booster].number": -1 },
-        };
-
-    const options = userBooster.number === 1
-      ? {}
-      : { arrayFilters: [{ "booster.booster": boosterId }] };
-
-    await UserModel.findByIdAndUpdate(userId, update, options);
+    if (!updated) return err("NO_BOOSTER_AVAILABLE");
 
     return ok(undefined);
   } catch (e) {
