@@ -1,11 +1,10 @@
 # Dépendances
 node_modules/
 
-# Build
-dist/
-
 # Environnement
 .env
+
+dist/
 
 # Logs
 *.log

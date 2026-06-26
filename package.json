@@ -21,7 +21,9 @@
     "start": "node dist/main.js",
     "test": "jest --detectOpenHandles",
     "db:seed": "ts-node src/scripts/seed.ts",
-    "db:seedBooster": "ts-node src/scripts/seedBooster.ts"
+    "db:seedBooster": "ts-node src/scripts/seedBooster.ts",
+    "routes": "grep -rn \"router\\.\\(get\\|post\\|put\\|patch\\|delete\\)\" src/ --include=\"*.ts\""
+
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
