@@ -12,3 +12,4 @@ export { saveCardsToCollection } from "./save/user.saveCardToCollection";
 export { updateById } from "./update/user.updateById";
 export { updateMoneyById } from "./update/user.updateMoneyById";
 export {updateCountdownEndsById} from "./update/user.updateCountdownEnds"
+export { deleteById } from "./user.deleteById";

@@ -2,6 +2,7 @@ import { Router } from "express";
 import { jwtMiddleware, AuthRequest } from "@middleware/jwt.middleware";
 import { removeUserFriendByPseudo } from "@services/friends";
 import {removeUserDeck} from "@services/deck";
+import { deleteUser } from "@services/user.delete";
 
 const router = Router();
 
@@ -50,5 +51,20 @@ router.delete(
     return res.json({ success: true });
   }
 );
+
+router.delete("/me", jwtMiddleware, async (req: AuthRequest, res) => {
+  const userId = req.user?.id;
+  if (!userId) return res.status(401).json({ error: "UNAUTHORIZED" });
+ 
+  const result = await deleteUser(userId);
+ 
+  if (!result.ok)
+    return res
+      .status(result.error === "USER_NOT_FOUND" ? 404 : 500)
+      .json({ error: result.error });
+ 
+  return res.json({ success: true });
+});
+ 
 
 export default router;
